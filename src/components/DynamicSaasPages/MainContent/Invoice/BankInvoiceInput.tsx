@@ -72,11 +72,13 @@ const BankInvoiceInput: React.FC<BankInvoiceInputProps> = ({ onUpdate }) => {
     onUpdate([...bankDetails]);
   };
 
+
   const memoizedOnUpdate = useCallback(onUpdate, []);
 
   useEffect(() => {
-    onUpdate([...bankDetails]);
+    memoizedOnUpdate([...bankDetails]);
   }, [bankDetails, memoizedOnUpdate]);
+  
 
   return (
     <div>
