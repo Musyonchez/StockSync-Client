@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Example in globals.css */
+body.dark {
+  background-color: #000;
+  color: #fff;
+}
+
+body.light {
+  background-color: #fff;
+  color: #000;
+}
+
+.bg-contact-image {
+  background-image: url('../../public/contact_image.svg');
+  background-size: cover; /* or any other background properties you'd like to set */
+}
+
+/* Add this to your global styles or CSS file */
+.scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #555555 #f0f0f0;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #555555;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+}
+
+/* Remove arrows at the ends */
+.scrollbar::-webkit-scrollbar-button {
+  display: none;
+}
+
