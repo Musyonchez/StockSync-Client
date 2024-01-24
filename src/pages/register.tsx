@@ -22,7 +22,7 @@ const RegisterPage: React.FC = () => {
   return (
     <>
       <HorizontalNavbar />
-    <div className="dark:bg-gray-800 h-screen flex flex-col items-center justify-center">
+    <div className="dark:bg-gray-800 flex flex-col items-center justify-center">
       <div className="bg-white dark:bg-gray-700 p-8 rounded-lg text-center">
         <p className="text-2xl font-semibold mb-4">Registration is not available.</p>
         <p className="text-lg mb-4">
