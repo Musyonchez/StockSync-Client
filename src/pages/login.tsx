@@ -50,8 +50,8 @@ const LoginPage: React.FC = () => {
   return (
     <>
       <HorizontalNavbar />
-    <div className="dark:bg-gray-800 h-screen flex flex-col items-center justify-center">
-    <form onSubmit={handleSubmit} className=" mx-auto my-auto bg-white dark:bg-gray-700 p-8 rounded-lg w-64 sm:w-96">
+    <div className="dark:bg-gray-800 flex flex-col items-center justify-center">
+    <form onSubmit={handleSubmit} className=" mx-auto bg-white dark:bg-gray-700 p-8 rounded-lg w-64 sm:w-96">
       <label className="block text-sm font-medium text-gray-700 dark:text-white">
         Email:
         <input
