@@ -9,28 +9,31 @@ export default function LoginSection() {
     // Check if session.user is defined before accessing its properties
     if (session.user) {
       return (
-       <Link href="/signout">
-        <button
-          className=" bg-red-500 sm:rounded-md p-2 whitespace-nowrap w-full text-center"
-        >
-          Sign out
-        </button></Link>
+        <div className=" flex-col flex w-full text-center">
+        <Link href="/signout">
+            <button className=" bg-red-500 md:rounded-md p-2 whitespace-nowrap w-full text-center">
+              Sign out
+            </button>
+          </Link>
+        </div>
       );
     }
   }
 
   return (
-    <div className=" flex-col flex sm:flex-row w-full text-center">
-     <Link href="/login"> <button
-        className="whitespace-nowrap border-black dark:border-white border-2 sm:border-0 p-2 mb-2 sm:mb-0"
-      >
-        Log in
-      </button></Link>
-     <Link href="/register"> <button
-        className=" bg-emerald-300 sm:rounded-md p-2 sm:ml-3"
-      >
-        Register
-      </button></Link>
+    <div className=" flex-col flex md:flex-row w-full text-center">
+      <Link href="/login">
+        {" "}
+        <button className="whitespace-nowrap max-md:w-full border-black dark:border-white border-2 md:border-0 p-2 mb-2 md:mb-0">
+          Log in
+        </button>
+      </Link>
+      <Link href="/register">
+        {" "}
+        <button className=" bg-emerald-300 max-md:w-full md:rounded-md p-2 md:ml-3">
+          Register
+        </button>
+      </Link>
     </div>
   );
 }
@@ -73,11 +76,11 @@ export default function LoginSection() {
 //         <>
 //           <button
 //             onClick={() => signOut()}
-//             className=" bg-red-500 sm:rounded-md p-2 whitespace-nowrap w-full text-center"
+//             className=" bg-red-500 md:rounded-md p-2 whitespace-nowrap w-full text-center"
 //           >Sign out</button>
 //           <button
 //             onClick={() => console.log(user.id, user.email, user.firstName, user.token)}
-//             className="bg-blue-500 sm:rounded-md p-2 mt-2 whitespace-nowrap w-full text-center text-white"
+//             className="bg-blue-500 md:rounded-md p-2 mt-2 whitespace-nowrap w-full text-center text-white"
 //           >
 //             Log User Data
 //           </button>
@@ -87,11 +90,11 @@ export default function LoginSection() {
 //  }
 
 //  return (
-//     <div className=" flex-col flex sm:flex-row w-full text-center">
-//       <button onClick={() => signIn()} className="whitespace-nowrap border-black dark:border-white border-2 sm:border-0 p-2 mb-2 sm:mb-0">
+//     <div className=" flex-col flex md:flex-row w-full text-center">
+//       <button onClick={() => signIn()} className="whitespace-nowrap border-black dark:border-white border-2 md:border-0 p-2 mb-2 md:mb-0">
 //         Log in
 //       </button>
-//       <button onClick={() => signIn()} className=" bg-emerald-300 sm:rounded-md p-2 sm:ml-3">
+//       <button onClick={() => signIn()} className=" bg-emerald-300 md:rounded-md p-2 md:ml-3">
 //         Register
 //       </button>
 //     </div>

@@ -1,22 +1,13 @@
-import React from 'react'
-import HorizontalNavbar from '@/components/HorizontalNavbar'
-import Footer from '@/components/Footer'
-import { Inter } from 'next/font/google'
 import ContactForm from '@/components/ContactForm'
-
-const inter = Inter({ subsets: ['latin'] })
-
+import HorizontalNavbar from '@/components/HorizontalNavbar'
+import React from 'react'
 
 const contact = () => {
   return (
-    <main
-    className={`flex min-h-screen justify-between flex-col m-0 ${inter.className}`}
-    >
+    <div className=' flex flex-col min-h-screen md:justify-between'>
       <HorizontalNavbar />
       <ContactForm />
-      <Footer />
-
-    </main>
+    </div>
   )
 }
 
