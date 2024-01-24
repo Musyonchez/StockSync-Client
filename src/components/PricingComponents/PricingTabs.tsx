@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useState } from 'react'
 
 const PricingTabs = () => {
@@ -76,9 +77,11 @@ const PricingTabs = () => {
                     <button className=' bg-black w-full text-white px-4 py-2'>
                         Upgrade
                     </button>
+                    <Link href="/contact">
                     <button className=' px-4 w-full py-2'>
                         Contact Sale
                     </button>
+                    </Link>
                 </div>
             </div>
             <div className=' bg-red-200 dark:bg-pink-800 space-y-5 p-5 mx-5 mb-10'>
@@ -106,9 +109,11 @@ const PricingTabs = () => {
                     <button className=' bg-black w-full text-white px-4 py-2'>
                         Upgrade
                     </button>
+                    <Link href="/contact">
                     <button className=' px-4 w-full py-2'>
                         Contact Sale
                     </button>
+                    </Link>
                 </div>
             </div>
             <div className=' bg-emerald-300 dark:bg-emerald-800 space-y-5 p-5 mx-5 mb-10'>
@@ -136,9 +141,11 @@ const PricingTabs = () => {
                     <button className=' bg-black w-full text-white px-4 py-2'>
                         Upgrade
                     </button>
+                    <Link href="/contact">
                     <button className=' px-4 w-full py-2'>
                         Contact Sale
                     </button>
+                    </Link>
                 </div>
             </div>
         </div>

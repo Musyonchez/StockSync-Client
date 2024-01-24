@@ -28,7 +28,7 @@ const Why = () => {
           heights.&rdquo;
         </p>
         <div className="space-x-5">
-          <Link href="/contact">
+          <Link href="/pricing">
             <button className="bg-white dark:bg-black rounded-3xl py-2 px-4 border-black dark:border-white border-2">
               Learn more &rarr;
             </button>

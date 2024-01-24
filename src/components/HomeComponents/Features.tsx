@@ -17,7 +17,7 @@ const Features = () => {
                     &ldquo;Transform your inventory management paradigm through seamless integration with StockSync Innovations, revolutionizing stock control, order processes, supplier relationships, and multi-channel synchronization.&rdquo;
                 </p>
                 <div className='space-x-5'>
-                <Link href="/contact">
+                <Link href="/pricing">
                     <button className="bg-white dark:bg-black rounded-3xl py-2 px-4 border-black dark:border-white border-2">
                         Learn more &rarr;
                     </button>
