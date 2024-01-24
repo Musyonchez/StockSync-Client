@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import HorizontalNavbar from "@/components/HorizontalNavbar";
+import Link from "next/link";
 
 const RegisterPage: React.FC = () => {
   const { data: session } = useSession();
@@ -26,9 +27,9 @@ const RegisterPage: React.FC = () => {
         <p className="text-2xl font-semibold mb-4">Registration is not available.</p>
         <p className="text-lg mb-4">
           Unfortunately, you cannot register yourself. If you have an account, please{" "}
-          <a href="/login" className="text-emerald-500 dark:text-emerald-400 underline">
+          <Link href="/login" className="text-emerald-500 dark:text-emerald-400 underline">
             log in
-          </a>
+          </Link>
           .
         </p>
         <p className="text-lg mb-4">
@@ -37,9 +38,9 @@ const RegisterPage: React.FC = () => {
         </p>
         <p className="text-lg mb-4">
           If you are a business owner, please contact us at{" "}
-          <a href="/contact" className="text-emerald-500 dark:text-emerald-400 underline">
+          <Link href="/contact" className="text-emerald-500 dark:text-emerald-400 underline">
             contact
-          </a>
+          </Link>
           .
         </p>
       </div>
