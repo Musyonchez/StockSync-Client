@@ -16,7 +16,7 @@ The client-side implementation for StockSync, a project that synchronizes stock 
 ## Getting Started
 To run the StockSync Client locally:
 
-1. Clone this repository: `git clone https://github.com/your-username/StockSync-Client.git`
+1. Clone this repository: `git clone https://github.com/Musyonchez/StockSync-Client.git`
 2. Install dependencies: `npm install`
 3. Start the development server: `npm run dev`
 4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
