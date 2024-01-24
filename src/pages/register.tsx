@@ -26,7 +26,7 @@ const RegisterPage: React.FC = () => {
       <div className="bg-white dark:bg-gray-700 p-8 rounded-lg text-center">
         <p className="text-2xl font-semibold mb-4">Registration is not available.</p>
         <p className="text-lg mb-4">
-          Unfortunately, you cannot register yourself. If you have an account, please{" "}
+          Unfortunately, you cannot register yourself. If you have an account, please
           <Link href="/login" className="text-emerald-500 dark:text-emerald-400 underline">
             log in
           </Link>
@@ -37,7 +37,7 @@ const RegisterPage: React.FC = () => {
         If you don't have an account, please contact your administrator or supervisor.
         </p>
         <p className="text-lg mb-4">
-          If you are a business owner, please contact us at{" "}
+          If you are a business owner, please contact us at
           <Link href="/contact" className="text-emerald-500 dark:text-emerald-400 underline">
             contact
           </Link>
