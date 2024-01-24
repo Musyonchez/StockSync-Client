@@ -60,14 +60,14 @@ const FAQ = () => {
           <div key={index} className="faq-item border-b border-gray-300 py-4">
             <div
               className={`faq-question cursor-pointer ${
-                index === activeIndex ? "text-blue-500" : "text-gray-800"
+                index === activeIndex ? "text-blue-500" : "text-gray-800 dark:text-white"
               }`}
               onClick={() => toggleAccordion(index)}
             >
               {faq.question}
             </div>
             {index === activeIndex && (
-              <div className="faq-answer text-gray-600 mt-2">{faq.answer}</div>
+              <div className="faq-answer text-gray-600 dark:text-white mt-2">{faq.answer}</div>
             )}
           </div>
         ))}

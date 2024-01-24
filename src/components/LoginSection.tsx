@@ -1,5 +1,6 @@
 import React from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
+import Link from "next/link";
 
 export default function LoginSection() {
   const { data: session } = useSession();
@@ -8,30 +9,28 @@ export default function LoginSection() {
     // Check if session.user is defined before accessing its properties
     if (session.user) {
       return (
+       <Link href="/signout">
         <button
-          onClick={() => signOut()}
           className=" bg-red-500 sm:rounded-md p-2 whitespace-nowrap w-full text-center"
         >
           Sign out
-        </button>
+        </button></Link>
       );
     }
   }
 
   return (
     <div className=" flex-col flex sm:flex-row w-full text-center">
-      <button
-        onClick={() => signIn()}
+     <Link href="/login"> <button
         className="whitespace-nowrap border-black dark:border-white border-2 sm:border-0 p-2 mb-2 sm:mb-0"
       >
         Log in
-      </button>
-      <button
-        onClick={() => signIn()}
+      </button></Link>
+     <Link href="/register"> <button
         className=" bg-emerald-300 sm:rounded-md p-2 sm:ml-3"
       >
         Register
-      </button>
+      </button></Link>
     </div>
   );
 }

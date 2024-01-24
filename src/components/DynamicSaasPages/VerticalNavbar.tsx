@@ -39,7 +39,7 @@ const VerticalNavbar = () => {
     <>
     <div className={`sm:flex hidden ${isSideMenuVisible ? 'fixed' : 'relative'} sm:flex-col pt-2 pl-2 sm:min-w-40 bg-gray-100 dark:bg-black h-screen overflow-x-hidden overflow-y-auto scrollbar`}>
       <Link href="/">
-        <div className="w-60 h-34">
+        <div className="w-60 h-34 mb-2">
           {mounted && (
             <>
               {resolvedTheme === "dark" ? (
@@ -80,11 +80,14 @@ const VerticalNavbar = () => {
 
 
 
-        <hr className="mb-5" />
+        <hr className="mb-3" />
+<Link href="/">        <h1 className="capitalize font-bold text-lg">Home</h1>
+</Link>
         <h1 className="capitalize font-bold text-lg">
           {session?.user?.company}
         </h1>
         <h1 className="capitalize font-bold text-lg">{store}</h1>
+        
       </div>
       <div className="mb-4">
         <hr className="mb-5" />
@@ -335,7 +338,7 @@ const VerticalNavbar = () => {
         <hr className="mb-5" />
         <h2 className="mb-2">Manage</h2>
         <ul className="ml-2 flex flex-col space-y-2">
-          <Link href={`/${session?.user?.company}/store2/${session?.user?.id}`}>
+          <Link href={`/${session?.user?.company}/${store}}/${session?.user?.id}`}>
             <li className=" flex space-x-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
