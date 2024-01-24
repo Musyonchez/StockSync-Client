@@ -543,7 +543,7 @@ const VerticalNavbar = () => {
 
               {/* Add a button to toggle the menu on small screens */}
               <button
-        className="sm:hidden absolute top-1 right-1"
+        className="sm:hidden absolute top-1 right-2"
         onClick={toggleMenu}
       >
         {isSideMenuVisible ? (
