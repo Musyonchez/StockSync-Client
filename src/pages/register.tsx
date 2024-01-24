@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import HorizontalNavbar from "@/components/HorizontalNavbar";
 
 const RegisterPage: React.FC = () => {
   const { data: session } = useSession();
@@ -17,22 +18,33 @@ const RegisterPage: React.FC = () => {
     }
   }, [session, isClient]);
 
-  // Handle registration logic
-  const handleRegister = async () => {
-    await signIn();
-    // Redirect after registration (useEffect will handle the redirection)
-  };
-
   return (
-    <div>
-      {/* Your registration page content */}
-      <button
-        onClick={handleRegister}
-        className="bg-emerald-300 sm:rounded-md p-2 sm:ml-3"
-      >
-        Register
-      </button>
+    <>
+      <HorizontalNavbar />
+    <div className="dark:bg-gray-800 h-screen flex flex-col items-center justify-center">
+      <div className="bg-white dark:bg-gray-700 p-8 rounded-lg text-center">
+        <p className="text-2xl font-semibold mb-4">Registration is not available.</p>
+        <p className="text-lg mb-4">
+          Unfortunately, you cannot register yourself. If you have an account, please{" "}
+          <a href="/login" className="text-emerald-500 dark:text-emerald-400 underline">
+            log in
+          </a>
+          .
+        </p>
+        <p className="text-lg mb-4">
+
+        If you don't have an account, please contact your administrator or supervisor.
+        </p>
+        <p className="text-lg mb-4">
+          If you are a business owner, please contact us at{" "}
+          <a href="/contact" className="text-emerald-500 dark:text-emerald-400 underline">
+            contact
+          </a>
+          .
+        </p>
+      </div>
     </div>
+    </>
   );
 };
 
