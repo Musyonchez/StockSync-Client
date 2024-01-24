@@ -34,7 +34,7 @@ const RegisterPage: React.FC = () => {
         </p>
         <p className="text-lg mb-4">
 
-        If you don't have an account, please contact your administrator or supervisor.
+        If you don&rsquo;t have an account, please contact your administrator or supervisor.
         </p>
         <p className="text-lg mb-4">
           If you are a business owner, please contact us at
