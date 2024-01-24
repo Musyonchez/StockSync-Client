@@ -338,7 +338,7 @@ const VerticalNavbar = () => {
         <hr className="mb-5" />
         <h2 className="mb-2">Manage</h2>
         <ul className="ml-2 flex flex-col space-y-2">
-          <Link href={`/${session?.user?.company}/${store}}/${session?.user?.id}`}>
+          <Link href={`/${session?.user?.company}/${store}/${session?.user?.id}`}>
             <li className=" flex space-x-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
