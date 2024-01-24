@@ -137,7 +137,7 @@ const ProductDetail = () => {
             </button>
           </span>
         </div>
-        <div className="bg-white p-4 border rounded">
+        <div className="bg-white dark:bg-gray-800 p-4 border rounded">
           {/* Product ID */}
           <div className="mb-4">
             <label

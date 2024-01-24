@@ -15,7 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className=" max-sm:w-screen">
           <VerticalNavbar />
         </div>
-        <main className=" h-screen max-sm:w-screen sm:w-full overflow-y-auto scrollbar pb-4">
+        <main className=" h-screen max-sm:w-screen sm:w-full overflow-y-auto scrollbar pb-4 max-sm:pr-2 max-sm:pt-2">
           {children}
         </main>
       </div>

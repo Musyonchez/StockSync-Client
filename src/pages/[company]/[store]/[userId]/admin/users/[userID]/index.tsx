@@ -155,7 +155,7 @@ const UserDetail = () => {
         </div>
 
         {/* User details */}
-        <div className="bg-white p-4 border rounded">
+        <div className="bg-white dark:bg-gray-800 p-4 border rounded">
           {/* User ID */}
           <div className="mb-4">
             <label

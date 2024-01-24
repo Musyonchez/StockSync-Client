@@ -177,7 +177,7 @@ const ProductDetail = () => {
           <h2 className="text-2xl font-semibold">Edit Product</h2>
 
         </div>
-        <div className="bg-white p-4 border rounded">
+        <div className="bg-white dark:bg-gray-800 p-4 border rounded">
           <form onSubmit={handleSubmit}>
             {/* Product ID */}
             <div className="mb-4">

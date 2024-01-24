@@ -173,7 +173,7 @@ const EditUser = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">Edit User</h2>
         </div>
-        <div className="bg-white p-4 border rounded">
+        <div className="bg-white dark:bg-gray-800 p-4 border rounded">
           <form onSubmit={handleSubmit}>
             {/* User ID */}
             <div className="mb-4">

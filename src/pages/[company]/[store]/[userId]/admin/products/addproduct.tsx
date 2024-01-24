@@ -94,7 +94,7 @@ const AddProduct = () => {
   return (
     <Layout>
       <div className="w-full flex justify-center items-center">
-        <div className="max-w-md w-full mx-auto px-4 pb-4 bg-white rounded shadow-md">
+        <div className="max-w-md w-full mx-auto px-4 pb-4 min-h-screen dark:bg-gray-800 bg-white rounded shadow-md">
           <h1 className="flex w-full text-2xl font-bold my-4 justify-center">
             Add Product
           </h1>
