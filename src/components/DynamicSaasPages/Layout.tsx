@@ -1,8 +1,8 @@
 // Layout.tsx
 
-import React from 'react';
-import VerticalNavbar from './VerticalNavbar';
-import Footer from '../Footer';
+import React from "react";
+import VerticalNavbar from "./VerticalNavbar";
+import Footer from "../Footer";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,14 +10,15 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className=' flex flex-col min-w-screen justify-between'>
-        <div className=' flex'>
-        <VerticalNavbar />
-        
-        <main className=' h-screen w-full overflow-y-auto scrollbar pb-4'>
-            {children}
-        </main>
+    <div className=" flex flex-col min-w-screen justify-between">
+      <div className=" max-sm:flex-row-reverse sm:flex">
+        <div className=" max-sm:w-screen">
+          <VerticalNavbar />
         </div>
+        <main className=" h-screen max-sm:w-screen sm:w-full overflow-y-auto scrollbar pb-4">
+          {children}
+        </main>
+      </div>
     </div>
   );
 };
