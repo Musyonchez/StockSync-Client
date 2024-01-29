@@ -1,5 +1,4 @@
-// mutations.ts (or a file where you define your GraphQL mutations)
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const ADD_PRODUCT_MUTATION = gql`
   mutation AddProduct(

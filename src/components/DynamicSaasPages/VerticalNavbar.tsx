@@ -272,7 +272,6 @@ const VerticalNavbar = () => {
         </div>
       </div>
 
-      {/* Render the menu items with conditional styling */}
       <div
         className={`sm:flex-col ${
           isSideMenuVisible ? "flex" : "hidden"
@@ -509,7 +508,6 @@ const VerticalNavbar = () => {
         </div>{" "}
       </div>
 
-      {/* Add a button to toggle the menu on small screens */}
       <button className="sm:hidden absolute top-1 right-2" onClick={toggleMenu}>
         {isSideMenuVisible ? (
           <svg

@@ -1,12 +1,10 @@
-// [...nextauth].ts
-
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { JWT } from "next-auth/jwt";
 
 const client = new ApolloClient({
-  uri: "https://stocksync-server.onrender.com/graphql/", // Replace with your GraphQL server URL
+  uri: "https://stocksync-server.onrender.com/graphql/",
   cache: new InMemoryCache(),
 });
 
@@ -24,8 +22,8 @@ interface SessionConfig {
 export const authOptions = {
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  } as SessionConfig, // Explicitly set the type for session
+    maxAge: 30 * 24 * 60 * 60,
+  } as SessionConfig,
   providers: [
     CredentialsProvider({
       type: "credentials",
@@ -83,13 +81,11 @@ export const authOptions = {
         });
 
         const user = res.data.authenticateUser;
-if (user) {
-  return user;
-} else {
-  console.log("Check your credentials");
-  return null;
-}
-
+        if (user) {
+          return user;
+        } else {
+          return null;
+        }
       },
     }),
   ],

@@ -1,36 +1,29 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-// Define the props interface
 interface HeaderOrderInputProps {
   onUpdate: (data: any) => void;
 }
 
 const HeaderOrderInput: React.FC<HeaderOrderInputProps> = ({ onUpdate }) => {
-  // State to hold data from input fields
   const [headerData, setHeaderData] = useState({
     pONumber: "",
     deliveryDate: "",
-    // Add more fields as needed
   });
 
-  // Function to update headerData and notify parent component
   const updateHeaderData = (field: string, value: any) => {
     setHeaderData((prevData) => ({
       ...prevData,
       [field]: value,
     }));
 
-    // Notify parent component
     onUpdate({ ...headerData, [field]: value });
   };
 
   const memoizedOnUpdate = useCallback(onUpdate, []);
 
-
   useEffect(() => {
     onUpdate({ ...headerData });
   }, [headerData, memoizedOnUpdate]);
-
 
   return (
     <div className="p-4 border rounded mb-4">
@@ -57,7 +50,6 @@ const HeaderOrderInput: React.FC<HeaderOrderInputProps> = ({ onUpdate }) => {
           placeholder="Enter Delivery Date"
         />
       </label>
-      {/* Add more input fields as needed */}
     </div>
   );
 };

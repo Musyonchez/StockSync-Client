@@ -8,18 +8,7 @@ import ShippingOrderInput from "@/components/DynamicSaasPages/MainContent/Order/
 import VenderOrderInput from "@/components/DynamicSaasPages/MainContent/Order/VenderOrderInput";
 import { OrderDataState } from "@/types/next-auth";
 
-
-// // Define the type for the orderData state
-// interface OrderDataState {
-//   header: any;
-//   vender: any;
-//   customer: any;
-//   shipping: any;
-//   products: any[];
-// }
-
 const Index = () => {
-  // State to hold data from input components
   const [orderData, setOrderData] = useState<OrderDataState>({
     header: {},
     vender: {},
@@ -28,7 +17,6 @@ const Index = () => {
     products: [],
   });
 
-  // Function to update orderData based on input component
   const updateOrderData = (section: string, data: any) => {
     setOrderData((prevData) => ({
       ...prevData,
@@ -58,7 +46,6 @@ const Index = () => {
           onUpdate={(data) => updateOrderData("products", data)}
         />
         <OrderPreview orderData={orderData} />
-        {/* <OrderPreview /> */}
       </div>
     </Layout>
   );

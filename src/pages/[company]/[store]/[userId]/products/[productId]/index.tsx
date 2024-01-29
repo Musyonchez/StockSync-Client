@@ -1,5 +1,3 @@
-// ... (previous imports)
-
 import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { gql } from "graphql-tag";
@@ -7,10 +5,9 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-// Define the GraphQL query for a single product
 const GET_PRODUCT = gql`
-query GetProduct($id: String!, $company: String!, $type: String!) {
-  product(id: $id, company: $company, type: $type) {
+  query GetProduct($id: String!, $company: String!, $type: String!) {
+    product(id: $id, company: $company, type: $type) {
       id
       name
       description
@@ -23,8 +20,6 @@ query GetProduct($id: String!, $company: String!, $type: String!) {
   }
 `;
 
-
-
 interface Product {
   id: string;
   name: string;
@@ -36,16 +31,12 @@ interface Product {
   costPrevious: number;
 }
 
-// Create a functional component to display a single product
 const ProductDetail = () => {
   const router = useRouter();
   const { company } = router.query;
   const { store } = router.query;
   const { productId } = router.query;
 
-
-
-  // Use the useQuery hook to execute the query with the productId variable
   const { loading, error, data } = useQuery(GET_PRODUCT, {
     variables: { id: productId, company: company, type: store },
   });
@@ -80,166 +71,147 @@ const ProductDetail = () => {
     );
   }
 
-
-
   return (
     <Layout>
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">Product Details</h2>
-        
         </div>
         <div className="bg-white p-4 border rounded">
-            {/* Product ID */}
-            <div className="mb-4">
-              <label
-                htmlFor="name"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Product ID:
-              </label>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                value={product.id}
-                readOnly
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-            </div>
+          <div className="mb-4">
+            <label
+              htmlFor="name"
+              className="block text-sm font-semibold text-gray-600 mb-1"
+            >
+              Product ID:
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              value={product.id}
+              readOnly
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+            />
+          </div>
 
-            {/* Product Name */}
-            <div className="mb-4">
-              <label
-                htmlFor="name"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Product Name:
-              </label>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                value={product.name}
-                readOnly
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-             
-            </div>
+          <div className="mb-4">
+            <label
+              htmlFor="name"
+              className="block text-sm font-semibold text-gray-600 mb-1"
+            >
+              Product Name:
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              value={product.name}
+              readOnly
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+            />
+          </div>
 
-            {/* Product Description */}
-            <div className="mb-4">
-              <label
-                htmlFor="description"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Product Description:
-              </label>
-              <textarea
-                name="description"
-                id="description"
-                value={product.description}
-                readOnly
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-         
-            </div>
+          <div className="mb-4">
+            <label
+              htmlFor="description"
+              className="block text-sm font-semibold text-gray-600 mb-1"
+            >
+              Product Description:
+            </label>
+            <textarea
+              name="description"
+              id="description"
+              value={product.description}
+              readOnly
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+            />
+          </div>
 
-            {/* Current Quantity */}
-            <div className="mb-4">
-              <label
-                htmlFor="current"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Current Quantity:
-              </label>
-              <input
-                type="number"
-                name="current"
-                id="current"
-                value={product.currentQuantity}
-                readOnly
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-         
-            </div>
+          <div className="mb-4">
+            <label
+              htmlFor="current"
+              className="block text-sm font-semibold text-gray-600 mb-1"
+            >
+              Current Quantity:
+            </label>
+            <input
+              type="number"
+              name="current"
+              id="current"
+              value={product.currentQuantity}
+              readOnly
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+            />
+          </div>
 
-            {/* Reorder Quantity */}
-            <div className="mb-4">
-              <label
-                htmlFor="reorder"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Reorder Quantity:
-              </label>
-              <input
-                type="number"
-                name="reorder"
-                id="reorder"
-                value={product.reorderQuantity}
-                readOnly
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-          
-            </div>
+          <div className="mb-4">
+            <label
+              htmlFor="reorder"
+              className="block text-sm font-semibold text-gray-600 mb-1"
+            >
+              Reorder Quantity:
+            </label>
+            <input
+              type="number"
+              name="reorder"
+              id="reorder"
+              value={product.reorderQuantity}
+              readOnly
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+            />
+          </div>
 
-            {/* Minimum Quantity */}
-            <div className="mb-4">
-              <label
-                htmlFor="minimum"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Minimum Quantity:
-              </label>
-              <input
-                type="number"
-                name="minimum"
-                id="minimum"
-                value={product.minimumQuantity}
-                readOnly
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-        
-            </div>
+          <div className="mb-4">
+            <label
+              htmlFor="minimum"
+              className="block text-sm font-semibold text-gray-600 mb-1"
+            >
+              Minimum Quantity:
+            </label>
+            <input
+              type="number"
+              name="minimum"
+              id="minimum"
+              value={product.minimumQuantity}
+              readOnly
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+            />
+          </div>
 
-            {/* Current Cost */}
-            <div className="mb-4">
-              <label
-                htmlFor="minimum"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Current Cost:
-              </label>
-              <input
-                type="number"
-                name="minimum"
-                id="minimum"
-                value={product.costCurrent}
-                readOnly
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-        
-            </div>
+          <div className="mb-4">
+            <label
+              htmlFor="minimum"
+              className="block text-sm font-semibold text-gray-600 mb-1"
+            >
+              Current Cost:
+            </label>
+            <input
+              type="number"
+              name="minimum"
+              id="minimum"
+              value={product.costCurrent}
+              readOnly
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+            />
+          </div>
 
-            {/* Previous Cost */}
-            <div className="mb-4">
-              <label
-                htmlFor="minimum"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Previous Cost:
-              </label>
-              <input
-                type="number"
-                name="minimum"
-                id="minimum"
-                value={product.costPrevious}
-                readOnly
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-        
-            </div>
-
+          <div className="mb-4">
+            <label
+              htmlFor="minimum"
+              className="block text-sm font-semibold text-gray-600 mb-1"
+            >
+              Previous Cost:
+            </label>
+            <input
+              type="number"
+              name="minimum"
+              id="minimum"
+              value={product.costPrevious}
+              readOnly
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+            />
+          </div>
         </div>
       </div>
     </Layout>

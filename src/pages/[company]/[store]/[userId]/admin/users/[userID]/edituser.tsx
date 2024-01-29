@@ -1,12 +1,9 @@
-// ... (previous imports)
-
 import React, { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { gql } from "graphql-tag";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-// Define the GraphQL query for a single user
 const GET_USER = gql`
   query GetUser($id: String!, $company: String!, $type: String!) {
     user(id: $id, company: $company, type: $type) {
@@ -75,7 +72,6 @@ interface User {
   role: string;
 }
 
-// Create a functional component to display a single user
 const EditUser = () => {
   const [editUser] = useMutation(EDIT_USER);
   const router = useRouter();
@@ -92,7 +88,6 @@ const EditUser = () => {
   const [store4, setStore4] = useState(false);
   const [role, setRole] = useState("USER");
 
-  // Use the useQuery hook to execute the query with the userId variable
   const { loading, error, data } = useQuery(GET_USER, {
     variables: { id: userId, company: company, type: "users" },
   });
@@ -147,10 +142,7 @@ const EditUser = () => {
         },
       });
 
-      // Handle the result as needed (e.g., show a success message)
-      console.log("User edited successfully:", data.editUser);
 
-      // Reset form values after successful submission
       setFirstName("");
       setLastName("");
       setAge(0);
@@ -159,11 +151,7 @@ const EditUser = () => {
       setStore3(false);
       setStore4(false);
       setRole("");
-
-      // Additional logic as needed after a successful edit
     } catch (error) {
-      console.error("Error editing user:", firstName, error);
-      // Handle the error (e.g., show an error message)
     }
   };
 
@@ -175,7 +163,6 @@ const EditUser = () => {
         </div>
         <div className="bg-white dark:bg-gray-800 p-4 border rounded">
           <form onSubmit={handleSubmit}>
-            {/* User ID */}
             <div className="mb-4">
               <label
                 htmlFor="id"
@@ -194,7 +181,6 @@ const EditUser = () => {
               />
             </div>
 
-            {/* First Name */}
             <div className="mb-4">
               <label
                 htmlFor="firstName"
@@ -223,7 +209,6 @@ const EditUser = () => {
               />
             </div>
 
-            {/* Last Name */}
             <div className="mb-4">
               <label
                 htmlFor="lastName"
@@ -252,7 +237,6 @@ const EditUser = () => {
               />
             </div>
 
-            {/* Age */}
             <div className="mb-4">
               <label
                 htmlFor="age"
@@ -281,7 +265,6 @@ const EditUser = () => {
               />
             </div>
 
-            {/* Store Permissions */}
             <div className="mb-4">
               <label
                 htmlFor="storePermissions"
@@ -331,7 +314,6 @@ const EditUser = () => {
               </div>
             </div>
 
-            {/* User Role */}
             <div className="mb-4">
               <label
                 htmlFor="role"
@@ -351,7 +333,6 @@ const EditUser = () => {
               </select>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"

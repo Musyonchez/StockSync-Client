@@ -18,7 +18,6 @@ interface ProductsOrderInputProps {
 const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
   onUpdate,
 }) => {
-  // State to hold product data array
   const [products, setProducts] = useState<ProductData[]>([
     {
       code: "",
@@ -32,7 +31,6 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
     },
   ]);
 
-  // Function to update product data and notify parent component
   const updateProductData = (
     index: number,
     field: keyof ProductData,
@@ -45,7 +43,6 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
         [field]: value,
       };
 
-      // Calculate amount based on the formula
       const { price, quantity, tax, discount } = updatedProducts[index];
       const calculatedAmount = (
         price *
@@ -55,26 +52,21 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
       ).toFixed(2);
       updatedProducts[index].amount = parseFloat(calculatedAmount);
 
-    // Calculate total
-    const updatedTotal = updatedProducts.reduce(
-      (acc, product) => acc + product.amount,
-      0
-    );
+      const updatedTotal = updatedProducts.reduce(
+        (acc, product) => acc + product.amount,
+        0
+      );
 
-    // Update total in each product
-    updatedProducts.forEach((product) => {
-      product.total = updatedTotal;
+      updatedProducts.forEach((product) => {
+        product.total = updatedTotal;
+      });
+
+      return updatedProducts;
     });
 
-    return updatedProducts;
-  });
-
-
-    // Notify parent component
     onUpdate([...products]);
   };
 
-  // Function to add a new product
   const addProduct = () => {
     setProducts((prevProducts) => [
       ...prevProducts,
@@ -93,7 +85,6 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
     onUpdate([...products]);
   };
 
-  // Function to remove a product
   const removeProduct = (index: number) => {
     setProducts((prevProducts) => {
       const updatedProducts = [...prevProducts];
@@ -101,7 +92,6 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
       return updatedProducts;
     });
 
-    // Notify parent component
     onUpdate([...products]);
   };
 
@@ -117,7 +107,6 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
         <div key={index} className="p-4 border rounded mb-4">
           <h2 className="text-lg font-bold mb-4">Product {index + 1}</h2>
 
-          {/* Code */}
           <label className="block mb-4">
             <h2 className="text-sm font-bold mb-2">Code</h2>
             <input
@@ -132,7 +121,6 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
             />
           </label>
 
-          {/* Product Description */}
           <label className="block mb-4">
             <h2 className="text-sm font-bold mb-2">Product Description</h2>
             <input
@@ -147,7 +135,6 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
             />
           </label>
 
-          {/* Quantity */}
           <label className="block mb-4">
             <h2 className="text-sm font-bold mb-2">Quantity</h2>
             <input
@@ -166,7 +153,6 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
             />
           </label>
 
-          {/* Price */}
           <label className="block mb-4">
             <h2 className="text-sm font-bold mb-2">Price</h2>
             <input
@@ -181,7 +167,6 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
             />
           </label>
 
-          {/* Discount */}
           <label className="block mb-4">
             <h2 className="text-sm font-bold mb-2">Discount %</h2>
             <input
@@ -200,7 +185,6 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
             />
           </label>
 
-          {/* Tax */}
           <label className="block mb-4">
             <h2 className="text-sm font-bold mb-2">Tax %</h2>
             <input
@@ -215,12 +199,10 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
             />
           </label>
 
-          {/* Amount */}
           <label className="block mb-4">
             <h2 className="text-sm font-bold mb-2">Amount</h2>
             <span className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500 bg-gray-100 dark:bg-gray-800">
               {product.amount.toFixed(2)}{" "}
-              {/* Display the amount with two decimal places */}
             </span>
           </label>
 
@@ -233,7 +215,6 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
         </div>
       ))}
 
-      {/* Add new product button */}
       <button
         onClick={addProduct}
         className="bg-green-500 text-white px-4 py-2 rounded"

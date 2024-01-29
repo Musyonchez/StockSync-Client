@@ -9,40 +9,35 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [company, setCompany] = useState("");
-  const [error, setError] = useState<string | null>(null); // State for handling errors
+  const [error, setError] = useState<string | null>(null);
 
-  // Check if window is defined (client side)
   const isClient = typeof window !== "undefined";
 
-  // Use effect to handle redirection after login
   useEffect(() => {
     if (isClient) {
-      // Redirect to home if user is already signed in
       if (session && session.user) {
         window.location.href = "/";
       }
     }
   }, [session, isClient, router]);
 
-  // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-  
-    // Call the signIn function with credentials
+
     signIn("credentials", {
       email,
       password,
       company,
     })
       .then(() => {
-        // Redirect to home after successful login
         if (isClient) {
           window.location.href = "/";
         }
       })
       .catch((error) => {
-        // Handle and display the error
-        setError("Invalid credentials. Please check your email, password, and company.");
+        setError(
+          "Invalid credentials. Please check your email, password, and company."
+        );
       });
   };
 
@@ -50,7 +45,10 @@ const LoginPage: React.FC = () => {
     <>
       <HorizontalNavbar />
       <div className="dark:bg-gray-800 flex flex-col items-center justify-center">
-        <form onSubmit={handleSubmit} className="mx-auto bg-white dark:bg-gray-700 p-8 rounded-lg w-full sm:w-96">
+        <form
+          onSubmit={handleSubmit}
+          className="mx-auto bg-white dark:bg-gray-700 p-8 rounded-lg w-full sm:w-96"
+        >
           <label className="block text-sm font-medium text-gray-700 dark:text-white">
             Email:
             <input

@@ -6,8 +6,8 @@ import { useQuery, gql } from "@apollo/client";
 import Link from "next/link";
 
 const GET_USER = gql`
-query GetUser($id: String!, $company: String!, $type: String!) {
-  user(id: $id, company: $company, type: $type) {
+  query GetUser($id: String!, $company: String!, $type: String!) {
+    user(id: $id, company: $company, type: $type) {
       id
       firstName
       lastName
@@ -31,16 +31,11 @@ const Index = () => {
   const { userId } = router.query;
   const [greeting, setGreeting] = useState("");
 
-
-
   const { loading, error, data } = useQuery(GET_USER, {
     variables: { id: userId, company: company, type: "users" },
   });
 
-
-
   useEffect(() => {
-    // Update greeting based on the time of the day
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) {
       setGreeting("Good morning");

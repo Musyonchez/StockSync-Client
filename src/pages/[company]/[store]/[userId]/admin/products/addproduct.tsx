@@ -1,5 +1,3 @@
-// pages/index.tsx
-
 import React, { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import Layout from "@/components/DynamicSaasPages/Layout";
@@ -47,7 +45,6 @@ const AddProduct = () => {
   const { company } = router.query;
   const { store } = router.query;
 
-  // State to manage form input values
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [currentQuantity, setCurrentQuantity] = useState(0);
@@ -74,7 +71,6 @@ const AddProduct = () => {
         },
       });
 
-      // Reset form values after successful submission
       setName("");
       setDescription("");
       setCurrentQuantity(0);
@@ -83,11 +79,7 @@ const AddProduct = () => {
       setCostCurrent(0);
       setCostPrevious(0);
 
-      // Handle the result as needed (e.g., show a success message)
-      console.log("Product added successfully:", data.addProduct);
     } catch (error) {
-      console.error("Error adding product:", error);
-      // Handle the error (e.g., show an error message)
     }
   };
 
@@ -99,7 +91,6 @@ const AddProduct = () => {
             Add Product
           </h1>
           <form onSubmit={handleSubmit}>
-            {/* Product Name */}
             <div className="mb-4">
               <label
                 htmlFor="name"
@@ -118,7 +109,6 @@ const AddProduct = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-            {/* Product Description */}
             <div className="mb-4">
               <label
                 htmlFor="description"
@@ -136,7 +126,6 @@ const AddProduct = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-            {/* Current Quantity */}
             <div className="mb-4">
               <label
                 htmlFor="current"
@@ -157,7 +146,6 @@ const AddProduct = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-            {/* Reorder Quantity */}
             <div className="mb-4">
               <label
                 htmlFor="reorder"
@@ -178,7 +166,6 @@ const AddProduct = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-            {/* Minimum Quantity */}
             <div className="mb-4">
               <label
                 htmlFor="minimum"
@@ -199,7 +186,6 @@ const AddProduct = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-            {/* Current Cost */}
             <div className="mb-4">
               <label
                 htmlFor="costCurrent"
@@ -218,7 +204,6 @@ const AddProduct = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-            {/* Previous Cost */}
             <div className="mb-4">
               <label
                 htmlFor="costPrevious"
@@ -237,7 +222,6 @@ const AddProduct = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-            {/* Submit Button */}
             <button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"

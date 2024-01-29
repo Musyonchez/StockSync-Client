@@ -5,35 +5,33 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-// Define the GraphQL query
 const GET_ALL_PRODUCTS = gql`
-query GetProduct($company: String!, $type: String!) {
-  activeProducts(company: $company, type: $type) {
-    id
-    name
-    description
-    minimumQuantity
-    currentQuantity
-    reorderQuantity
-    costCurrent
-    costPrevious
-    active
-  },
-  inactiveProducts(company: $company, type: $type) {
-    id
-    name
-    description
-    minimumQuantity
-    currentQuantity
-    reorderQuantity
-    costCurrent
-    costPrevious
-    active
+  query GetProduct($company: String!, $type: String!) {
+    activeProducts(company: $company, type: $type) {
+      id
+      name
+      description
+      minimumQuantity
+      currentQuantity
+      reorderQuantity
+      costCurrent
+      costPrevious
+      active
+    }
+    inactiveProducts(company: $company, type: $type) {
+      id
+      name
+      description
+      minimumQuantity
+      currentQuantity
+      reorderQuantity
+      costCurrent
+      costPrevious
+      active
+    }
   }
-}
 `;
 
-// Assuming this is your product type
 interface Product {
   id: string;
   name: string;
@@ -45,18 +43,14 @@ interface Product {
   costPrevious: number;
 }
 
-// Create a functional component to display products
 function ProductList() {
   const router = useRouter();
   const { company } = router.query;
   const { store } = router.query;
 
-
-  // Use the useQuery hook to execute the query
   const { loading, error, data } = useQuery(GET_ALL_PRODUCTS, {
     variables: { company: company, type: store },
   });
-
 
   if (loading)
     return (
@@ -96,8 +90,6 @@ function ProductList() {
       </Layout>
     );
 
-  // Extract products from the data
-
   if (!data) {
     return (
       <Layout>
@@ -120,7 +112,6 @@ function ProductList() {
 
   const activeProducts: Product[] = data.activeProducts;
   const inactiveProducts: Product[] = data.inactiveProducts;
-
 
   return (
     <Layout>
@@ -163,9 +154,8 @@ function ProductList() {
           </ul>
         </div>
 
-
         <div>
-        {inactiveProducts.length > 0 && <h2>Deactivated</h2>}
+          {inactiveProducts.length > 0 && <h2>Deactivated</h2>}
           <ul>
             {inactiveProducts.map((inactiveproduct) => (
               <li key={inactiveproduct.id} className="mb-4 p-4 border rounded">
@@ -179,11 +169,14 @@ function ProductList() {
                   <br />
                   <strong>Description:</strong> {inactiveproduct.description}
                   <br />
-                  <strong>Minimum Quantity:</strong> {inactiveproduct.minimumQuantity}
+                  <strong>Minimum Quantity:</strong>{" "}
+                  {inactiveproduct.minimumQuantity}
                   <br />
-                  <strong>Current Quantity:</strong> {inactiveproduct.currentQuantity}
+                  <strong>Current Quantity:</strong>{" "}
+                  {inactiveproduct.currentQuantity}
                   <br />
-                  <strong>Reorder Quantity:</strong> {inactiveproduct.reorderQuantity}
+                  <strong>Reorder Quantity:</strong>{" "}
+                  {inactiveproduct.reorderQuantity}
                   <br />
                   <strong>Current Cost:</strong> {inactiveproduct.costCurrent}
                   <br />
@@ -193,8 +186,6 @@ function ProductList() {
             ))}
           </ul>
         </div>
-
-
       </div>
     </Layout>
   );

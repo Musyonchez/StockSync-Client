@@ -9,17 +9,7 @@ import InvoicePreview from "@/components/DynamicSaasPages/MainContent/Invoice/In
 import ProductsInvoiceInput from "@/components/DynamicSaasPages/MainContent/Invoice/ProductsInvoiceInput";
 import ShippingInvoiceInput from "@/components/DynamicSaasPages/MainContent/Invoice/ShippingInvoiceInput";
 
-// // Define the type for the orderData state
-// interface OrderDataState {
-//   header: any;
-//   vender: any;
-//   customer: any;
-//   shipping: any;
-//   products: any[];
-// }
-
 const Index = () => {
-  // State to hold data from input components
   const [InvoiceData, setInvoiceData] = useState<InvoiceDataState>({
     header: {},
     vender: {},
@@ -29,7 +19,6 @@ const Index = () => {
     bank: [],
   });
 
-  // Function to update orderData based on input component
   const updateInvoiceData = (section: string, data: any) => {
     setInvoiceData((prevData) => ({
       ...prevData,
@@ -62,7 +51,6 @@ const Index = () => {
           onUpdate={(data) => updateInvoiceData("bank", data)}
         />
         <InvoicePreview invoiceData={InvoiceData} />
-        {/* <OrderPreview /> */}
       </div>
     </Layout>
   );

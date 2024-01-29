@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-// Define the GraphQL query for getting users
 const GET_ALL_USERS = gql`
   query GetUsers($company: String!, $type: String!) {
     users(company: $company, type: $type) {
@@ -23,7 +22,6 @@ const GET_ALL_USERS = gql`
   }
 `;
 
-// Assuming this is your user type
 interface User {
   id: string;
   firstName: string;
@@ -37,17 +35,14 @@ interface User {
   role: string;
 }
 
-// Create a functional component to display users
 function UserList() {
   const router = useRouter();
   const { company } = router.query;
   const { store } = router.query;
 
-  // Use the useQuery hook to execute the query
   const { loading, error, data } = useQuery(GET_ALL_USERS, {
-  variables: {company: company, type: "users" },
-});
-
+    variables: { company: company, type: "users" },
+  });
 
   if (loading)
     return (

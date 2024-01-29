@@ -1,27 +1,23 @@
-// ... (previous imports)
-
 import React, { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { gql } from "graphql-tag";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-// Define the GraphQL query for a single product
 const GET_PRODUCT = gql`
-query GetProduct($id: String!, $company: String!, $type: String!) {
-  product(id: $id, company: $company, type: $type) {
-    id
-    name
-    description
-    minimumQuantity
-    currentQuantity
-    reorderQuantity
-    costCurrent
-    costPrevious
+  query GetProduct($id: String!, $company: String!, $type: String!) {
+    product(id: $id, company: $company, type: $type) {
+      id
+      name
+      description
+      minimumQuantity
+      currentQuantity
+      reorderQuantity
+      costCurrent
+      costPrevious
+    }
   }
-}
 `;
-
 
 const EDIT_PRODUCT = gql`
   mutation EditProduct(
@@ -61,7 +57,6 @@ const EDIT_PRODUCT = gql`
   }
 `;
 
-
 interface Product {
   id: string;
   name: string;
@@ -73,29 +68,21 @@ interface Product {
   costPrevious: number;
 }
 
-// Create a functional component to display a single product
 const ProductDetail = () => {
-  
-    // Use useMutation hook to get the mutation function
-    const [editProduct] = useMutation(EDIT_PRODUCT);
-    const router = useRouter();
-    const { company } = router.query;
-    const { store } = router.query;
-    const { productId } = router.query;
-
+  const [editProduct] = useMutation(EDIT_PRODUCT);
+  const router = useRouter();
+  const { company } = router.query;
+  const { store } = router.query;
+  const { productId } = router.query;
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [currentQuantity, setCurrentQuantity] = useState(0); // You can use null or any other initial value
-  const [reorderQuantity, setReorderQuantity] = useState(0); // You can use null or any other initial value
-  const [minimumQuantity, setMinimumQuantity] = useState(0); // You can use null or any other initial value
-  const [costCurrent, setCostCurrent] = useState(0); // You can use null or any other initial value
+  const [currentQuantity, setCurrentQuantity] = useState(0);
+  const [reorderQuantity, setReorderQuantity] = useState(0);
+  const [minimumQuantity, setMinimumQuantity] = useState(0);
+  const [costCurrent, setCostCurrent] = useState(0);
   const [costPrevious, setCostPrevious] = useState(0);
 
-
-
-
-  // Use the useQuery hook to execute the query with the productId variable
   const { loading, error, data } = useQuery(GET_PRODUCT, {
     variables: { id: productId, company: company, type: store },
   });
@@ -130,10 +117,9 @@ const ProductDetail = () => {
     );
   }
 
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     try {
       const { data } = await editProduct({
         variables: {
@@ -149,37 +135,27 @@ const ProductDetail = () => {
           type: store,
         },
       });
-  
-      // Handle the result as needed (e.g., show a success message)
-      console.log("Product edited successfully:", data.editProduct);
 
-        // Reset form values after successful submission
-        setName("");
-        setDescription("");
-        setCurrentQuantity(0);
-        setReorderQuantity(0);
-        setMinimumQuantity(0);
-        setCostCurrent(0);
-        setCostPrevious(0);
-  
-      // Additional logic as needed after a successful edit
+
+      setName("");
+      setDescription("");
+      setCurrentQuantity(0);
+      setReorderQuantity(0);
+      setMinimumQuantity(0);
+      setCostCurrent(0);
+      setCostPrevious(0);
     } catch (error) {
-      console.error("Error editing product:", name, error);
-      // Handle the error (e.g., show an error message)
     }
   };
-  
 
   return (
     <Layout>
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">Edit Product</h2>
-
         </div>
         <div className="bg-white dark:bg-gray-800 p-4 border rounded">
           <form onSubmit={handleSubmit}>
-            {/* Product ID */}
             <div className="mb-4">
               <label
                 htmlFor="name"
@@ -198,7 +174,6 @@ const ProductDetail = () => {
               />
             </div>
 
-            {/* Product Name */}
             <div className="mb-4">
               <label
                 htmlFor="name"
@@ -227,7 +202,6 @@ const ProductDetail = () => {
               />
             </div>
 
-            {/* Product Description */}
             <div className="mb-4">
               <label
                 htmlFor="description"
@@ -254,7 +228,6 @@ const ProductDetail = () => {
               />
             </div>
 
-            {/* Current Quantity */}
             <div className="mb-4">
               <label
                 htmlFor="current"
@@ -276,13 +249,14 @@ const ProductDetail = () => {
                 id="current"
                 value={currentQuantity || ""}
                 required
-                onChange={(e) => setCurrentQuantity(parseInt(e.target.value, 10))}
+                onChange={(e) =>
+                  setCurrentQuantity(parseInt(e.target.value, 10))
+                }
                 placeholder="Enter New Current"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
 
-            {/* Reorder Quantity */}
             <div className="mb-4">
               <label
                 htmlFor="reorder"
@@ -304,13 +278,14 @@ const ProductDetail = () => {
                 id="reorder"
                 value={reorderQuantity || ""}
                 required
-                onChange={(e) => setReorderQuantity(parseInt(e.target.value, 10))}
+                onChange={(e) =>
+                  setReorderQuantity(parseInt(e.target.value, 10))
+                }
                 placeholder="Enter New Reorder"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
 
-            {/* Minimum Quantity */}
             <div className="mb-4">
               <label
                 htmlFor="minimum"
@@ -332,13 +307,14 @@ const ProductDetail = () => {
                 id="minimum"
                 value={minimumQuantity || ""}
                 required
-                onChange={(e) => setMinimumQuantity(parseInt(e.target.value, 10))}
+                onChange={(e) =>
+                  setMinimumQuantity(parseInt(e.target.value, 10))
+                }
                 placeholder="Enter New Minimum"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
 
-            {/* Current Cost */}
             <div className="mb-4">
               <label
                 htmlFor="minimum"
@@ -354,7 +330,7 @@ const ProductDetail = () => {
                 readOnly
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
-                            <input
+              <input
                 type="number"
                 name="minimum"
                 id="minimum"
@@ -364,10 +340,8 @@ const ProductDetail = () => {
                 placeholder="Enter New Minimum"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
-        
             </div>
 
-            {/* Previous Cost */}
             <div className="mb-4">
               <label
                 htmlFor="minimum"
@@ -383,7 +357,7 @@ const ProductDetail = () => {
                 readOnly
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
-                            <input
+              <input
                 type="number"
                 name="minimum"
                 id="minimum"
@@ -393,9 +367,8 @@ const ProductDetail = () => {
                 placeholder="Enter New Minimum"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
-              </div>
+            </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"

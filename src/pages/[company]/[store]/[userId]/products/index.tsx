@@ -5,10 +5,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-// Define the GraphQL query
 const GET_ALL_PRODUCTS = gql`
-query GetProduct($company: String!, $type: String!) {
-  activeProducts(company: $company, type: $type) {
+  query GetProduct($company: String!, $type: String!) {
+    activeProducts(company: $company, type: $type) {
       id
       name
       description
@@ -22,7 +21,6 @@ query GetProduct($company: String!, $type: String!) {
   }
 `;
 
-// Assuming this is your product type
 interface Product {
   id: string;
   name: string;
@@ -34,20 +32,15 @@ interface Product {
   costPrevious: number;
 }
 
-// Create a functional component to display products
 function ProductList() {
   const router = useRouter();
   const { company } = router.query;
   const { store } = router.query;
 
-
-  // Use the useQuery hook to execute the query
   const { loading, error, data } = useQuery(GET_ALL_PRODUCTS, {
     variables: { company: company, type: store },
   });
 
-
-  
   if (loading)
     return (
       <Layout>
@@ -75,8 +68,6 @@ function ProductList() {
         </div>
       </Layout>
     );
-
-  // Extract products from the data
 
   if (!data.activeProducts) {
     return (

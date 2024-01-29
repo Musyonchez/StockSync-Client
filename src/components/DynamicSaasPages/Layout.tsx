@@ -1,5 +1,3 @@
-// Layout.tsx
-
 import React from "react";
 import VerticalNavbar from "./VerticalNavbar";
 import Footer from "../Footer";

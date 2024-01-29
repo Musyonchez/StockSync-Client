@@ -1,4 +1,3 @@
-// next-auth.d.ts
 import { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
@@ -19,9 +18,6 @@ declare module "next-auth" {
   }
 }
 
-
-
-// Create a file, e.g., types.ts
 export type OrderDataState = {
   header: any;
   vender: any;
@@ -38,20 +34,3 @@ export type InvoiceDataState = {
   products: any[];
   bank: any[];
 };
-
-
-
-// // types/next-auth.d.ts
-// import { DefaultUser } from 'next-auth';
-
-// declare module 'next-auth' {
-//   interface User extends DefaultUser {
-//     firstName?: string;
-//     id: string;
-//       email?: string;
-//       token?: string;
-
-//     // Add other custom properties as needed
-//   }
-// }
-

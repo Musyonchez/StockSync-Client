@@ -52,7 +52,6 @@ const AddUser = () => {
   const { company } = router.query;
   const { store } = router.query;
 
-  // State to manage form input values
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [age, setAge] = useState(0);
@@ -85,7 +84,6 @@ const AddUser = () => {
         },
       });
 
-      // Reset form values after successful submission
       setFirstName("");
       setLastName("");
       setAge(0);
@@ -97,11 +95,7 @@ const AddUser = () => {
       setStore4(false);
       setRole("USER");
 
-      // Handle the result as needed (e.g., show a success message)
-      console.log("User added successfully:", data.addUser);
     } catch (error) {
-      console.error("Error adding user:", error);
-      // Handle the error (e.g., show an error message)
     }
   };
 
@@ -113,7 +107,6 @@ const AddUser = () => {
             Add User
           </h1>
           <form onSubmit={handleSubmit}>
-            {/* First Name */}
             <div className="mb-4">
               <label
                 htmlFor="firstName"
@@ -131,7 +124,6 @@ const AddUser = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-            {/* Last Name */}
             <div className="mb-4">
               <label
                 htmlFor="lastName"
@@ -149,7 +141,6 @@ const AddUser = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-            {/* Age */}
             <div className="mb-4">
               <label
                 htmlFor="age"
@@ -167,7 +158,6 @@ const AddUser = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-            {/* Email */}
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -185,7 +175,6 @@ const AddUser = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-            {/* Password */}
             <div className="mb-4">
               <label
                 htmlFor="password"
@@ -203,7 +192,6 @@ const AddUser = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-            {/* Store Checkboxes */}
             <div className="mb-4">
               <label className="block text-sm font-semibold text-gray-600 mb-1">
                 Stores:
@@ -256,7 +244,6 @@ const AddUser = () => {
               </div>
             </div>
 
-            {/* Role */}
             <div className="mb-4">
               <label
                 htmlFor="role"
@@ -275,7 +262,6 @@ const AddUser = () => {
                 <option value="USER">User</option>
               </select>
             </div>
-            {/* Submit Button */}
             <button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"

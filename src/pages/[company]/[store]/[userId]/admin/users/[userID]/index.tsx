@@ -1,5 +1,3 @@
-// ... (previous imports)
-
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { gql } from "graphql-tag";
@@ -7,9 +5,6 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-// ... (previous imports)
-
-// Define the GraphQL query for a single user
 const GET_USER = gql`
   query GetUser($id: String!, $company: String!, $type: String!) {
     user(id: $id, company: $company, type: $type) {
@@ -48,7 +43,6 @@ interface User {
   role: string;
 }
 
-// Create a functional component to display a single user
 const UserDetail = () => {
   const [deleteUser] = useMutation(DELETE_USER);
   const router = useRouter();
@@ -59,25 +53,15 @@ const UserDetail = () => {
   const { pathname, query } = router;
   const [isButtonActive, setIsButtonActive] = useState(true);
 
-  //    // Extract other dynamic values (company, store, userId) from the current URL
-  //  const company = query.company;
-  //  const store = query.store;
-
   useEffect(() => {
     if (userId === userID) {
       router.push(`/${company}/${store}/${userId}/admin/users`);
     }
   });
 
-  // Use the useQuery hook to execute the query with the userId variable
   const { loading, error, data } = useQuery(GET_USER, {
     variables: { id: userID, company: company, type: "users" },
   });
-
-  // if (error) {
-  //   console.error("Error loading user details:", error);
-  //   // Handle the error (e.g., show an error message)
-  // }
 
   if (loading)
     return (
@@ -117,15 +101,11 @@ const UserDetail = () => {
         variables: { id: userID, company: company, type: "users" },
       });
 
-      // Use router.push to navigate to the new URL structure
       router.push(`/${company}/${store}/${userId}/admin/users`).then(() => {
         window.location.reload();
       });
 
-      console.log("User Deleted successfully:", data.deleteUser);
     } catch (error) {
-      console.error("Error deleting user:", error);
-      // Handle the error (e.g., show an error message)
     }
   };
 
@@ -135,11 +115,9 @@ const UserDetail = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">User Details</h2>
           <span className="flex space-x-4">
-            {/* Edit button */}
             <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
               <Link href={`${router.asPath}/edituser`}>Edit</Link>
             </button>
-            {/* Delete button */}
             <button
               onClick={handleDelete}
               className={`${
@@ -154,9 +132,7 @@ const UserDetail = () => {
           </span>
         </div>
 
-        {/* User details */}
         <div className="bg-white dark:bg-gray-800 p-4 border rounded">
-          {/* User ID */}
           <div className="mb-4">
             <label
               htmlFor="userId"
@@ -173,7 +149,6 @@ const UserDetail = () => {
             />
           </div>
 
-          {/* User First Name */}
           <div className="mb-4">
             <label
               htmlFor="firstName"
@@ -190,7 +165,6 @@ const UserDetail = () => {
             />
           </div>
 
-          {/* User Last Name */}
           <div className="mb-4">
             <label
               htmlFor="lastName"
@@ -207,7 +181,6 @@ const UserDetail = () => {
             />
           </div>
 
-          {/* User Age */}
           <div className="mb-4">
             <label
               htmlFor="age"
@@ -224,7 +197,6 @@ const UserDetail = () => {
             />
           </div>
 
-          {/* User Email */}
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -241,7 +213,6 @@ const UserDetail = () => {
             />
           </div>
 
-          {/* User Stores */}
           <div className="mb-4">
             <label
               htmlFor="stores"
@@ -257,7 +228,6 @@ const UserDetail = () => {
             </div>
           </div>
 
-          {/* User Role */}
           <div className="mb-4">
             <label
               htmlFor="role"
