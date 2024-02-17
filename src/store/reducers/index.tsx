@@ -1,11 +1,15 @@
 // store/reducers/index.tsx
 import { combineReducers } from 'redux';
 // import userReducer from './userReducer';
-import productReducer from './productReducer';
+import productsReducer from './products/fetchproductsReducer';
+import productReducer from './products/fetchproductReducer';
+
 
 const rootReducer = combineReducers({
 //   user: userReducer,
   product: productReducer,
+  products: productsReducer,
+
   // Add other reducers as needed
 });
 

@@ -1,35 +1,12 @@
-import React, { useState } from "react";
-import { useQuery } from "@apollo/client";
-import { gql } from "graphql-tag";
-import { useRouter } from "next/router";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductRequest } from "../../../../../../actions/productActions";
+import { RootState } from "../../../../../../store/reducers";
+import { Product } from "../../../../../../types/product"; // Import the Product type
+
 import Link from "next/link";
+import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
-
-const GET_PRODUCT = gql`
-  query GetProduct($id: String!, $company: String!, $type: String!) {
-    product(id: $id, company: $company, type: $type) {
-      id
-      name
-      description
-      minimumQuantity
-      currentQuantity
-      reorderQuantity
-      costCurrent
-      costPrevious
-    }
-  }
-`;
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  minimumQuantity: number;
-  currentQuantity: number;
-  reorderQuantity: number;
-  costCurrent: number;
-  costPrevious: number;
-}
 
 const ProductDetail = () => {
   const router = useRouter();
@@ -37,9 +14,17 @@ const ProductDetail = () => {
   const { store } = router.query;
   const { productId } = router.query;
 
-  const { loading, error, data } = useQuery(GET_PRODUCT, {
-    variables: { id: productId, company: company, type: store },
-  });
+  const dispatch = useDispatch();
+  const product = useSelector((state: RootState) => state.product.data);
+  const loading = useSelector((state: RootState) => state.product.loading);
+  const error = useSelector((state: RootState) => state.product.error);
+
+  useEffect(() => {
+    if (company && store) {
+      dispatch(fetchProductRequest( productId as string, company as string, store as string));
+    }
+  }, [dispatch, company, store, productId]);
+
 
   if (loading)
     return (
@@ -59,7 +44,6 @@ const ProductDetail = () => {
       </Layout>
     );
 
-  const product: Product = data.product;
 
   if (!product) {
     return (

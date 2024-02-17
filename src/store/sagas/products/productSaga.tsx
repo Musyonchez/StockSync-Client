@@ -1,8 +1,9 @@
 // sagas/productSaga.tsx
 
-// productSaga.ts
 import { all, fork, takeEvery } from 'redux-saga/effects';
 import { fetchProductSaga } from './fetchProductSaga'; // Adjust the path accordingly
+import { fetchProductsSaga } from './fetchProductsSaga'; // Adjust the path accordingly
+
 
 
 
@@ -10,7 +11,9 @@ import { fetchProductSaga } from './fetchProductSaga'; // Adjust the path accord
   
 
 function* watchFetchProduct() {
+  yield takeEvery('FETCH_PRODUCTS_REQUEST', fetchProductsSaga.saga);
   yield takeEvery('FETCH_PRODUCT_REQUEST', fetchProductSaga.saga);
+
 }
 
 function* productSaga(): Generator {

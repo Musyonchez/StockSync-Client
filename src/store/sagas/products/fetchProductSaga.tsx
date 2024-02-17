@@ -4,41 +4,41 @@ import { call, put } from 'redux-saga/effects';
 import { fetchProductSuccess, fetchProductFailure } from '../../../actions/productActions';
 import { ApolloQueryResult } from '@apollo/client';
 import { apolloClient } from '../../../graphql/apolloclient';
-import { GET_ALL_PRODUCTS } from '../../../graphql/querys';
+import { GET_PRODUCT } from '../../../graphql/queries/fetchproductquery';
 import { Product } from '../../../types/product';
 
 interface ProductQueryResponse {
-  activeProducts: never[];
+  product: any;
   data: {
-    activeProducts: Product[];
+    product: Product; // Change to match the actual structure of your GraphQL response
   };
 }
 
 export const fetchProductSaga = {
-  saga: function* (action: { type: string, payload: { company: string, type: string } }) {
+  saga: function* (action: { type: string, payload: { id: string, company: string, type: string } }) {
     try {
-      const { company, type } = action.payload;
+      const { id, company, type } = action.payload;
       const response: ApolloQueryResult<ProductQueryResponse> = yield call(
         apolloClient.query,
         {
-          query: GET_ALL_PRODUCTS,
-          variables: { company, type },
+          query: GET_PRODUCT,
+          variables: { id, company, type },
         }
       );
 
       console.log('GraphQL Full Response:', response);
 
-      const products = response.data?.activeProducts || [];
+      const product = response.data?.product;
 
-      if (Array.isArray(products)) {
-        for (const product of products) {
-          yield put(fetchProductSuccess(product));
-        }
+      if (product) {
+        yield put(fetchProductSuccess(product));
       } else {
-        yield put(fetchProductFailure('Invalid response or products array'));
+        yield put(fetchProductFailure('Invalid response or product not found'));
       }
     } catch (error) {
+      console.error('Error in fetchProductSaga:', error);
       yield put(fetchProductFailure((error as Error).message));
     }
   },
 };
+
