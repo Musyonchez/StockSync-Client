@@ -6,7 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 
 const apolloClient = new ApolloClient({
-  uri: "https://stocksync-server.onrender.com/graphql/",
+  uri: "http://localhost:5000/graphql",
   cache: new InMemoryCache(),
 });
 

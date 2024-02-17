@@ -25,9 +25,9 @@ const LogoutPage: React.FC = () => {
   };
 
   return (
-    <>
+    <div className=" flex flex-col h-screen">
       <HorizontalNavbar />
-      <div className="dark:bg-gray-800 flex flex-col items-center justify-center">
+      <div className="dark:bg-gray-800 flex flex-col items-center justify-center h-full">
         <div className="bg-white dark:bg-gray-700 p-8 rounded-lg text-center">
           <p className="text-2xl font-semibold mb-4">Logout Confirmation</p>
           <p className="text-lg mb-4">
@@ -42,7 +42,7 @@ const LogoutPage: React.FC = () => {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -133,21 +133,21 @@ function ProductList() {
                   href={`${router.asPath}/${product.id}`}
                   className="text-blue-500"
                 >
-                  <strong>ID:</strong> {product.id}
+                  <strong>ID:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.id}</span>
                   <br />
-                  <strong>Name:</strong> {product.name}
+                  <strong>Name:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.name}</span>
                   <br />
-                  <strong>Description:</strong> {product.description}
+                  <strong>Description:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.description}</span>
                   <br />
-                  <strong>Minimum Quantity:</strong> {product.minimumQuantity}
+                  <strong>Minimum Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.minimumQuantity}</span>
                   <br />
-                  <strong>Current Quantity:</strong> {product.currentQuantity}
+                  <strong>Current Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.currentQuantity}</span>
                   <br />
-                  <strong>Reorder Quantity:</strong> {product.reorderQuantity}
+                  <strong>Reorder Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.reorderQuantity}</span>
                   <br />
-                  <strong>Current Cost:</strong> {product.costCurrent}
+                  <strong>Current Cost:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.costCurrent}</span>
                   <br />
-                  <strong>Previous Cost:</strong> {product.costPrevious}
+                  <strong>Previous Cost:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.costPrevious}</span>
                 </Link>
               </li>
             ))}
@@ -163,24 +163,21 @@ function ProductList() {
                   href={`${router.asPath}/${inactiveproduct.id}`}
                   className="text-blue-500"
                 >
-                  <strong>ID:</strong> {inactiveproduct.id}
+                 <strong>ID:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.id}</span>
                   <br />
-                  <strong>Name:</strong> {inactiveproduct.name}
+                  <strong>Name:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.name}</span>
                   <br />
-                  <strong>Description:</strong> {inactiveproduct.description}
+                  <strong>Description:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.description}</span>
                   <br />
-                  <strong>Minimum Quantity:</strong>{" "}
-                  {inactiveproduct.minimumQuantity}
+                  <strong>Minimum Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.minimumQuantity}</span>
                   <br />
-                  <strong>Current Quantity:</strong>{" "}
-                  {inactiveproduct.currentQuantity}
+                  <strong>Current Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.currentQuantity}</span>
                   <br />
-                  <strong>Reorder Quantity:</strong>{" "}
-                  {inactiveproduct.reorderQuantity}
+                  <strong>Reorder Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.reorderQuantity}</span>
                   <br />
-                  <strong>Current Cost:</strong> {inactiveproduct.costCurrent}
+                  <strong>Current Cost:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.costCurrent}</span>
                   <br />
-                  <strong>Previous Cost:</strong> {inactiveproduct.costPrevious}
+                  <strong>Previous Cost:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.costPrevious}</span>
                 </Link>
               </li>
             ))}

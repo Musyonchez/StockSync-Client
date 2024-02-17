@@ -108,7 +108,7 @@ const ContactForm = () => {
         </div>
       </div>
 
-      <div className="flex md:hidden flex-col items-center justify-center px-4">
+      <div className="flex md:hidden flex-col items-center h-full my-auto justify-between px-4">
         <h1 className="font-extrabold text-3xl mb-4 text-emerald-500">
           Your Feedback
         </h1>

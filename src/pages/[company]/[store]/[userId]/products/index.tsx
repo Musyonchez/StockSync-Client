@@ -88,7 +88,7 @@ function ProductList() {
 
   return (
     <Layout>
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">Products List</h2>
         </div>
@@ -101,21 +101,21 @@ function ProductList() {
                   href={`${router.asPath}/${product.id}`}
                   className="text-blue-500"
                 >
-                  <strong>ID:</strong> {product.id}
+                  <strong>ID:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.id}</span>
                   <br />
-                  <strong>Name:</strong> {product.name}
+                  <strong>Name:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.name}</span>
                   <br />
-                  <strong>Description:</strong> {product.description}
+                  <strong>Description:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.description}</span>
                   <br />
-                  <strong>Minimum Quantity:</strong> {product.minimumQuantity}
+                  <strong>Minimum Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.minimumQuantity}</span>
                   <br />
-                  <strong>Current Quantity:</strong> {product.currentQuantity}
+                  <strong>Current Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.currentQuantity}</span>
                   <br />
-                  <strong>Reorder Quantity:</strong> {product.reorderQuantity}
+                  <strong>Reorder Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.reorderQuantity}</span>
                   <br />
-                  <strong>Current Cost:</strong> {product.costCurrent}
+                  <strong>Current Cost:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.costCurrent}</span>
                   <br />
-                  <strong>Previous Cost:</strong> {product.costPrevious}
+                  <strong>Previous Cost:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.costPrevious}</span>
                 </Link>
               </li>
             ))}

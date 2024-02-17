@@ -42,14 +42,14 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <>
+    <div className=" flex flex-col h-screen">
       <HorizontalNavbar />
-      <div className="dark:bg-gray-800 flex flex-col items-center justify-center">
+      <div className="flex-grow dark:bg-gray-800 flex items-center justify-center">
         <form
           onSubmit={handleSubmit}
-          className="mx-auto bg-white dark:bg-gray-700 p-8 rounded-lg w-full sm:w-96"
+          className="bg-white dark:bg-gray-700 p-8 rounded-lg w-full h-full flex flex-col justify-center items-center"
         >
-          <label className="block text-sm font-medium text-gray-700 dark:text-white">
+          <label className=" flex flex-col text-sm font-medium text-gray-700 dark:text-white w-full sm:w-96">
             Email:
             <input
               type="text"
@@ -59,8 +59,8 @@ const LoginPage: React.FC = () => {
               className="mt-1 p-2 border dark:border-gray-600 rounded-md w-full sm:w-96"
             />
           </label>
-          <br />
-          <label className="block text-sm font-medium text-gray-700 dark:text-white">
+          <br/>
+          <label className=" flex flex-col text-sm font-medium text-gray-700 dark:text-white w-full sm:w-96">
             Company:
             <input
               type="text"
@@ -70,8 +70,8 @@ const LoginPage: React.FC = () => {
               className="mt-1 p-2 border dark:border-gray-600 rounded-md w-full sm:w-96"
             />
           </label>
-          <br />
-          <label className="block text-sm font-medium text-gray-700 dark:text-white">
+          <br/>
+          <label className=" flex flex-col text-sm font-medium text-gray-700 dark:text-white w-full sm:w-96">
             Password:
             <input
               type="password"
@@ -81,7 +81,7 @@ const LoginPage: React.FC = () => {
               className="mt-1 p-2 border dark:border-gray-600 rounded-md w-full sm:w-96"
             />
           </label>
-          <br />
+          <br/>
           <button
             type="submit"
             className="mt-4 p-2 bg-emerald-500 text-white rounded-md dark:bg-emerald-700 w-full sm:w-96"
@@ -90,7 +90,7 @@ const LoginPage: React.FC = () => {
           </button>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

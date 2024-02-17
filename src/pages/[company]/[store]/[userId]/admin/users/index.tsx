@@ -124,25 +124,25 @@ function UserList() {
                   href={`${router.asPath}/${user.id}`}
                   className="text-blue-500"
                 >
-                  <strong>ID:</strong> {user.id}
+                  <strong>ID:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.id}</span>
                   <br />
-                  <strong>First Name:</strong> {user.firstName}
+                  <strong>First Name:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.firstName}</span>
                   <br />
-                  <strong>Last Name:</strong> {user.lastName}
+                  <strong>Last Name:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.lastName}</span>
                   <br />
-                  <strong>Age:</strong> {user.age}
+                  <strong>Age:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.age}</span>
                   <br />
-                  <strong>Email:</strong> {user.email}
+                  <strong>Email:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.email}</span>
                   <br />
-                  <strong>Store 1:</strong> {user.store1 ? "Yes" : "No"}
+                  <strong>Store 1:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.store1 ? "Yes" : "No"}</span>
                   <br />
-                  <strong>Store 2:</strong> {user.store2 ? "Yes" : "No"}
+                  <strong>Store 2:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.store2 ? "Yes" : "No"}</span>
                   <br />
-                  <strong>Store 3:</strong> {user.store3 ? "Yes" : "No"}
+                  <strong>Store 3:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.store3 ? "Yes" : "No"}</span>
                   <br />
-                  <strong>Store 4:</strong> {user.store4 ? "Yes" : "No"}
+                  <strong>Store 4:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.store4 ? "Yes" : "No"}</span>
                   <br />
-                  <strong>Role:</strong> {user.role}
+                  <strong>Role:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.role}</span>
                 </Link>
               </li>
             ))}

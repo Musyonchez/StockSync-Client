@@ -16,6 +16,7 @@ const GET_PRODUCT = gql`
       reorderQuantity
       costCurrent
       costPrevious
+      active
     }
   }
 `;
@@ -23,6 +24,14 @@ const GET_PRODUCT = gql`
 const DEACTIVATE_PRODUCT = gql`
   mutation DeactivateProduct($id: String!, $company: String!, $type: String!) {
     deactivateProduct(id: $id, company: $company, type: $type) {
+      id
+    }
+  }
+`;
+
+const DELETE_PRODUCT = gql`
+  mutation DeleteProduct($id: String!, $company: String!, $type: String!) {
+    deleteProduct(id: $id, company: $company, type: $type) {
       id
     }
   }
@@ -37,16 +46,20 @@ interface Product {
   reorderQuantity: number;
   costCurrent: number;
   costPrevious: number;
+  active: boolean;
 }
 
 const ProductDetail = () => {
   const [deactivateProduct] = useMutation(DEACTIVATE_PRODUCT);
+  const [deleteProduct] = useMutation(DELETE_PRODUCT);
   const router = useRouter();
   const { company } = router.query;
   const { store } = router.query;
   const { productId } = router.query;
   const { pathname, query } = router;
-  const [isButtonActive, setIsButtonActive] = useState(true);
+  const [isActiveButtonActive, setIsActiveButtonActive] = useState(true);
+  const [isDeleteButtonActive, setIsDeleteButtonActive] = useState(true);
+
 
   const { loading, error, data } = useQuery(GET_PRODUCT, {
     variables: { id: productId, company: company, type: store },
@@ -82,8 +95,8 @@ const ProductDetail = () => {
     );
   }
 
-  const handleDelete = async () => {
-    setIsButtonActive(false);
+  const handleDeactivate = async () => {
+    setIsActiveButtonActive(false);
 
     try {
       const { data } = await deactivateProduct({
@@ -96,9 +109,41 @@ const ProductDetail = () => {
       router.push(`/${company}/${store}/${userId}/admin/products/`).then(() => {
         window.location.reload();
       });
+    } catch (error) {}
+  };
 
-    } catch (error) {
-    }
+  const handleDelete = async () => {
+    setIsDeleteButtonActive(false);
+
+    try {
+      const { data } = await deleteProduct({
+        variables: { id: productId, company: company, type: store },
+      });
+
+      const userId = query.userId;
+
+      // Use router.push to navigate to the new URL structure
+      router.push(`/${company}/${store}/${userId}/admin/products/`).then(() => {
+        window.location.reload();
+      });
+    } catch (error) {}
+  };
+
+  const handleActivate = async () => {
+    setIsActiveButtonActive(false);
+
+    try {
+      const { data } = await deactivateProduct({
+        variables: { id: productId, company: company, type: store },
+      });
+
+      const userId = query.userId;
+
+      // Use router.push to navigate to the new URL structure
+      router.push(`/${company}/${store}/${userId}/admin/products/`).then(() => {
+        window.location.reload();
+      });
+    } catch (error) {}
   };
 
   return (
@@ -111,16 +156,39 @@ const ProductDetail = () => {
               <Link href={`${router.asPath}/editproduct`}>Edit</Link>
             </button>
             <button
-              onClick={handleDelete}
+              onClick={product.active ? handleDeactivate : handleActivate}
               className={`${
-                isButtonActive
-                  ? "bg-red-500 hover:bg-red-600"
+                product.active
+                  ? isActiveButtonActive
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-gray-400 cursor-not-allowed"
+                  : isActiveButtonActive
+                  ? "bg-green-500 hover:bg-green-600"
                   : "bg-gray-400 cursor-not-allowed"
               } text-white px-4 py-2 rounded`}
-              disabled={!isButtonActive}
+              disabled={!isActiveButtonActive}
             >
-              {isButtonActive ? "Deactivate" : "Deactivating..."}
+              {product.active
+                ? isActiveButtonActive
+                  ? "Deactivate"
+                  : "Deactivating..."
+                : isActiveButtonActive
+                ? "Activate"
+                : "Activating"}
             </button>
+            {!product.active && (
+              <button
+                onClick={handleDelete}
+                className={`${
+                  isDeleteButtonActive
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-gray-400 cursor-not-allowed"
+                } text-white px-4 py-2 rounded`}
+                disabled={!isDeleteButtonActive}
+              >
+                {isDeleteButtonActive ? "Delete" : "Deleting..."}
+              </button>
+            )}
           </span>
         </div>
         <div className="bg-white dark:bg-gray-800 p-4 border rounded">

@@ -76,6 +76,7 @@ const EditUser = () => {
   const [editUser] = useMutation(EDIT_USER);
   const router = useRouter();
   const { userId } = router.query;
+  const { userID } = router.query;
   const { company } = router.query;
   const { store } = router.query;
 
@@ -89,7 +90,7 @@ const EditUser = () => {
   const [role, setRole] = useState("USER");
 
   const { loading, error, data } = useQuery(GET_USER, {
-    variables: { id: userId, company: company, type: "users" },
+    variables: { id: userID, company: company, type: "users" },
   });
 
   if (loading)

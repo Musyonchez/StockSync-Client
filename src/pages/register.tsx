@@ -17,16 +17,16 @@ const RegisterPage: React.FC = () => {
   }, [session, isClient]);
 
   return (
-    <>
+    <div className=" flex flex-col h-screen">
       <HorizontalNavbar />
-      <div className="dark:bg-gray-800 flex flex-col items-center justify-center">
+      <div className="dark:bg-gray-800 flex flex-col items-center justify-center h-full">
         <div className="bg-white dark:bg-gray-700 p-8 rounded-lg text-center">
           <p className="text-2xl font-semibold mb-4">
             Registration is not available.
           </p>
           <p className="text-lg mb-4">
             Unfortunately, you cannot register yourself. If you have an account,
-            please
+            please{" "}
             <Link
               href="/login"
               className="text-emerald-500 dark:text-emerald-400 underline"
@@ -40,7 +40,7 @@ const RegisterPage: React.FC = () => {
             administrator or supervisor.
           </p>
           <p className="text-lg mb-4">
-            If you are a business owner, please contact us at
+            If you are a business owner, please contact us at{" "}
             <Link
               href="/contact"
               className="text-emerald-500 dark:text-emerald-400 underline"
@@ -51,7 +51,7 @@ const RegisterPage: React.FC = () => {
           </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

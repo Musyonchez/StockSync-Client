@@ -137,7 +137,7 @@ const Index = () => {
                 Company:
               </strong>
               <p className="text-gray-800 dark:text-gray-300 capitalize">
-                {session?.user?.company}
+                {user?.company}
               </p>
             </div>
             <div className="sm:col-span-2 md:col-span-1">
