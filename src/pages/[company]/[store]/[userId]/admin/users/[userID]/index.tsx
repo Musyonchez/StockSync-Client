@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserRequest } from "../../../../../../../actions/userActions";
-import { RootState } from "../../../../../../../store/reducers";
+import { RootState } from "../../../../../../../store/reducers/reducers";
 import Link from "next/link";
 
 import { useRouter } from "next/router";

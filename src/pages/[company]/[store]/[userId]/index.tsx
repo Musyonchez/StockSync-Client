@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserRequest } from "../../../../actions/userActions";
-import { RootState } from "../../../../store/reducers";
+import { RootState } from "../../../../store/reducers/reducers";
 import Link from "next/link";
 
 

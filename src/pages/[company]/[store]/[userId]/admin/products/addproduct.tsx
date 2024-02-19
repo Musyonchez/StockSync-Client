@@ -1,49 +1,54 @@
-import React, { useState } from "react";
-import { gql, useMutation } from "@apollo/client";
-import Layout from "@/components/DynamicSaasPages/Layout";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addProductRequest } from "../../../../../../actions/products/addProduct";
+import { RootState } from "../../../../../../store/reducers/reducers";
+import { Product } from "../../../../../../types/product"; // Import the Product type
 
-const ADD_PRODUCT = gql`
-  mutation AddProduct(
-    $name: String!
-    $description: String!
-    $minimumQuantity: Float!
-    $currentQuantity: Float!
-    $reorderQuantity: Float!
-    $costCurrent: Float!
-    $costPrevious: Float!
-    $company: String!
-    $type: String!
-  ) {
-    addProduct(
-      name: $name
-      description: $description
-      minimumQuantity: $minimumQuantity
-      currentQuantity: $currentQuantity
-      reorderQuantity: $reorderQuantity
-      costCurrent: $costCurrent
-      costPrevious: $costPrevious
-      company: $company
-      type: $type
-    ) {
-      id
-      name
-      description
-      minimumQuantity
-      currentQuantity
-      reorderQuantity
-      costCurrent
-      costPrevious
-      active
-    }
-  }
-`;
+import Link from "next/link";
+import { useRouter } from "next/router";
+import Layout from "@/components/DynamicSaasPages/Layout";
+
+// const ADD_PRODUCT = gql`
+//   mutation AddProduct(
+//     $name: String!
+//     $description: String!
+//     $minimumQuantity: Float!
+//     $currentQuantity: Float!
+//     $reorderQuantity: Float!
+//     $costCurrent: Float!
+//     $costPrevious: Float!
+//     $company: String!
+//     $type: String!
+//   ) {
+//     addProduct(
+//       name: $name
+//       description: $description
+//       minimumQuantity: $minimumQuantity
+//       currentQuantity: $currentQuantity
+//       reorderQuantity: $reorderQuantity
+//       costCurrent: $costCurrent
+//       costPrevious: $costPrevious
+//       company: $company
+//       type: $type
+//     ) {
+//       id
+//       name
+//       description
+//       minimumQuantity
+//       currentQuantity
+//       reorderQuantity
+//       costCurrent
+//       costPrevious
+//       active
+//     }
+//   }
+// `;
 
 const AddProduct = () => {
-  const [addProduct] = useMutation(ADD_PRODUCT);
+  // const [addProduct] = useMutation(ADD_PRODUCT);
   const router = useRouter();
-  const { company } = router.query;
-  const { store } = router.query;
+  const company = router.query?.company as string; // Ensure company is always a string
+  const store = router.query?.store as string;
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -53,12 +58,17 @@ const AddProduct = () => {
   const [costCurrent, setCostCurrent] = useState(0);
   const [costPrevious, setCostPrevious] = useState(0);
 
+  const dispatch = useDispatch();
+  const product = useSelector((state: RootState) => state.product.data);
+  const loading = useSelector((state: RootState) => state.product.loading);
+  const error = useSelector((state: RootState) => state.product.error);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const { data } = await addProduct({
-        variables: {
+      dispatch(
+        addProductRequest(
           name,
           description,
           minimumQuantity,
@@ -66,10 +76,15 @@ const AddProduct = () => {
           reorderQuantity,
           costCurrent,
           costPrevious,
-          company: company,
-          type: store,
-        },
-      });
+          company,
+          store // Assuming 'store' is the correct variable for the product type
+        )
+      );
+      
+        // _ is used to indicate that 'data' is intentionally not used yet, but may be used later.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // const _ = data;
+
 
       setName("");
       setDescription("");
@@ -79,7 +94,9 @@ const AddProduct = () => {
       setCostCurrent(0);
       setCostPrevious(0);
 
+      // Handle success if needed
     } catch (error) {
+      // Handle error if needed
     }
   };
 

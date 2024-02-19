@@ -7,7 +7,7 @@ import Layout from "@/components/DynamicSaasPages/Layout";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductRequest } from "../../../../../../../actions/products/fetchProduct";
-import { RootState } from "../../../../../../../store/reducers";
+import { RootState } from "../../../../../../../store/reducers/reducers";
 import { Product } from "../../../../../../../types/product"; // Import the Product type
 
 

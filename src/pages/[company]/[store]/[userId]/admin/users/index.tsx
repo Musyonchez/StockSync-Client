@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsersRequest } from "../../../../../../actions/userActions";
-import { RootState } from "../../../../../../store/reducers";
+import { RootState } from "../../../../../../store/reducers/reducers";
 import Link from "next/link";
 import { Users } from "../../../../../../types/user"; // Import the Product type
 

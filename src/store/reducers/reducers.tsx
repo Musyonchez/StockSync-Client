@@ -4,18 +4,38 @@ import { combineReducers } from "redux";
 import productsReducer from "./products/fetchproductsReducer";
 import activeproductsReducer from "./products/fetchactiveproductsReducer";
 import productReducer from "./products/fetchproductReducer";
+import addproductReducer from "./products/addproductReducer";
+
+
+
+
+
+
 import userReducer from "./users/fetchuserReducer";
 import usersReducer from "./users/fetchusersReducer";
 
 
 const rootReducer = combineReducers({
-  //   user: userReducer,
-  user: userReducer,
-  users: usersReducer,
   product: productReducer,
+  addproduct: addproductReducer,
   activeproducts: activeproductsReducer,
   products: productsReducer,
+  
 
+
+
+
+
+
+
+
+
+
+
+
+  
+  user: userReducer,
+  users: usersReducer,
   // Add other reducers as needed
 });
 
