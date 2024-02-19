@@ -1,56 +1,28 @@
-import React from "react";
-import { useQuery } from "@apollo/client";
-import { gql } from "graphql-tag";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductsRequest } from "../../../../../../actions/products/fetchProducts";
+import { RootState } from "../../../../../../store/reducers";
+import { Product } from "../../../../../../types/product"; // Import the Product type
+
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
-
-const GET_ALL_PRODUCTS = gql`
-  query GetProduct($company: String!, $type: String!) {
-    activeProducts(company: $company, type: $type) {
-      id
-      name
-      description
-      minimumQuantity
-      currentQuantity
-      reorderQuantity
-      costCurrent
-      costPrevious
-      active
-    }
-    inactiveProducts(company: $company, type: $type) {
-      id
-      name
-      description
-      minimumQuantity
-      currentQuantity
-      reorderQuantity
-      costCurrent
-      costPrevious
-      active
-    }
-  }
-`;
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  minimumQuantity: number;
-  currentQuantity: number;
-  reorderQuantity: number;
-  costCurrent: number;
-  costPrevious: number;
-}
 
 function ProductList() {
   const router = useRouter();
   const { company } = router.query;
   const { store } = router.query;
 
-  const { loading, error, data } = useQuery(GET_ALL_PRODUCTS, {
-    variables: { company: company, type: store },
-  });
+  const dispatch = useDispatch();
+  const products = useSelector((state: RootState) => state.products.data);
+  const loading = useSelector((state: RootState) => state.products.loading);
+  const error = useSelector((state: RootState) => state.products.error);
+
+  useEffect(() => {
+    if (company && store) {
+      dispatch(fetchProductsRequest(company as string, store as string));
+    }
+  }, [dispatch, company, store]);
 
   if (loading)
     return (
@@ -90,7 +62,7 @@ function ProductList() {
       </Layout>
     );
 
-  if (!data) {
+  if (!products) {
     return (
       <Layout>
         <div className="container mx-auto p-4">
@@ -110,9 +82,6 @@ function ProductList() {
     );
   }
 
-  const activeProducts: Product[] = data.activeProducts;
-  const inactiveProducts: Product[] = data.inactiveProducts;
-
   return (
     <Layout>
       <div className="container mx-auto p-4">
@@ -124,65 +93,137 @@ function ProductList() {
             </button>
           </span>
         </div>
+        {products.length > 0 && (
+          <>
+            <div>
+              <ul>
+                {products
+                  .filter((product) => product.active)
+                  .map((product) => (
+                    <li key={product.id} className="mb-4 p-4 border rounded">
+                      <Link
+                        href={`${router.asPath}/${product.id}`}
+                        className="text-blue-500"
+                      >
+                        <strong>ID:</strong> <br className=" sm:hidden" />{" "}
+                        <span className=" text-black">{product.id}</span>
+                        <br />
+                        <strong>
+                          Name:
+                        </strong> <br className=" sm:hidden" />{" "}
+                        <span className=" text-black">{product.name}</span>
+                        <br />
+                        <strong>Description:</strong>{" "}
+                        <br className=" sm:hidden" />{" "}
+                        <span className=" text-black">
+                          {product.description}
+                        </span>
+                        <br />
+                        <strong>Minimum Quantity:</strong>{" "}
+                        <br className=" sm:hidden" />{" "}
+                        <span className=" text-black">
+                          {product.minimumQuantity}
+                        </span>
+                        <br />
+                        <strong>Current Quantity:</strong>{" "}
+                        <br className=" sm:hidden" />{" "}
+                        <span className=" text-black">
+                          {product.currentQuantity}
+                        </span>
+                        <br />
+                        <strong>Reorder Quantity:</strong>{" "}
+                        <br className=" sm:hidden" />{" "}
+                        <span className=" text-black">
+                          {product.reorderQuantity}
+                        </span>
+                        <br />
+                        <strong>Current Cost:</strong>{" "}
+                        <br className=" sm:hidden" />{" "}
+                        <span className=" text-black">
+                          {product.costCurrent}
+                        </span>
+                        <br />
+                        <strong>Previous Cost:</strong>{" "}
+                        <br className=" sm:hidden" />{" "}
+                        <span className=" text-black">
+                          {product.costPrevious}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </div>
 
-        <div>
-          <ul>
-            {activeProducts.map((product) => (
-              <li key={product.id} className="mb-4 p-4 border rounded">
-                <Link
-                  href={`${router.asPath}/${product.id}`}
-                  className="text-blue-500"
-                >
-                  <strong>ID:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.id}</span>
-                  <br />
-                  <strong>Name:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.name}</span>
-                  <br />
-                  <strong>Description:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.description}</span>
-                  <br />
-                  <strong>Minimum Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.minimumQuantity}</span>
-                  <br />
-                  <strong>Current Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.currentQuantity}</span>
-                  <br />
-                  <strong>Reorder Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.reorderQuantity}</span>
-                  <br />
-                  <strong>Current Cost:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.costCurrent}</span>
-                  <br />
-                  <strong>Previous Cost:</strong> <br className=" sm:hidden"/> <span className=" text-black">{product.costPrevious}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          {inactiveProducts.length > 0 && <h2>Deactivated</h2>}
-          <ul>
-            {inactiveProducts.map((inactiveproduct) => (
-              <li key={inactiveproduct.id} className="mb-4 p-4 border rounded">
-                <Link
-                  href={`${router.asPath}/${inactiveproduct.id}`}
-                  className="text-blue-500"
-                >
-                 <strong>ID:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.id}</span>
-                  <br />
-                  <strong>Name:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.name}</span>
-                  <br />
-                  <strong>Description:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.description}</span>
-                  <br />
-                  <strong>Minimum Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.minimumQuantity}</span>
-                  <br />
-                  <strong>Current Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.currentQuantity}</span>
-                  <br />
-                  <strong>Reorder Quantity:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.reorderQuantity}</span>
-                  <br />
-                  <strong>Current Cost:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.costCurrent}</span>
-                  <br />
-                  <strong>Previous Cost:</strong> <br className=" sm:hidden"/> <span className=" text-black">{inactiveproduct.costPrevious}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+            <div>
+              <ul>
+                {products
+                  .filter((product) => !product.active)
+                  .map((inactiveproduct) => (
+                    <>
+                      <h2>Deactivated</h2>
+                      <li
+                        key={inactiveproduct.id}
+                        className="mb-4 p-4 border rounded"
+                      >
+                        <Link
+                          href={`${router.asPath}/${inactiveproduct.id}`}
+                          className="text-blue-500"
+                        >
+                          <strong>ID:</strong> <br className=" sm:hidden" />{" "}
+                          <span className=" text-black">
+                            {inactiveproduct.id}
+                          </span>
+                          <br />
+                          <strong>
+                            Name:
+                          </strong> <br className=" sm:hidden" />{" "}
+                          <span className=" text-black">
+                            {inactiveproduct.name}
+                          </span>
+                          <br />
+                          <strong>Description:</strong>{" "}
+                          <br className=" sm:hidden" />{" "}
+                          <span className=" text-black">
+                            {inactiveproduct.description}
+                          </span>
+                          <br />
+                          <strong>Minimum Quantity:</strong>{" "}
+                          <br className=" sm:hidden" />{" "}
+                          <span className=" text-black">
+                            {inactiveproduct.minimumQuantity}
+                          </span>
+                          <br />
+                          <strong>Current Quantity:</strong>{" "}
+                          <br className=" sm:hidden" />{" "}
+                          <span className=" text-black">
+                            {inactiveproduct.currentQuantity}
+                          </span>
+                          <br />
+                          <strong>Reorder Quantity:</strong>{" "}
+                          <br className=" sm:hidden" />{" "}
+                          <span className=" text-black">
+                            {inactiveproduct.reorderQuantity}
+                          </span>
+                          <br />
+                          <strong>Current Cost:</strong>{" "}
+                          <br className=" sm:hidden" />{" "}
+                          <span className=" text-black">
+                            {inactiveproduct.costCurrent}
+                          </span>
+                          <br />
+                          <strong>Previous Cost:</strong>{" "}
+                          <br className=" sm:hidden" />{" "}
+                          <span className=" text-black">
+                            {inactiveproduct.costPrevious}
+                          </span>
+                        </Link>
+                      </li>
+                    </>
+                  ))}
+              </ul>
+            </div>
+          </>
+        )}
       </div>
     </Layout>
   );
