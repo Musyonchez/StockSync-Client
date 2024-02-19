@@ -1,25 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { gql } from "graphql-tag";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-const GET_PRODUCT = gql`
-  query GetProduct($id: String!, $company: String!, $type: String!) {
-    product(id: $id, company: $company, type: $type) {
-      id
-      name
-      description
-      minimumQuantity
-      currentQuantity
-      reorderQuantity
-      costCurrent
-      costPrevious
-      active
-    }
-  }
-`;
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductRequest } from "../../../../../../../actions/products/fetchProduct";
+import { RootState } from "../../../../../../../store/reducers";
+import { Product } from "../../../../../../../types/product"; // Import the Product type
+
+
+
 
 const DEACTIVATE_PRODUCT = gql`
   mutation DeactivateProduct($id: String!, $company: String!, $type: String!) {
@@ -37,17 +29,6 @@ const DELETE_PRODUCT = gql`
   }
 `;
 
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  minimumQuantity: number;
-  currentQuantity: number;
-  reorderQuantity: number;
-  costCurrent: number;
-  costPrevious: number;
-  active: boolean;
-}
 
 const ProductDetail = () => {
   const [deactivateProduct] = useMutation(DEACTIVATE_PRODUCT);
@@ -61,9 +42,17 @@ const ProductDetail = () => {
   const [isDeleteButtonActive, setIsDeleteButtonActive] = useState(true);
 
 
-  const { loading, error, data } = useQuery(GET_PRODUCT, {
-    variables: { id: productId, company: company, type: store },
-  });
+  const dispatch = useDispatch();
+  const product = useSelector((state: RootState) => state.product.data);
+  const loading = useSelector((state: RootState) => state.product.loading);
+  const error = useSelector((state: RootState) => state.product.error);
+
+  useEffect(() => {
+    if (company && store) {
+      dispatch(fetchProductRequest( productId as string, company as string, store as string));
+    }
+  }, [dispatch, company, store, productId]);
+
 
   if (loading)
     return (
@@ -83,7 +72,6 @@ const ProductDetail = () => {
       </Layout>
     );
 
-  const product: Product = data.product;
 
   if (!product) {
     return (
