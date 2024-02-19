@@ -2,26 +2,13 @@ import Layout from "@/components/DynamicSaasPages/Layout";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useQuery, gql } from "@apollo/client";
+
+import { useDispatch, useSelector } from "react-redux";
+import { fetchuserRequest } from "../../../../actions/userActions";
+import { RootState } from "../../../../store/reducers";
 import Link from "next/link";
 
-const GET_USER = gql`
-  query GetUser($id: String!, $company: String!, $type: String!) {
-    user(id: $id, company: $company, type: $type) {
-      id
-      firstName
-      lastName
-      age
-      email
-      store1
-      store2
-      store3
-      store4
-      role
-      company
-    }
-  }
-`;
+
 
 const Index = () => {
   const router = useRouter();
@@ -31,9 +18,11 @@ const Index = () => {
   const { userId } = router.query;
   const [greeting, setGreeting] = useState("");
 
-  const { loading, error, data } = useQuery(GET_USER, {
-    variables: { id: userId, company: company, type: "users" },
-  });
+  const dispatch = useDispatch();
+
+  const user = useSelector((state: RootState) => state.user.data);
+  const loading = useSelector((state: RootState) => state.user.loading);
+  const error = useSelector((state: RootState) => state.user.error);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -44,9 +33,15 @@ const Index = () => {
     } else {
       setGreeting("Good evening");
     }
-  }, []);
 
-  const user = data?.user;
+    if (company && store) {
+      dispatch(
+        fetchuserRequest(userId as string, company as string, store as string)
+      );
+    }
+
+  }, [dispatch, company, store, userId]);
+
 
   return (
     <Layout>

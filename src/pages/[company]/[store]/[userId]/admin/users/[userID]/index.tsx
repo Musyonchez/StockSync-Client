@@ -3,16 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchuserRequest } from "../../../../../../../actions/userActions";
 import { RootState } from "../../../../../../../store/reducers";
 import Link from "next/link";
-import { Users } from "../../../../../../../types/user"; // Import the Product type
 
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
 import { useMutation, useQuery } from "@apollo/client";
 import { gql } from "graphql-tag";
-
-
-
 
 const DELETE_USER = gql`
   mutation DeleteUser($id: String!, $company: String!, $type: String!) {
@@ -50,19 +46,16 @@ const UserDetail = () => {
   const loading = useSelector((state: RootState) => state.user.loading);
   const error = useSelector((state: RootState) => state.user.error);
 
-  
   useEffect(() => {
     if (userId === userID) {
       router.push(`/${company}/${store}/${userId}/admin/users`);
     }
     if (company && store) {
-      dispatch(fetchuserRequest( userID as string, company as string, store as string));
+      dispatch(
+        fetchuserRequest(userID as string, company as string, store as string)
+      );
     }
   }, [dispatch, company, store, userID]);
-
-
-
-
 
   if (loading)
     return (
@@ -81,7 +74,6 @@ const UserDetail = () => {
         </div>
       </Layout>
     );
-
 
   if (!user) {
     return (
@@ -104,9 +96,7 @@ const UserDetail = () => {
       router.push(`/${company}/${store}/${userId}/admin/users`).then(() => {
         window.location.reload();
       });
-
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   return (
