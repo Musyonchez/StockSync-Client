@@ -1,7 +1,7 @@
 // sagas/fetchUsersSaga.ts
 
 import { call, put } from 'redux-saga/effects';
-import { fetchusersSuccess, fetchusersFailure } from '../../../actions/userActions';
+import { fetchUsersSuccess, fetchUsersFailure } from '../../../actions/userActions';
 import { ApolloQueryResult } from '@apollo/client';
 import { apolloClient } from '../../../graphql/apolloclient';
 import { GET_ALL_USERS } from '../../../graphql/queries/users/fetchusersquery';
@@ -32,13 +32,13 @@ export const fetchUsersSaga = {
 
       if (Array.isArray(users)) {
         for (const product of users) {
-          yield put(fetchusersSuccess(product));
+          yield put(fetchUsersSuccess(product));
         }
       } else {
-        yield put(fetchusersFailure('Invalid response or products array'));
+        yield put(fetchUsersFailure('Invalid response or products array'));
       }
     } catch (error) {
-      yield put(fetchusersFailure((error as Error).message));
+      yield put(fetchUsersFailure((error as Error).message));
     }
   },
 };

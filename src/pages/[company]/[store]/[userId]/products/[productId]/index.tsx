@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductRequest } from "../../../../../../actions/productActions";
+import { fetchProductRequest } from "../../../../../../actions/products/fetchProduct";
 import { RootState } from "../../../../../../store/reducers";
 import { Product } from "../../../../../../types/product"; // Import the Product type
 

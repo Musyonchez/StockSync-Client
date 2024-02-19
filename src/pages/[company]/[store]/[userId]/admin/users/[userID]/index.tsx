@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchuserRequest } from "../../../../../../../actions/userActions";
+import { fetchUserRequest } from "../../../../../../../actions/userActions";
 import { RootState } from "../../../../../../../store/reducers";
 import Link from "next/link";
 
@@ -52,7 +52,7 @@ const UserDetail = () => {
     }
     if (company && store) {
       dispatch(
-        fetchuserRequest(userID as string, company as string, store as string)
+        fetchUserRequest(userID as string, company as string, store as string)
       );
     }
   }, [dispatch, company, store, userID]);

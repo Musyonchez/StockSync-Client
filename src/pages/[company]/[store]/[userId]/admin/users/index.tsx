@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchusersRequest } from "../../../../../../actions/userActions";
+import { fetchUsersRequest } from "../../../../../../actions/userActions";
 import { RootState } from "../../../../../../store/reducers";
 import Link from "next/link";
 import { Users } from "../../../../../../types/user"; // Import the Product type
@@ -21,7 +21,7 @@ const UserList: React.FC = () => {
 
   useEffect(() => {
     if (company && store) {
-      dispatch(fetchusersRequest(company as string, store as string));
+      dispatch(fetchUsersRequest(company as string, store as string));
     }
   }, [dispatch, company, store]);
 

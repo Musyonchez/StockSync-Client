@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchuserRequest } from "../../../../actions/userActions";
+import { fetchUserRequest } from "../../../../actions/userActions";
 import { RootState } from "../../../../store/reducers";
 import Link from "next/link";
 
@@ -36,7 +36,7 @@ const Index = () => {
 
     if (company && store) {
       dispatch(
-        fetchuserRequest(userId as string, company as string, store as string)
+        fetchUserRequest(userId as string, company as string, store as string)
       );
     }
 

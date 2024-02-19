@@ -1,7 +1,7 @@
 // store/reducers/index.tsx
 import { combineReducers } from "redux";
 // import userReducer from './userReducer';
-import productsReducer from "./products/fetchproductsReducer";
+import activeproductsReducer from "./products/fetchactiveproductsReducer";
 import productReducer from "./products/fetchproductReducer";
 import userReducer from "./users/fetchuserReducer";
 import usersReducer from "./users/fetchusersReducer";
@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   users: usersReducer,
   product: productReducer,
-  products: productsReducer,
+  activeproducts: activeproductsReducer,
 
   // Add other reducers as needed
 });

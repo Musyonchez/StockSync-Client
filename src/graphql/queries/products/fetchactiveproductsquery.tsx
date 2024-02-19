@@ -2,9 +2,9 @@
 
 import { gql } from '@apollo/client';
 
-export const GET_ALL_PRODUCTS = gql`
-  query GetProducts($company: String!, $type: String!) {
-    products(company: $company, type: $type) {
+export const GET_ALL_ACTIVE_PRODUCTS = gql`
+  query GetProduct($company: String!, $type: String!) {
+    activeProducts(company: $company, type: $type) {
       id
       name
       description

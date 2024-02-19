@@ -1,7 +1,7 @@
 // sagas/fetchUserSaga.ts
 
 import { call, put } from 'redux-saga/effects';
-import { fetchuserSuccess, fetchuserFailure } from '../../../actions/userActions';
+import { fetchUserSuccess, fetchUserFailure } from '../../../actions/userActions';
 import { ApolloQueryResult } from '@apollo/client';
 import { apolloClient } from '../../../graphql/apolloclient';
 import { GET_USER } from '../../../graphql/queries/users/fetchuserquery';
@@ -31,13 +31,13 @@ export const fetchUserSaga = {
       const user = response.data?.user;
 
       if (user) {
-        yield put(fetchuserSuccess(user));
+        yield put(fetchUserSuccess(user));
       } else {
-        yield put(fetchuserFailure('Invalid response or product not found'));
+        yield put(fetchUserFailure('Invalid response or product not found'));
       }
     } catch (error) {
       console.error('Error in fetchProductSaga:', error);
-      yield put(fetchuserFailure((error as Error).message));
+      yield put(fetchUserFailure((error as Error).message));
     }
   },
 };

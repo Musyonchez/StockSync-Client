@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductsRequest } from "../../../../../actions/productActions";
+import { fetchactiveProductsRequest } from "../../../../../actions/products/fetchactiveProducts";
 import { RootState } from "../../../../../store/reducers";
 import { Product } from "../../../../../types/product"; // Import the Product type
 
@@ -14,13 +14,13 @@ function ProductList() {
   const { store } = router.query;
 
   const dispatch = useDispatch();
-  const products = useSelector((state: RootState) => state.products.data);
-  const loading = useSelector((state: RootState) => state.products.loading);
-  const error = useSelector((state: RootState) => state.products.error);
+  const products = useSelector((state: RootState) => state.activeproducts.data);
+  const loading = useSelector((state: RootState) => state.activeproducts.loading);
+  const error = useSelector((state: RootState) => state.activeproducts.error);
 
   useEffect(() => {
     if (company && store) {
-      dispatch(fetchProductsRequest(company as string, store as string));
+      dispatch(fetchactiveProductsRequest(company as string, store as string));
     }
   }, [dispatch, company, store]);
 

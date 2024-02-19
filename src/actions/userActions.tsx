@@ -1,34 +1,34 @@
 // actions/userActions.tsx
 import { Product } from '../types/product'; 
 
-export const fetchuserRequest = (  id: string, company: string, type: string) => ({ 
+export const fetchUserRequest = (  id: string, company: string, type: string) => ({ 
   type: 'FETCH_USER_REQUEST', 
   payload: { id, company, type }
 });
 
-export const fetchuserSuccess = (products: Product) => ({ 
+export const fetchUserSuccess = (products: Product) => ({ 
   type: 'FETCH_USER_SUCCESS', 
   payload: products 
 });
 
-export const fetchuserFailure = (error: string) => ({ 
+export const fetchUserFailure = (error: string) => ({ 
   type: 'FETCH_USER_FAILURE', 
   payload: error 
 });
 
 
 
-export const fetchusersRequest = (company: string, type: string) => ({ 
+export const fetchUsersRequest = (company: string, type: string) => ({ 
   type: 'FETCH_USERS_REQUEST', 
   payload: { company, type }
 });
 
-export const fetchusersSuccess = (products: Product) => ({ 
+export const fetchUsersSuccess = (products: Product) => ({ 
   type: 'FETCH_USERS_SUCCESS', 
   payload: products 
 });
 
-export const fetchusersFailure = (error: string) => ({ 
+export const fetchUsersFailure = (error: string) => ({ 
   type: 'FETCH_USERS_FAILURE', 
   payload: error 
 });

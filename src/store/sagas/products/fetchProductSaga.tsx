@@ -1,7 +1,7 @@
 // sagas/fetchProductSaga.ts
 
 import { call, put } from 'redux-saga/effects';
-import { fetchProductSuccess, fetchProductFailure } from '../../../actions/productActions';
+import { fetchProductSuccess, fetchProductFailure } from '../../../actions/products/fetchProduct';
 import { ApolloQueryResult } from '@apollo/client';
 import { apolloClient } from '../../../graphql/apolloclient';
 import { GET_PRODUCT } from '../../../graphql/queries/products/fetchproductquery';
