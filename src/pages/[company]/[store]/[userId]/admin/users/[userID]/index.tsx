@@ -1,26 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
-import { gql } from "graphql-tag";
-import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchuserRequest } from "../../../../../../../actions/userActions";
+import { RootState } from "../../../../../../../store/reducers";
 import Link from "next/link";
+import { Users } from "../../../../../../../types/user"; // Import the Product type
+
+import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-const GET_USER = gql`
-  query GetUser($id: String!, $company: String!, $type: String!) {
-    user(id: $id, company: $company, type: $type) {
-      id
-      firstName
-      lastName
-      age
-      email
-      store1
-      store2
-      store3
-      store4
-      role
-    }
-  }
-`;
+import { useMutation, useQuery } from "@apollo/client";
+import { gql } from "graphql-tag";
+
+
+
 
 const DELETE_USER = gql`
   mutation DeleteUser($id: String!, $company: String!, $type: String!) {
@@ -53,15 +45,24 @@ const UserDetail = () => {
   const { pathname, query } = router;
   const [isButtonActive, setIsButtonActive] = useState(true);
 
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user.data);
+  const loading = useSelector((state: RootState) => state.user.loading);
+  const error = useSelector((state: RootState) => state.user.error);
+
+  
   useEffect(() => {
     if (userId === userID) {
       router.push(`/${company}/${store}/${userId}/admin/users`);
     }
-  });
+    if (company && store) {
+      dispatch(fetchuserRequest( userID as string, company as string, store as string));
+    }
+  }, [dispatch, company, store, userID]);
 
-  const { loading, error, data } = useQuery(GET_USER, {
-    variables: { id: userID, company: company, type: "users" },
-  });
+
+
+
 
   if (loading)
     return (
@@ -81,7 +82,6 @@ const UserDetail = () => {
       </Layout>
     );
 
-  const user: User = data.user;
 
   if (!user) {
     return (

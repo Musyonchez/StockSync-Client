@@ -1,48 +1,29 @@
-import React from "react";
-import { useQuery } from "@apollo/client";
-import { gql } from "graphql-tag";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchusersRequest } from "../../../../../../actions/userActions";
+import { RootState } from "../../../../../../store/reducers";
 import Link from "next/link";
+import { Users } from "../../../../../../types/user"; // Import the Product type
+
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-const GET_ALL_USERS = gql`
-  query GetUsers($company: String!, $type: String!) {
-    users(company: $company, type: $type) {
-      id
-      firstName
-      lastName
-      age
-      email
-      store1
-      store2
-      store3
-      store4
-      role
-    }
-  }
-`;
-
-interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  age: number;
-  email: string;
-  store1: boolean;
-  store2: boolean;
-  store3: boolean;
-  store4: boolean;
-  role: string;
-}
-
-function UserList() {
+const UserList: React.FC = () => {
   const router = useRouter();
+
   const { company } = router.query;
   const { store } = router.query;
 
-  const { loading, error, data } = useQuery(GET_ALL_USERS, {
-    variables: { company: company, type: "users" },
-  });
+  const dispatch = useDispatch();
+  const users = useSelector((state: RootState) => state.users.data);
+  const loading = useSelector((state: RootState) => state.users.loading);
+  const error = useSelector((state: RootState) => state.users.error);
+
+  useEffect(() => {
+    if (company && store) {
+      dispatch(fetchusersRequest(company as string, store as string));
+    }
+  }, [dispatch, company, store]);
 
   if (loading)
     return (
@@ -82,7 +63,7 @@ function UserList() {
       </Layout>
     );
 
-  if (!data.users) {
+  if (!users) {
     return (
       <Layout>
         <div className="container mx-auto p-4">
@@ -102,8 +83,6 @@ function UserList() {
     );
   }
 
-  const users: User[] = data.users;
-
   return (
     <Layout>
       <div className="container mx-auto p-4">
@@ -115,42 +94,65 @@ function UserList() {
             </button>
           </span>
         </div>
-
-        <div>
-          <ul>
-            {users.map((user) => (
-              <li key={user.id} className="mb-4 p-4 border rounded">
-                <Link
-                  href={`${router.asPath}/${user.id}`}
-                  className="text-blue-500"
-                >
-                  <strong>ID:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.id}</span>
-                  <br />
-                  <strong>First Name:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.firstName}</span>
-                  <br />
-                  <strong>Last Name:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.lastName}</span>
-                  <br />
-                  <strong>Age:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.age}</span>
-                  <br />
-                  <strong>Email:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.email}</span>
-                  <br />
-                  <strong>Store 1:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.store1 ? "Yes" : "No"}</span>
-                  <br />
-                  <strong>Store 2:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.store2 ? "Yes" : "No"}</span>
-                  <br />
-                  <strong>Store 3:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.store3 ? "Yes" : "No"}</span>
-                  <br />
-                  <strong>Store 4:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.store4 ? "Yes" : "No"}</span>
-                  <br />
-                  <strong>Role:</strong> <br className=" sm:hidden"/> <span className=" text-black">{user.role}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {Array.isArray(users) && users.length > 0 ? (
+          <div>
+            <ul>
+              {users.map((user) => (
+                <li key={user.id} className="mb-4 p-4 border rounded">
+                  <Link
+                    href={`${router.asPath}/${user.id}`}
+                    className="text-blue-500"
+                  >
+                    <strong>ID:</strong> <br className=" sm:hidden" />{" "}
+                    <span className=" text-black">{user.id}</span>
+                    <br />
+                    <strong>
+                      First Name:
+                    </strong> <br className=" sm:hidden" />{" "}
+                    <span className=" text-black">{user.firstName}</span>
+                    <br />
+                    <strong>
+                      Last Name:
+                    </strong> <br className=" sm:hidden" />{" "}
+                    <span className=" text-black">{user.lastName}</span>
+                    <br />
+                    <strong>Age:</strong> <br className=" sm:hidden" />{" "}
+                    <span className=" text-black">{user.age}</span>
+                    <br />
+                    <strong>Email:</strong> <br className=" sm:hidden" />{" "}
+                    <span className=" text-black">{user.email}</span>
+                    <br />
+                    <strong>Store 1:</strong> <br className=" sm:hidden" />{" "}
+                    <span className=" text-black">
+                      {user.store1 ? "Yes" : "No"}
+                    </span>
+                    <br />
+                    <strong>Store 2:</strong> <br className=" sm:hidden" />{" "}
+                    <span className=" text-black">
+                      {user.store2 ? "Yes" : "No"}
+                    </span>
+                    <br />
+                    <strong>Store 3:</strong> <br className=" sm:hidden" />{" "}
+                    <span className=" text-black">
+                      {user.store3 ? "Yes" : "No"}
+                    </span>
+                    <br />
+                    <strong>Store 4:</strong> <br className=" sm:hidden" />{" "}
+                    <span className=" text-black">
+                      {user.store4 ? "Yes" : "No"}
+                    </span>
+                    <br />
+                    <strong>Role:</strong> <br className=" sm:hidden" />{" "}
+                    <span className=" text-black">{user.role}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </div>
     </Layout>
   );
-}
+};
 
 export default UserList;
