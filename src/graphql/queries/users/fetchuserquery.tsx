@@ -15,6 +15,7 @@ export const GET_USER = gql`
       store3
       store4
       role
+      company
     }
   }
 `;
