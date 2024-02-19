@@ -4,7 +4,8 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { JWT } from "next-auth/jwt";
 
 const client = new ApolloClient({
-  uri: "http://localhost:5000/graphql",
+  uri: 'http://localhost:5000/graphql/',
+  // uri: 'https://stocksync-server.onrender.com',
   cache: new InMemoryCache(),
 });
 

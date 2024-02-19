@@ -4,7 +4,7 @@ import { call, put } from 'redux-saga/effects';
 import { fetchProductSuccess, fetchProductFailure } from '../../../actions/productActions';
 import { ApolloQueryResult } from '@apollo/client';
 import { apolloClient } from '../../../graphql/apolloclient';
-import { GET_PRODUCT } from '../../../graphql/queries/fetchproductquery';
+import { GET_PRODUCT } from '../../../graphql/queries/products/fetchproductquery';
 import { Product } from '../../../types/product';
 
 interface ProductQueryResponse {

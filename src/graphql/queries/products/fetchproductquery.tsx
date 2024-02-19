@@ -2,9 +2,9 @@
 
 import { gql } from '@apollo/client';
 
-export const GET_ALL_PRODUCTS = gql`
-  query GetProduct($company: String!, $type: String!) {
-    activeProducts(company: $company, type: $type) {
+export const GET_PRODUCT = gql`
+  query GetProduct($id: String!, $company: String!, $type: String!) {
+    product(id: $id, company: $company, type: $type) {
       id
       name
       description
@@ -13,7 +13,8 @@ export const GET_ALL_PRODUCTS = gql`
       reorderQuantity
       costCurrent
       costPrevious
-      active
     }
   }
 `;
+
+
