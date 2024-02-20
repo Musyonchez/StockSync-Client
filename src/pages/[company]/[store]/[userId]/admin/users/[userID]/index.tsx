@@ -1,42 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserRequest } from "../../../../../../../actions/userActions";
+import { fetchUserRequest } from "../../../../../../../actions/users/fetchUser";
+import { deleteUserRequest } from "../../../../../../../actions/users/deleteUser";
 import { RootState } from "../../../../../../../store/reducers/reducers";
 import Link from "next/link";
+// import { User } from "../../../../../../../types/user"
 
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-import { useMutation, useQuery } from "@apollo/client";
-import { gql } from "graphql-tag";
 
-const DELETE_USER = gql`
-  mutation DeleteUser($id: String!, $company: String!, $type: String!) {
-    deleteUser(id: $id, company: $company, type: $type) {
-      id
-    }
-  }
-`;
 
-interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  age: number;
-  email: string;
-  store1: boolean;
-  store2: boolean;
-  store3: boolean;
-  store4: boolean;
-  role: string;
-}
+
+
 
 const UserDetail = () => {
-  const [deleteUser] = useMutation(DELETE_USER);
   const router = useRouter();
-  const { company } = router.query;
-  const { store } = router.query;
-  const { userID } = router.query;
+  const company = router.query?.company as string; // Ensure company is always a string
+  const store = router.query?.store as string;
+  const userID = router.query?.userID as string;
   const { userId } = router.query;
   const { pathname, query } = router;
   const [isButtonActive, setIsButtonActive] = useState(true);
@@ -89,9 +71,13 @@ const UserDetail = () => {
     setIsButtonActive(false);
 
     try {
-      const { data } = await deleteUser({
-        variables: { id: userID, company: company, type: "users" },
-      });
+      dispatch(
+        deleteUserRequest(
+          userID,
+          company,
+          store 
+        )
+      );
 
       router.push(`/${company}/${store}/${userId}/admin/users`).then(() => {
         window.location.reload();

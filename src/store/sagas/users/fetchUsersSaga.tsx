@@ -1,7 +1,7 @@
 // sagas/fetchUsersSaga.ts
 
 import { call, put } from 'redux-saga/effects';
-import { fetchUsersSuccess, fetchUsersFailure } from '../../../actions/userActions';
+import { fetchUsersSuccess, fetchUsersFailure } from '../../../actions/users/fetchUsers';
 import { ApolloQueryResult } from '@apollo/client';
 import { apolloClient } from '../../../graphql/apolloclient';
 import { GET_ALL_USERS } from '../../../graphql/queries/users/fetchusersquery';

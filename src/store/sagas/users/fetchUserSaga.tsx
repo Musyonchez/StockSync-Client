@@ -1,11 +1,14 @@
 // sagas/fetchUserSaga.ts
 
-import { call, put } from 'redux-saga/effects';
-import { fetchUserSuccess, fetchUserFailure } from '../../../actions/userActions';
-import { ApolloQueryResult } from '@apollo/client';
-import { apolloClient } from '../../../graphql/apolloclient';
-import { GET_USER } from '../../../graphql/queries/users/fetchuserquery';
-import { User } from '../../../types/user';
+import { call, put } from "redux-saga/effects";
+import {
+  fetchUserSuccess,
+  fetchUserFailure,
+} from "../../../actions/users/fetchUser";
+import { ApolloQueryResult } from "@apollo/client";
+import { apolloClient } from "../../../graphql/apolloclient";
+import { GET_USER } from "../../../graphql/queries/users/fetchuserquery";
+import { User } from "../../../types/user";
 
 interface UserQueryResponse {
   user: any;
@@ -15,7 +18,10 @@ interface UserQueryResponse {
 }
 
 export const fetchUserSaga = {
-  saga: function* (action: { type: string, payload: { id: string, company: string, type: string } }) {
+  saga: function* (action: {
+    type: string;
+    payload: { id: string; company: string; type: string };
+  }) {
     try {
       const { id, company, type } = action.payload;
       const response: ApolloQueryResult<UserQueryResponse> = yield call(
@@ -26,19 +32,18 @@ export const fetchUserSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
+      console.log("GraphQL Full Response:", response);
 
       const user = response.data?.user;
 
       if (user) {
         yield put(fetchUserSuccess(user));
       } else {
-        yield put(fetchUserFailure('Invalid response or product not found'));
+        yield put(fetchUserFailure("Invalid response or product not found"));
       }
     } catch (error) {
-      console.error('Error in fetchProductSaga:', error);
+      console.error("Error in fetchProductSaga:", error);
       yield put(fetchUserFailure((error as Error).message));
     }
   },
 };
-

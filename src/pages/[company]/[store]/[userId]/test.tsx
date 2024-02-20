@@ -1,7 +1,7 @@
 // test.tsx
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchusersRequest } from '../../../../actions/userActions';
+import { fetchUsersRequest } from '../../../../actions/userActions';
 import { RootState } from '../../../../store/reducers/reducers';
 import Link from "next/link";
 import { Users } from '../../../../types/user'; // Import the Product type
@@ -18,7 +18,7 @@ const ExampleComponent: React.FC = () => {
   const type = 'yourType';
 
   useEffect(() => {
-    dispatch(fetchusersRequest(company, type));
+    dispatch(fetchUsersRequest(company, type));
     // ... rest of your useEffect
   }, [dispatch, company, type]);
 
