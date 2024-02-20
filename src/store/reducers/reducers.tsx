@@ -6,6 +6,9 @@ import activeproductsReducer from "./products/fetchactiveproductsReducer";
 import productReducer from "./products/fetchproductReducer";
 import addproductReducer from "./products/addproductReducer";
 import editproductReducer from "./products/editproductReducer";
+import deleteproductReducer from "./products/deleteproductReducer";
+import deactivateproductReducer from "./products/deactivateproductReducer";
+
 
 
 
@@ -21,6 +24,8 @@ const rootReducer = combineReducers({
   product: productReducer,
   addproduct: addproductReducer,
   editproduct: editproductReducer,
+  deleteproduct: deleteproductReducer,
+  deactivateproduct: deactivateproductReducer,
   activeproducts: activeproductsReducer,
   products: productsReducer,
   

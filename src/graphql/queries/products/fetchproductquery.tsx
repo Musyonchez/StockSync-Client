@@ -13,6 +13,7 @@ export const GET_PRODUCT = gql`
       reorderQuantity
       costCurrent
       costPrevious
+      active
     }
   }
 `;

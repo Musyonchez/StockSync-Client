@@ -62,7 +62,7 @@ const ProductDetail = () => {
     }
   }, [editProduct]);
 
-  if (loading)
+  if (loading || editLoading)
     return (
       <Layout>
         <div className="container mx-auto p-4 flex justify-center items-center h-64">
@@ -71,7 +71,7 @@ const ProductDetail = () => {
       </Layout>
     );
 
-  if (error)
+  if (error || editError)
     return (
       <Layout>
         <div className="container mx-auto p-4 bg-red-100 border-l-4 border-red-500">

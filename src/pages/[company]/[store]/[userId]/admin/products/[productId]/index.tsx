@@ -7,40 +7,19 @@ import Layout from "@/components/DynamicSaasPages/Layout";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductRequest } from "../../../../../../../actions/products/fetchProduct";
+import { deleteProductRequest } from "../../../../../../../actions/products/deleteProduct";
+import { deactivateProductRequest } from "../../../../../../../actions/products/deactivateProduct";
 import { RootState } from "../../../../../../../store/reducers/reducers";
 import { Product } from "../../../../../../../types/product"; // Import the Product type
 
-
-
-
-const DEACTIVATE_PRODUCT = gql`
-  mutation DeactivateProduct($id: String!, $company: String!, $type: String!) {
-    deactivateProduct(id: $id, company: $company, type: $type) {
-      id
-    }
-  }
-`;
-
-const DELETE_PRODUCT = gql`
-  mutation DeleteProduct($id: String!, $company: String!, $type: String!) {
-    deleteProduct(id: $id, company: $company, type: $type) {
-      id
-    }
-  }
-`;
-
-
 const ProductDetail = () => {
-  const [deactivateProduct] = useMutation(DEACTIVATE_PRODUCT);
-  const [deleteProduct] = useMutation(DELETE_PRODUCT);
   const router = useRouter();
-  const { company } = router.query;
-  const { store } = router.query;
-  const { productId } = router.query;
+  const company = router.query?.company as string; // Ensure company is always a string
+  const store = router.query?.store as string;
+  const productId = router.query?.productId as string; // Ensure company is always a string
   const { pathname, query } = router;
   const [isActiveButtonActive, setIsActiveButtonActive] = useState(true);
   const [isDeleteButtonActive, setIsDeleteButtonActive] = useState(true);
-
 
   const dispatch = useDispatch();
   const product = useSelector((state: RootState) => state.product.data);
@@ -49,10 +28,15 @@ const ProductDetail = () => {
 
   useEffect(() => {
     if (company && store) {
-      dispatch(fetchProductRequest( productId as string, company as string, store as string));
+      dispatch(
+        fetchProductRequest(
+          productId as string,
+          company as string,
+          store as string
+        )
+      );
     }
   }, [dispatch, company, store, productId]);
-
 
   if (loading)
     return (
@@ -72,7 +56,6 @@ const ProductDetail = () => {
       </Layout>
     );
 
-
   if (!product) {
     return (
       <Layout>
@@ -87,9 +70,13 @@ const ProductDetail = () => {
     setIsActiveButtonActive(false);
 
     try {
-      const { data } = await deactivateProduct({
-        variables: { id: productId, company: company, type: store },
-      });
+      dispatch(
+        deactivateProductRequest(
+          productId,
+          company,
+          store // Assuming 'store' is the correct variable for the product type
+        )
+      );
 
       const userId = query.userId;
 
@@ -104,9 +91,13 @@ const ProductDetail = () => {
     setIsDeleteButtonActive(false);
 
     try {
-      const { data } = await deleteProduct({
-        variables: { id: productId, company: company, type: store },
-      });
+      dispatch(
+        deleteProductRequest(
+          productId,
+          company,
+          store // Assuming 'store' is the correct variable for the product type
+        )
+      );
 
       const userId = query.userId;
 
@@ -119,11 +110,14 @@ const ProductDetail = () => {
 
   const handleActivate = async () => {
     setIsActiveButtonActive(false);
-
     try {
-      const { data } = await deactivateProduct({
-        variables: { id: productId, company: company, type: store },
-      });
+      dispatch(
+        deactivateProductRequest(
+          productId,
+          company,
+          store // Assuming 'store' is the correct variable for the product type
+        )
+      );
 
       const userId = query.userId;
 
@@ -146,12 +140,10 @@ const ProductDetail = () => {
             <button
               onClick={product.active ? handleDeactivate : handleActivate}
               className={`${
-                product.active
-                  ? isActiveButtonActive
+                isActiveButtonActive
+                  ? product.active
                     ? "bg-red-500 hover:bg-red-600"
-                    : "bg-gray-400 cursor-not-allowed"
-                  : isActiveButtonActive
-                  ? "bg-green-500 hover:bg-green-600"
+                    : "bg-green-500 hover:bg-green-600"
                   : "bg-gray-400 cursor-not-allowed"
               } text-white px-4 py-2 rounded`}
               disabled={!isActiveButtonActive}
@@ -164,6 +156,7 @@ const ProductDetail = () => {
                 ? "Activate"
                 : "Activating"}
             </button>
+
             {!product.active && (
               <button
                 onClick={handleDelete}
@@ -179,141 +172,141 @@ const ProductDetail = () => {
             )}
           </span>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-4 border rounded">
-          <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="block text-sm font-semibold text-gray-600 mb-1"
+        <div>
+          {product.map((product) => (
+            <div
+              className="bg-white dark:bg-gray-800 p-4 border rounded"
+              key={product.id}
             >
-              Product ID:
-            </label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              value={product.id}
-              readOnly
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="block text-sm font-semibold text-gray-600 mb-1"
-            >
-              Product Name:
-            </label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              value={product.name}
-              readOnly
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="description"
-              className="block text-sm font-semibold text-gray-600 mb-1"
-            >
-              Product Description:
-            </label>
-            <textarea
-              name="description"
-              id="description"
-              value={product.description}
-              readOnly
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="current"
-              className="block text-sm font-semibold text-gray-600 mb-1"
-            >
-              Current Quantity:
-            </label>
-            <input
-              type="number"
-              name="current"
-              id="current"
-              value={product.currentQuantity}
-              readOnly
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="reorder"
-              className="block text-sm font-semibold text-gray-600 mb-1"
-            >
-              Reorder Quantity:
-            </label>
-            <input
-              type="number"
-              name="reorder"
-              id="reorder"
-              value={product.reorderQuantity}
-              readOnly
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="minimum"
-              className="block text-sm font-semibold text-gray-600 mb-1"
-            >
-              Minimum Quantity:
-            </label>
-            <input
-              type="number"
-              name="minimum"
-              id="minimum"
-              value={product.minimumQuantity}
-              readOnly
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="minimum"
-              className="block text-sm font-semibold text-gray-600 mb-1"
-            >
-              Current Cost:
-            </label>
-            <input
-              type="number"
-              name="minimum"
-              id="minimum"
-              value={product.costCurrent}
-              readOnly
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="minimum"
-              className="block text-sm font-semibold text-gray-600 mb-1"
-            >
-              Previous Cost:
-            </label>
-            <input
-              type="number"
-              name="minimum"
-              id="minimum"
-              value={product.costPrevious}
-              readOnly
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-            />
-          </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-semibold text-gray-600 mb-1"
+                >
+                  Product ID:
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  value={product.id}
+                  readOnly
+                  className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-semibold text-gray-600 mb-1"
+                >
+                  Product Name:
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  value={product.name}
+                  readOnly
+                  className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-semibold text-gray-600 mb-1"
+                >
+                  Product Description:
+                </label>
+                <textarea
+                  name="description"
+                  id="description"
+                  value={product.description}
+                  readOnly
+                  className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="current"
+                  className="block text-sm font-semibold text-gray-600 mb-1"
+                >
+                  Current Quantity:
+                </label>
+                <input
+                  type="number"
+                  name="current"
+                  id="current"
+                  value={product.currentQuantity}
+                  readOnly
+                  className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="reorder"
+                  className="block text-sm font-semibold text-gray-600 mb-1"
+                >
+                  Reorder Quantity:
+                </label>
+                <input
+                  type="number"
+                  name="reorder"
+                  id="reorder"
+                  value={product.reorderQuantity}
+                  readOnly
+                  className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="minimum"
+                  className="block text-sm font-semibold text-gray-600 mb-1"
+                >
+                  Minimum Quantity:
+                </label>
+                <input
+                  type="number"
+                  name="minimum"
+                  id="minimum"
+                  value={product.minimumQuantity}
+                  readOnly
+                  className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="minimum"
+                  className="block text-sm font-semibold text-gray-600 mb-1"
+                >
+                  Current Cost:
+                </label>
+                <input
+                  type="number"
+                  name="minimum"
+                  id="minimum"
+                  value={product.costCurrent}
+                  readOnly
+                  className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="minimum"
+                  className="block text-sm font-semibold text-gray-600 mb-1"
+                >
+                  Previous Cost:
+                </label>
+                <input
+                  type="number"
+                  name="minimum"
+                  id="minimum"
+                  value={product.costPrevious}
+                  readOnly
+                  className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </Layout>
