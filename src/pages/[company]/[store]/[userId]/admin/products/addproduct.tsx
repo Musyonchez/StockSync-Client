@@ -59,9 +59,7 @@ const AddProduct = () => {
   const [costPrevious, setCostPrevious] = useState(0);
 
   const dispatch = useDispatch();
-  const product = useSelector((state: RootState) => state.product.data);
-  const loading = useSelector((state: RootState) => state.product.loading);
-  const error = useSelector((state: RootState) => state.product.error);
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

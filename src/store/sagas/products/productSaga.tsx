@@ -6,6 +6,8 @@ import { fetchactiveProductsSaga } from './fetchactiveProductsSaga'; // Adjust t
 import { fetchProductsSaga } from './fetchProductsSaga'; // Adjust the path accordingly
 
 import { addProductSaga } from './addProductSaga'; // Adjust the path accordingly
+import { editProductSaga } from './editProductSaga'; // Adjust the path accordingly
+
 
 
 
@@ -22,6 +24,8 @@ function* watchFetchProduct() {
   yield takeEvery('FETCH_PRODUCT_REQUEST', fetchProductSaga.saga);
 
   yield takeEvery('ADD_PRODUCT_REQUEST', addProductSaga.saga);
+  yield takeEvery('EDIT_PRODUCT_REQUEST', editProductSaga.saga);
+
 
 
 }

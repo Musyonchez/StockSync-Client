@@ -5,6 +5,8 @@ import productsReducer from "./products/fetchproductsReducer";
 import activeproductsReducer from "./products/fetchactiveproductsReducer";
 import productReducer from "./products/fetchproductReducer";
 import addproductReducer from "./products/addproductReducer";
+import editproductReducer from "./products/editproductReducer";
+
 
 
 
@@ -18,6 +20,7 @@ import usersReducer from "./users/fetchusersReducer";
 const rootReducer = combineReducers({
   product: productReducer,
   addproduct: addproductReducer,
+  editproduct: editproductReducer,
   activeproducts: activeproductsReducer,
   products: productsReducer,
   

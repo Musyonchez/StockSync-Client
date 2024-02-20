@@ -1,79 +1,19 @@
-import React, { useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
-import { gql } from "graphql-tag";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductRequest } from "../../../../../../../actions/products/fetchProduct";
+import { editProductRequest } from "../../../../../../../actions/products/editProduct";
+import { RootState } from "../../../../../../../store/reducers/reducers";
+import { Product } from "../../../../../../../types/product"; // Import the Product type
+
+import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-const GET_PRODUCT = gql`
-  query GetProduct($id: String!, $company: String!, $type: String!) {
-    product(id: $id, company: $company, type: $type) {
-      id
-      name
-      description
-      minimumQuantity
-      currentQuantity
-      reorderQuantity
-      costCurrent
-      costPrevious
-    }
-  }
-`;
-
-const EDIT_PRODUCT = gql`
-  mutation EditProduct(
-    $id: String!
-    $name: String
-    $description: String
-    $minimumQuantity: Float
-    $currentQuantity: Float
-    $reorderQuantity: Float
-    $costCurrent: Float
-    $costPrevious: Float
-    $company: String!
-    $type: String!
-  ) {
-    editProduct(
-      id: $id
-      name: $name
-      description: $description
-      minimumQuantity: $minimumQuantity
-      currentQuantity: $currentQuantity
-      reorderQuantity: $reorderQuantity
-      costCurrent: $costCurrent
-      costPrevious: $costPrevious
-      company: $company
-      type: $type
-    ) {
-      id
-      name
-      description
-      minimumQuantity
-      currentQuantity
-      reorderQuantity
-      costCurrent
-      costPrevious
-      active
-    }
-  }
-`;
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  minimumQuantity: number;
-  currentQuantity: number;
-  reorderQuantity: number;
-  costCurrent: number;
-  costPrevious: number;
-}
-
 const ProductDetail = () => {
-  const [editProduct] = useMutation(EDIT_PRODUCT);
   const router = useRouter();
-  const { company } = router.query;
-  const { store } = router.query;
-  const { productId } = router.query;
+  const company = router.query?.company as string; // Ensure company is always a string
+  const store = router.query?.store as string;
+  const productId = router.query?.productId as string;
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -83,9 +23,44 @@ const ProductDetail = () => {
   const [costCurrent, setCostCurrent] = useState(0);
   const [costPrevious, setCostPrevious] = useState(0);
 
-  const { loading, error, data } = useQuery(GET_PRODUCT, {
-    variables: { id: productId, company: company, type: store },
-  });
+  const dispatch = useDispatch();
+  const initialProduct = useSelector((state: RootState) => state.product.data);
+  const loading = useSelector((state: RootState) => state.product.loading);
+  const error = useSelector((state: RootState) => state.product.error);
+
+  const editProduct = useSelector((state: RootState) => state.editproduct.data);
+  const editLoading = useSelector(
+    (state: RootState) => state.editproduct.loading
+  );
+  const editError = useSelector((state: RootState) => state.editproduct.error);
+
+  const [product, setProduct] = useState<Product | null>(initialProduct);
+
+  useEffect(() => {
+    if (company && store) {
+      dispatch(
+        fetchProductRequest(
+          productId as string,
+          company as string,
+          store as string
+        )
+      );
+    }
+  }, [dispatch, company, store, productId]);
+
+  useEffect(() => {
+    // Check if editproduct has changed and is not null
+    if (initialProduct !== null) {
+      setProduct(initialProduct);
+    }
+  }, [initialProduct]);
+
+  useEffect(() => {
+    // Check if editproduct has changed and is not null
+    if (editProduct !== null) {
+      setProduct(editProduct);
+    }
+  }, [editProduct]);
 
   if (loading)
     return (
@@ -105,8 +80,6 @@ const ProductDetail = () => {
       </Layout>
     );
 
-  const product: Product = data.product;
-
   if (!product) {
     return (
       <Layout>
@@ -119,11 +92,10 @@ const ProductDetail = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
-      const { data } = await editProduct({
-        variables: {
-          id: productId,
+      dispatch(
+        editProductRequest(
+          productId,
           name,
           description,
           minimumQuantity,
@@ -131,11 +103,10 @@ const ProductDetail = () => {
           reorderQuantity,
           costCurrent,
           costPrevious,
-          company: company,
-          type: store,
-        },
-      });
-
+          company,
+          store // Assuming 'store' is the correct variable for the product type
+        )
+      );
 
       setName("");
       setDescription("");
@@ -145,6 +116,8 @@ const ProductDetail = () => {
       setCostCurrent(0);
       setCostPrevious(0);
     } catch (error) {
+      console.error("Error editing product:", error);
+      // Handle error if needed
     }
   };
 
