@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { addProductRequest } from "../../../../../../actions/products/addProduct";
-import { RootState } from "../../../../../../store/reducers/reducers";
-import { Product } from "../../../../../../types/product"; // Import the Product type
+// import { RootState } from "../../../../../../store/reducers/reducers";
+// import { Product } from "../../../../../../types/product"; // Import the Product type
 
-import Link from "next/link";
+// import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
@@ -44,10 +44,6 @@ const AddProduct = () => {
           store // Assuming 'store' is the correct variable for the product type
         )
       );
-      
-        // _ is used to indicate that 'data' is intentionally not used yet, but may be used later.
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const _ = data;
 
 
       setName("");

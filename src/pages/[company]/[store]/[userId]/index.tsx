@@ -14,7 +14,6 @@ const Index = () => {
   const router = useRouter();
   const { company } = router.query;
   const { store } = router.query;
-  const { data: session } = useSession();
   const { userId } = router.query;
   const [greeting, setGreeting] = useState("");
 
@@ -40,7 +39,7 @@ const Index = () => {
       );
     }
 
-  }, [dispatch, company, store, userId]);
+  }, [dispatch, company, store, userId, router]);
 
 
   return (
