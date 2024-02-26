@@ -19,6 +19,8 @@ import deactivateproductReducer from "./products/deactivateproductReducer";
 import userReducer from "./users/fetchuserReducer";
 import usersReducer from "./users/fetchusersReducer";
 import deleteuserReducer from "./users/deleteuserReducer";
+import adduserReducer from "./users/adduserReducer";
+import edituserReducer from "./users/edituserReducer";
 
 
 
@@ -47,6 +49,8 @@ const rootReducer = combineReducers({
   user: userReducer,
   users: usersReducer,
   deleteuser: deleteuserReducer,
+  adduser: adduserReducer,
+  edituser: edituserReducer,
 
   // Add other reducers as needed
 });

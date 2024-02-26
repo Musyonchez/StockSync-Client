@@ -1,56 +1,18 @@
-import React, { useState } from "react";
-import { gql, useMutation } from "@apollo/client";
-import Layout from "@/components/DynamicSaasPages/Layout";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addUserRequest } from "../../../../../../actions/users/addUser";
+import { RootState } from "../../../../../../store/reducers/reducers";
+import Link from "next/link";
+// import { User } from "../../../../../../../types/user"
+import { UserRole } from '../../../../../../types/user';
 
-const ADD_USER = gql`
-  mutation AddUser(
-    $firstName: String!
-    $lastName: String!
-    $age: Int!
-    $email: String!
-    $password: String!
-    $store1: Boolean!
-    $store2: Boolean!
-    $store3: Boolean!
-    $store4: Boolean!
-    $role: UserRole!
-    $company: String!
-    $type: String!
-  ) {
-    addUser(
-      firstName: $firstName
-      lastName: $lastName
-      age: $age
-      email: $email
-      password: $password
-      store1: $store1
-      store2: $store2
-      store3: $store3
-      store4: $store4
-      role: $role
-      company: $company
-      type: $type
-    ) {
-      id
-      firstName
-      lastName
-      age
-      email
-      store1
-      store2
-      store3
-      store4
-      role
-    }
-  }
-`;
+import { useRouter } from "next/router";
+import Layout from "@/components/DynamicSaasPages/Layout";
 
 const AddUser = () => {
-  const [addUser] = useMutation(ADD_USER);
   const router = useRouter();
-  const { company } = router.query;
-  const { store } = router.query;
+  const company = router.query?.company as string; // Ensure company is always a string
+  const store = router.query?.store as string;
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -61,14 +23,19 @@ const AddUser = () => {
   const [store2, setStore2] = useState(false);
   const [store3, setStore3] = useState(false);
   const [store4, setStore4] = useState(false);
-  const [role, setRole] = useState("USER");
+  const [role, setRole] = useState<UserRole>("USER"); // Use UserRole type here
+
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.adduser.data);
+  const loading = useSelector((state: RootState) => state.adduser.loading);
+  const error = useSelector((state: RootState) => state.adduser.error);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const { data } = await addUser({
-        variables: {
+      dispatch(
+        addUserRequest(
           firstName,
           lastName,
           age,
@@ -79,10 +46,10 @@ const AddUser = () => {
           store3,
           store4,
           role,
-          company: company,
-          type: "users",
-        },
-      });
+          company,
+          store
+        )
+      );
 
       setFirstName("");
       setLastName("");
@@ -94,9 +61,7 @@ const AddUser = () => {
       setStore3(false);
       setStore4(false);
       setRole("USER");
-
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   return (
@@ -255,7 +220,7 @@ const AddUser = () => {
                 name="role"
                 id="role"
                 value={role}
-                onChange={(e) => setRole(e.target.value)}
+                onChange={(e) => setRole(e.target.value as UserRole)}
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               >
                 <option value="ADMIN">Admin</option>

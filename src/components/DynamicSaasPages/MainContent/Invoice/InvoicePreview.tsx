@@ -17,9 +17,9 @@ const OrderPreview: React.FC<OrderPreviewProps> = ({ invoiceData }) => {
 
     doc.setFontSize(15);
 
-    doc.text("Purchase Order", 70, 15);
+    doc.text("Invoice", 90, 15);
 
-    doc.setFontSize(12);
+    doc.setFontSize(10);
 
     const logoUrl = "https://i.ibb.co/GnmS8Wj/Logo-tower-black.png";
 

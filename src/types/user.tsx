@@ -1,6 +1,6 @@
 // types/user.ts
 
-type UserRole = "ADMIN" | "USER"; // Add other roles as needed
+export type UserRole = "ADMIN" | "USER"; // Add other roles as needed
 
 export interface User {
   id: string;

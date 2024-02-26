@@ -21,10 +21,15 @@ const ProductDetail = () => {
 
   useEffect(() => {
     if (company && store) {
-      dispatch(fetchProductRequest( productId as string, company as string, store as string));
+      dispatch(
+        fetchProductRequest(
+          productId as string,
+          company as string,
+          store as string
+        )
+      );
     }
   }, [dispatch, company, store, productId]);
-
 
   if (loading)
     return (
@@ -43,7 +48,6 @@ const ProductDetail = () => {
         </div>
       </Layout>
     );
-
 
   if (!product) {
     return (

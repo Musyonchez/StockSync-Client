@@ -1,84 +1,29 @@
-import React, { useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
-import { gql } from "graphql-tag";
+
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserRequest } from "../../../../../../../actions/users/fetchUser";
+import { editUserRequest } from "../../../../../../../actions/users/editUser";
+import { RootState } from "../../../../../../../store/reducers/reducers";
+import Link from "next/link";
+import { User, UserRole } from "../../../../../../../types/user"
+
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-const GET_USER = gql`
-  query GetUser($id: String!, $company: String!, $type: String!) {
-    user(id: $id, company: $company, type: $type) {
-      id
-      firstName
-      lastName
-      age
-      store1
-      store2
-      store3
-      store4
-      role
-    }
-  }
-`;
 
-const EDIT_USER = gql`
-  mutation EditUser(
-    $id: String!
-    $firstName: String
-    $lastName: String
-    $age: Int
-    $store1: Boolean
-    $store2: Boolean
-    $store3: Boolean
-    $store4: Boolean
-    $role: UserRole
-    $company: String!
-    $type: String!
-  ) {
-    editUser(
-      id: $id
-      firstName: $firstName
-      lastName: $lastName
-      age: $age
-      store1: $store1
-      store2: $store2
-      store3: $store3
-      store4: $store4
-      role: $role
-      company: $company
-      type: $type
-    ) {
-      id
-      firstName
-      lastName
-      age
-      store1
-      store2
-      store3
-      store4
-      role
-    }
-  }
-`;
 
-interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  age: number;
-  store1: boolean;
-  store2: boolean;
-  store3: boolean;
-  store4: boolean;
-  role: string;
-}
+
+
+
+
+
 
 const EditUser = () => {
-  const [editUser] = useMutation(EDIT_USER);
   const router = useRouter();
-  const { userId } = router.query;
-  const { userID } = router.query;
-  const { company } = router.query;
-  const { store } = router.query;
+  const userId = router.query?.userId as string;
+  const company = router.query?.company as string; // Ensure company is always a string
+  const store = router.query?.store as string;
+  const userID = router.query?.userID as string;
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -87,11 +32,23 @@ const EditUser = () => {
   const [store2, setStore2] = useState(false);
   const [store3, setStore3] = useState(false);
   const [store4, setStore4] = useState(false);
-  const [role, setRole] = useState("USER");
+  const [role, setRole] = useState<UserRole>("USER"); // Use UserRole type here
 
-  const { loading, error, data } = useQuery(GET_USER, {
-    variables: { id: userID, company: company, type: "users" },
-  });
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user.data);
+  const loading = useSelector((state: RootState) => state.user.loading);
+  const error = useSelector((state: RootState) => state.user.error);
+
+  useEffect(() => {
+    if (userId === userID) {
+      router.push(`/${company}/${store}/${userId}/admin/users`);
+    }
+    if (company && store) {
+      dispatch(
+        fetchUserRequest(userID as string, company as string, store as string)
+      );
+    }
+  }, [dispatch, company, store, userID]);
 
   if (loading)
     return (
@@ -111,7 +68,6 @@ const EditUser = () => {
       </Layout>
     );
 
-  const user: User = data.user;
 
   if (!user) {
     return (
@@ -127,9 +83,9 @@ const EditUser = () => {
     e.preventDefault();
 
     try {
-      const { data } = await editUser({
-        variables: {
-          id: userId,
+      dispatch(
+        editUserRequest(
+          userID,
           firstName,
           lastName,
           age,
@@ -138,10 +94,10 @@ const EditUser = () => {
           store3,
           store4,
           role,
-          company: company,
-          type: "users",
-        },
-      });
+          company,
+          store
+        )
+      );
 
 
       setFirstName("");

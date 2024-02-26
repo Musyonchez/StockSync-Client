@@ -66,6 +66,8 @@ const ProductDetail = () => {
     );
   }
 
+  console.log("product from admin", product);
+
   const handleDeactivate = async () => {
     setIsActiveButtonActive(false);
 
@@ -173,7 +175,7 @@ const ProductDetail = () => {
           </span>
         </div>
         <div>
-          {product.map((product) => (
+          {product && (
             <div
               className="bg-white dark:bg-gray-800 p-4 border rounded"
               key={product.id}
@@ -306,7 +308,7 @@ const ProductDetail = () => {
                 />
               </div>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </Layout>
