@@ -1,7 +1,7 @@
 // test.tsx
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsersRequest } from '../../../../actions/userActions';
+import { fetchUsersRequest } from '../../../../actions/users/fetchUsers';
 import { RootState } from '../../../../store/reducers/reducers';
 import Link from "next/link";
 import { Users } from '../../../../types/user'; // Import the Product type
