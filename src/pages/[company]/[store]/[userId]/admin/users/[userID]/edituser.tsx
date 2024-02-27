@@ -107,7 +107,7 @@ const EditUser = () => {
       setStore2(false);
       setStore3(false);
       setStore4(false);
-      setRole("");
+      setRole("USER");
     } catch (error) {
     }
   };
@@ -282,7 +282,7 @@ const EditUser = () => {
                 name="role"
                 id="role"
                 value={role}
-                onChange={(e) => setRole(e.target.value)}
+                onChange={(e) => setRole(e.target.value as UserRole)} // Convert the value to UserRole
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               >
                 <option value="ADMIN">Admin</option>
