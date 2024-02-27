@@ -100,6 +100,8 @@ const EditUser = () => {
       );
 
 
+
+      
       setFirstName("");
       setLastName("");
       setAge(0);
