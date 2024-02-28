@@ -8,8 +8,6 @@ import { addProductRequest } from "../../../../../../actions/products/addProduct
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-
-
 const AddProduct = () => {
   // const [addProduct] = useMutation(ADD_PRODUCT);
   const router = useRouter();
@@ -19,14 +17,8 @@ const AddProduct = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [group, setGroup] = useState("");
-  const [currentQuantity, setCurrentQuantity] = useState(0);
-  const [reorderQuantity, setReorderQuantity] = useState(0);
-  const [minimumQuantity, setMinimumQuantity] = useState(0);
-  const [costCurrent, setCostCurrent] = useState(0);
-  const [costPrevious, setCostPrevious] = useState(0);
 
   const dispatch = useDispatch();
-
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,25 +29,15 @@ const AddProduct = () => {
           name,
           description,
           group,
-          minimumQuantity,
-          currentQuantity,
-          reorderQuantity,
-          costCurrent,
-          costPrevious,
+
           company,
           store // Assuming 'store' is the correct variable for the product type
         )
       );
 
-
       setName("");
       setDescription("");
       setGroup("");
-      setCurrentQuantity(0);
-      setReorderQuantity(0);
-      setMinimumQuantity(0);
-      setCostCurrent(0);
-      setCostPrevious(0);
 
       // Handle success if needed
     } catch (error) {
@@ -65,8 +47,8 @@ const AddProduct = () => {
 
   return (
     <Layout>
-      <div className="w-full flex justify-center items-center">
-        <div className="max-w-md w-full mx-auto px-4 pb-4 min-h-screen dark:bg-gray-800 bg-white rounded shadow-md">
+      <div className="w-full flex mt-20 justify-center items-center">
+        <div className="max-w-md w-full mx-auto my-auto h-full px-4 pb-4 dark:bg-gray-800 bg-white rounded shadow-md">
           <h1 className="flex w-full text-2xl font-bold my-4 justify-center">
             Add Product
           </h1>
@@ -124,102 +106,7 @@ const AddProduct = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-            <div className="mb-4">
-              <label
-                htmlFor="current"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Current Quantity:
-              </label>
-              <input
-                type="number"
-                name="current"
-                id="current"
-                value={currentQuantity || ""}
-                required
-                onChange={(e) =>
-                  setCurrentQuantity(parseInt(e.target.value, 10))
-                }
-                placeholder="Enter Current Quantity"
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="reorder"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Reorder Quantity:
-              </label>
-              <input
-                type="number"
-                name="reorder"
-                id="reorder"
-                value={reorderQuantity || ""}
-                required
-                onChange={(e) =>
-                  setReorderQuantity(parseInt(e.target.value, 10))
-                }
-                placeholder="Enter Reorder Quantity"
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="minimum"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Minimum Quantity:
-              </label>
-              <input
-                type="number"
-                name="minimum"
-                id="minimum"
-                value={minimumQuantity || ""}
-                required
-                onChange={(e) =>
-                  setMinimumQuantity(parseInt(e.target.value, 10))
-                }
-                placeholder="Enter Minimum Quantity"
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="costCurrent"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Current Cost:
-              </label>
-              <input
-                type="number"
-                name="costCurrent"
-                id="costCurrent"
-                value={costCurrent || ""}
-                required
-                onChange={(e) => setCostCurrent(parseInt(e.target.value, 10))}
-                placeholder="Enter Current Cost"
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="costPrevious"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Previous Cost:
-              </label>
-              <input
-                type="number"
-                name="costPrevious"
-                id="costPrevious"
-                value={costPrevious || ""}
-                required
-                onChange={(e) => setCostPrevious(parseInt(e.target.value, 10))}
-                placeholder="Enter Previous Cost"
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-            </div>
+
             <button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"

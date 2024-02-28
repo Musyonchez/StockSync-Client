@@ -97,7 +97,7 @@ function ProductList() {
           <>
             <div>
               <ul>
-              <li
+                <li
                   className="mb-2 px-4 py-2 border rounded flex"
                   style={{ width: "1316px" }}
                 >
@@ -114,13 +114,19 @@ function ProductList() {
                 {products
                   .filter((product) => product.active)
                   .map((product) => (
-                    <li key={product.id} className="p-4 border rounded" style={{ width: '1316px' }}>
-                    <Link
+                    <li
+                      key={product.id}
+                      className="p-4 border rounded"
+                      style={{ width: "1316px" }}
+                    >
+                      <Link
                         href={`${router.asPath}/${product.id}`}
                         className="text-blue-500 flex w-full"
-                        >
+                      >
                         <div className=" min-w-36">{product.name}</div>
-                        <div className=" min-w-64 overflow-hidden">{product.description}</div>
+                        <div className=" min-w-64 overflow-hidden">
+                          {product.description}
+                        </div>
                         <div className=" min-w-32">{product.group}</div>
                         <div className=" min-w-28">
                           {product.minimumQuantity}
@@ -142,7 +148,9 @@ function ProductList() {
 
             <div>
               <ul>
-              <h2 className=" text-red-600 font-bold text-xl py-2">Deactivated</h2>
+                <h2 className=" text-red-600 font-bold text-xl py-2">
+                  Deactivated
+                </h2>
                 <li
                   className="mb-2 px-4 py-2 border rounded flex"
                   style={{ width: "1316px" }}

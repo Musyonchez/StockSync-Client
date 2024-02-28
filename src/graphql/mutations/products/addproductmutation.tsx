@@ -5,23 +5,14 @@ export const ADD_PRODUCT = gql`
     $name: String!
     $description: String!
     $group: String!
-    $minimumQuantity: Float!
-    $currentQuantity: Float!
-    $reorderQuantity: Float!
-    $costCurrent: Float!
-    $costPrevious: Float!
     $company: String!
     $type: String!
   ) {
     addProduct(
       name: $name
       description: $description
-      group: $name
-      minimumQuantity: $minimumQuantity
-      currentQuantity: $currentQuantity
-      reorderQuantity: $reorderQuantity
-      costCurrent: $costCurrent
-      costPrevious: $costPrevious
+      group: $group
+
       company: $company
       type: $type
     ) {
@@ -29,11 +20,7 @@ export const ADD_PRODUCT = gql`
       name
       description
       group
-      minimumQuantity
-      currentQuantity
-      reorderQuantity
-      costCurrent
-      costPrevious
+
       active
     }
   }
