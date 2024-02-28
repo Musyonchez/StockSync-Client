@@ -18,6 +18,7 @@ const AddProduct = () => {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [group, setGroup] = useState("");
   const [currentQuantity, setCurrentQuantity] = useState(0);
   const [reorderQuantity, setReorderQuantity] = useState(0);
   const [minimumQuantity, setMinimumQuantity] = useState(0);
@@ -35,6 +36,7 @@ const AddProduct = () => {
         addProductRequest(
           name,
           description,
+          group,
           minimumQuantity,
           currentQuantity,
           reorderQuantity,
@@ -48,6 +50,7 @@ const AddProduct = () => {
 
       setName("");
       setDescription("");
+      setGroup("");
       setCurrentQuantity(0);
       setReorderQuantity(0);
       setMinimumQuantity(0);
@@ -100,6 +103,24 @@ const AddProduct = () => {
                 required
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter Product Description"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="group"
+                className="block text-sm font-semibold text-gray-600 mb-1"
+              >
+                Product Group:
+              </label>
+              <input
+                type="text"
+                name="group"
+                id="group"
+                value={group}
+                required
+                onChange={(e) => setGroup(e.target.value)}
+                placeholder="Enter Product Group"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>

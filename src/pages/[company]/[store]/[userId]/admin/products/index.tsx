@@ -30,11 +30,11 @@ function ProductList() {
         <div className="container mx-auto p-4">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-semibold">Products List</h2>
-            <span>
+            <div>
               <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                 <Link href={`${router.asPath}/addproduct`}>Add Product</Link>
               </button>
-            </span>
+            </div>
           </div>
           <div className="flex justify-center items-center h-64">
             <p className="text-gray-500">Loading...</p>
@@ -49,11 +49,11 @@ function ProductList() {
         <div className="container mx-auto p-4">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-semibold">Products List</h2>
-            <span>
+            <div>
               <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                 <Link href={`${router.asPath}/addproduct`}>Add Product</Link>
               </button>
-            </span>
+            </div>
           </div>
           <div className="bg-red-100 p-4 border-l-4 border-red-500">
             <p className="text-red-700">No products could be found</p>
@@ -68,11 +68,11 @@ function ProductList() {
         <div className="container mx-auto p-4">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-semibold">Products List</h2>
-            <span>
+            <div>
               <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                 <Link href={`${router.asPath}/addproduct`}>Add Product</Link>
               </button>
-            </span>
+            </div>
           </div>
           <div className="bg-yellow-100 p-4 border-l-4 border-yellow-500">
             <p className="text-yellow-700">No products could be found</p>
@@ -87,67 +87,53 @@ function ProductList() {
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">Products List</h2>
-          <span>
+          <div>
             <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
               <Link href={`${router.asPath}/addproduct`}>Add Product</Link>
             </button>
-          </span>
+          </div>
         </div>
         {products.length > 0 && (
           <>
             <div>
               <ul>
+              <li
+                  className="mb-2 px-4 py-2 border rounded flex"
+                  style={{ width: "1316px" }}
+                >
+                  <div className=" min-w-36">Name:</div>
+                  <div className=" min-w-64">Description:</div>
+                  <div className=" min-w-32">Group:</div>
+                  <div className=" min-w-28">Minimum Quantity:</div>
+                  <div className=" min-w-28">Current Quantity:</div>
+                  <div className=" min-w-28">Reorder Quantity:</div>
+                  <div className=" min-w-28">Current Cost:</div>
+                  <div className=" min-w-28">Previous Cost:</div>
+                  <div className=" min-w-52">ID:</div>
+                </li>
                 {products
                   .filter((product) => product.active)
                   .map((product) => (
-                    <li key={product.id} className="mb-4 p-4 border rounded">
-                      <Link
+                    <li key={product.id} className="p-4 border rounded" style={{ width: '1316px' }}>
+                    <Link
                         href={`${router.asPath}/${product.id}`}
-                        className="text-blue-500"
-                      >
-                        <strong>ID:</strong> <br className=" sm:hidden" />{" "}
-                        <span className=" text-black">{product.id}</span>
-                        <br />
-                        <strong>
-                          Name:
-                        </strong> <br className=" sm:hidden" />{" "}
-                        <span className=" text-black">{product.name}</span>
-                        <br />
-                        <strong>Description:</strong>{" "}
-                        <br className=" sm:hidden" />{" "}
-                        <span className=" text-black">
-                          {product.description}
-                        </span>
-                        <br />
-                        <strong>Minimum Quantity:</strong>{" "}
-                        <br className=" sm:hidden" />{" "}
-                        <span className=" text-black">
+                        className="text-blue-500 flex w-full"
+                        >
+                        <div className=" min-w-36">{product.name}</div>
+                        <div className=" min-w-64 overflow-hidden">{product.description}</div>
+                        <div className=" min-w-32">{product.group}</div>
+                        <div className=" min-w-28">
                           {product.minimumQuantity}
-                        </span>
-                        <br />
-                        <strong>Current Quantity:</strong>{" "}
-                        <br className=" sm:hidden" />{" "}
-                        <span className=" text-black">
+                        </div>
+                        <div className=" min-w-28">
                           {product.currentQuantity}
-                        </span>
-                        <br />
-                        <strong>Reorder Quantity:</strong>{" "}
-                        <br className=" sm:hidden" />{" "}
-                        <span className=" text-black">
+                        </div>
+                        <div className=" min-w-28">
                           {product.reorderQuantity}
-                        </span>
-                        <br />
-                        <strong>Current Cost:</strong>{" "}
-                        <br className=" sm:hidden" />{" "}
-                        <span className=" text-black">
-                          {product.costCurrent}
-                        </span>
-                        <br />
-                        <strong>Previous Cost:</strong>{" "}
-                        <br className=" sm:hidden" />{" "}
-                        <span className=" text-black">
-                          {product.costPrevious}
-                        </span>
+                        </div>
+                        <div className=" min-w-28">{product.costCurrent}</div>
+                        <div className=" min-w-28">{product.costPrevious}</div>
+                        <div className=" min-w-52">{product.id}</div>
                       </Link>
                     </li>
                   ))}
@@ -156,66 +142,59 @@ function ProductList() {
 
             <div>
               <ul>
+              <h2 className=" text-red-600 font-bold text-xl py-2">Deactivated</h2>
+                <li
+                  className="mb-2 px-4 py-2 border rounded flex"
+                  style={{ width: "1316px" }}
+                >
+                  <div className=" min-w-36">Name:</div>
+                  <div className=" min-w-64">Description:</div>
+                  <div className=" min-w-32">Group:</div>
+                  <div className=" min-w-28">Minimum Quantity:</div>
+                  <div className=" min-w-28">Current Quantity:</div>
+                  <div className=" min-w-28">Reorder Quantity:</div>
+                  <div className=" min-w-28">Current Cost:</div>
+                  <div className=" min-w-28">Previous Cost:</div>
+                  <div className=" min-w-52">ID:</div>
+                </li>
                 {products
                   .filter((product) => !product.active)
                   .map((inactiveproduct) => (
                     <>
-                      <h2>Deactivated</h2>
                       <li
                         key={inactiveproduct.id}
-                        className="mb-4 p-4 border rounded"
+                        className="p-4 border rounded"
+                        style={{ width: "1316px" }}
                       >
                         <Link
                           href={`${router.asPath}/${inactiveproduct.id}`}
-                          className="text-blue-500"
+                          className="text-blue-500 flex w-full"
                         >
-                          <strong>ID:</strong> <br className=" sm:hidden" />{" "}
-                          <span className=" text-black">
-                            {inactiveproduct.id}
-                          </span>
-                          <br />
-                          <strong>
-                            Name:
-                          </strong> <br className=" sm:hidden" />{" "}
-                          <span className=" text-black">
+                          <div className=" min-w-36">
                             {inactiveproduct.name}
-                          </span>
-                          <br />
-                          <strong>Description:</strong>{" "}
-                          <br className=" sm:hidden" />{" "}
-                          <span className=" text-black">
+                          </div>
+                          <div className=" min-w-64 overflow-hidden">
                             {inactiveproduct.description}
-                          </span>
-                          <br />
-                          <strong>Minimum Quantity:</strong>{" "}
-                          <br className=" sm:hidden" />{" "}
-                          <span className=" text-black">
+                          </div>
+                          <div className=" min-w-32">
+                            {inactiveproduct.group}
+                          </div>
+                          <div className=" min-w-28">
                             {inactiveproduct.minimumQuantity}
-                          </span>
-                          <br />
-                          <strong>Current Quantity:</strong>{" "}
-                          <br className=" sm:hidden" />{" "}
-                          <span className=" text-black">
+                          </div>
+                          <div className=" min-w-28">
                             {inactiveproduct.currentQuantity}
-                          </span>
-                          <br />
-                          <strong>Reorder Quantity:</strong>{" "}
-                          <br className=" sm:hidden" />{" "}
-                          <span className=" text-black">
+                          </div>
+                          <div className=" min-w-28">
                             {inactiveproduct.reorderQuantity}
-                          </span>
-                          <br />
-                          <strong>Current Cost:</strong>{" "}
-                          <br className=" sm:hidden" />{" "}
-                          <span className=" text-black">
+                          </div>
+                          <div className=" min-w-28">
                             {inactiveproduct.costCurrent}
-                          </span>
-                          <br />
-                          <strong>Previous Cost:</strong>{" "}
-                          <br className=" sm:hidden" />{" "}
-                          <span className=" text-black">
+                          </div>
+                          <div className=" min-w-28">
                             {inactiveproduct.costPrevious}
-                          </span>
+                          </div>
+                          <div className=" min-w-52"> {inactiveproduct.id}</div>
                         </Link>
                       </li>
                     </>

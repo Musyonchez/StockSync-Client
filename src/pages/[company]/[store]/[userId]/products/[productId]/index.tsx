@@ -118,6 +118,23 @@ const ProductDetail = () => {
 
           <div className="mb-4">
             <label
+              htmlFor="name"
+              className="block text-sm font-semibold text-gray-600 mb-1"
+            >
+              Product Group:
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              value={product.group}
+              readOnly
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
               htmlFor="current"
               className="block text-sm font-semibold text-gray-600 mb-1"
             >

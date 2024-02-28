@@ -97,53 +97,55 @@ const UserList: React.FC = () => {
         {Array.isArray(users) && users.length > 0 ? (
           <div>
             <ul>
+              <li
+                className="mb-2 px-4 py-2 border rounded flex"
+                style={{ width: "1316px" }}
+              >
+                <div className=" min-w-52">ID:</div>
+                <div className=" min-w-36">First Name:</div>
+                <div className=" min-w-36">Last Name:</div>
+                <div className=" min-w-72 overflow-hidden">Email:</div>
+                <div className=" min-w-20">Store 1:</div>
+                <div className=" min-w-20">Store 2:</div>
+                <div className=" min-w-20">Store 3:</div>
+                <div className=" min-w-20">Store 4:</div>
+                <div className=" min-w-28">Role:</div>
+              </li>
               {users.map((user) => (
-                <li key={user.id} className="mb-4 p-4 border rounded">
+                <li
+                  key={user.id}
+                  className="mb-4 p-4 border rounded"
+                  style={{ width: "1316px" }}
+                >
                   <Link
                     href={`${router.asPath}/${user.id}`}
-                    className="text-blue-500"
+                    className="text-blue-500 flex w-full"
                   >
-                    <strong>ID:</strong> <br className=" sm:hidden" />{" "}
-                    <span className=" text-black">{user.id}</span>
-                    <br />
-                    <strong>
-                      First Name:
-                    </strong> <br className=" sm:hidden" />{" "}
-                    <span className=" text-black">{user.firstName}</span>
-                    <br />
-                    <strong>
-                      Last Name:
-                    </strong> <br className=" sm:hidden" />{" "}
-                    <span className=" text-black">{user.lastName}</span>
-                    <br />
-                    <strong>Age:</strong> <br className=" sm:hidden" />{" "}
-                    <span className=" text-black">{user.age}</span>
-                    <br />
-                    <strong>Email:</strong> <br className=" sm:hidden" />{" "}
-                    <span className=" text-black">{user.email}</span>
-                    <br />
-                    <strong>Store 1:</strong> <br className=" sm:hidden" />{" "}
-                    <span className=" text-black">
+                    <div className=" min-w-52">{user.id}</div>
+
+                    <div className=" min-w-36">{user.firstName}</div>
+
+                    <div className=" min-w-36">{user.lastName}</div>
+
+                    <div className=" min-w-72 overflow-hidden">{user.email}</div>
+
+                    <div className=" min-w-20">
                       {user.store1 ? "Yes" : "No"}
-                    </span>
-                    <br />
-                    <strong>Store 2:</strong> <br className=" sm:hidden" />{" "}
-                    <span className=" text-black">
+                    </div>
+
+                    <div className=" min-w-20">
                       {user.store2 ? "Yes" : "No"}
-                    </span>
-                    <br />
-                    <strong>Store 3:</strong> <br className=" sm:hidden" />{" "}
-                    <span className=" text-black">
+                    </div>
+
+                    <div className=" min-w-20">
                       {user.store3 ? "Yes" : "No"}
-                    </span>
-                    <br />
-                    <strong>Store 4:</strong> <br className=" sm:hidden" />{" "}
-                    <span className=" text-black">
+                    </div>
+
+                    <div className=" min-w-20">
                       {user.store4 ? "Yes" : "No"}
-                    </span>
-                    <br />
-                    <strong>Role:</strong> <br className=" sm:hidden" />{" "}
-                    <span className=" text-black">{user.role}</span>
+                    </div>
+
+                    <div className=" min-w-28">{user.role}</div>
                   </Link>
                 </li>
               ))}

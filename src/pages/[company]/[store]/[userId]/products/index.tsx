@@ -15,7 +15,9 @@ function ProductList() {
 
   const dispatch = useDispatch();
   const products = useSelector((state: RootState) => state.activeproducts.data);
-  const loading = useSelector((state: RootState) => state.activeproducts.loading);
+  const loading = useSelector(
+    (state: RootState) => state.activeproducts.loading
+  );
   const error = useSelector((state: RootState) => state.activeproducts.error);
 
   useEffect(() => {
@@ -74,51 +76,40 @@ function ProductList() {
           <h2 className="text-2xl font-semibold">Products List</h2>
         </div>
         {Array.isArray(products) && products.length > 0 ? (
-          <div>
+          <div className=" overflow-x-auto">
             <ul>
+              <li className="mb-2 px-4 py-2 border rounded flex" style={{ width: '1316px' }}>
+                <div className=" min-w-36">Name:</div> 
+                <div className=" min-w-64">Description:</div>
+                <div className=" min-w-32">Group:</div>  
+                <div className=" min-w-28">Minimum Quantity:</div>
+                <div className=" min-w-28">Current Quantity:</div>
+                <div className=" min-w-28">Reorder Quantity:</div>
+                <div className=" min-w-28">Current Cost:</div> 
+                <div className=" min-w-28">Previous Cost:</div>
+                <div className=" min-w-52">ID:</div> 
+              </li>
               {products.map((product: Product) => (
-                <li key={product.id} className="mb-4 p-4 border rounded">
+                <li key={product.id} className="p-4 border rounded" style={{ width: '1316px' }}>
                   <Link
                     href={`${router.asPath}/${product.id}`}
-                    className="text-blue-500"
+                    className="text-blue-500 flex w-full"
                   >
-                    <strong>ID:</strong> <br className=" sm:hidden" />
-                    <span className=" text-black">{product.id}</span>
-                    <br />
-                    <strong>Name:</strong> <br className=" sm:hidden" />
-                    <span className=" text-black">{product.name}</span>
-                    <br />
-                    <strong>
-                      Description:
-                    </strong> <br className=" sm:hidden" />
-                    <span className=" text-black">{product.description}</span>
-                    <br />
-                    <strong>Minimum Quantity:</strong>
-                    <br className=" sm:hidden" />
-                    <span className=" text-black">
+                    <div className=" min-w-36">{product.name}</div>
+                    <div className=" min-w-64 overflow-hidden">{product.description}</div>
+                    <div className=" min-w-32">{product.group}</div>
+                    <div className=" min-w-28">
                       {product.minimumQuantity}
-                    </span>
-                    <br />
-                    <strong>Current Quantity:</strong>
-                    <br className=" sm:hidden" />
-                    <span className=" text-black">
+                    </div>
+                    <div className=" min-w-28">
                       {product.currentQuantity}
-                    </span>
-                    <br />
-                    <strong>Reorder Quantity:</strong>
-                    <br className=" sm:hidden" />
-                    <span className=" text-black">
+                    </div>
+                    <div className=" min-w-28">
                       {product.reorderQuantity}
-                    </span>
-                    <br />
-                    <strong>
-                      Current Cost:
-                    </strong> <br className=" sm:hidden" />
-                    <span className=" text-black">{product.costCurrent}</span>
-                    <br />
-                    <strong>Previous Cost:</strong>
-                    <br className=" sm:hidden" />
-                    <span className=" text-black">{product.costPrevious}</span>
+                    </div>
+                    <div className=" min-w-28">{product.costCurrent}</div>
+                    <div className=" min-w-28">{product.costPrevious}</div>
+                    <div className=" min-w-52">{product.id}</div>
                   </Link>
                 </li>
               ))}

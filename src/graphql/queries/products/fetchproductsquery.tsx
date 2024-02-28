@@ -8,6 +8,7 @@ export const GET_ALL_PRODUCTS = gql`
       id
       name
       description
+      group
       minimumQuantity
       currentQuantity
       reorderQuantity

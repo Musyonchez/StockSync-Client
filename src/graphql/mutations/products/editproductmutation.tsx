@@ -5,6 +5,7 @@ export const EDIT_PRODUCT = gql`
   mutation EditProduct(
     $id: String!
     $name: String
+    $group: String!
     $description: String
     $minimumQuantity: Float
     $currentQuantity: Float
@@ -18,6 +19,7 @@ export const EDIT_PRODUCT = gql`
       id: $id
       name: $name
       description: $description
+      group: $name
       minimumQuantity: $minimumQuantity
       currentQuantity: $currentQuantity
       reorderQuantity: $reorderQuantity
@@ -29,6 +31,7 @@ export const EDIT_PRODUCT = gql`
       id
       name
       description
+      group
       minimumQuantity
       currentQuantity
       reorderQuantity

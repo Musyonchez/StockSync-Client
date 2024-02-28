@@ -4,6 +4,7 @@ export interface Product {
     id: string;
     name: string;
     description: string;
+    group: string;
     minimumQuantity: number;
     currentQuantity: number;
     reorderQuantity: number;

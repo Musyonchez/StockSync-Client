@@ -4,6 +4,7 @@ import { Product } from '../../types/product';
 export const addProductRequest = (
   name: string,
   description: string,
+  group: string,
   minimumQuantity: number,
   currentQuantity: number,
   reorderQuantity: number,
@@ -16,6 +17,7 @@ export const addProductRequest = (
   payload: {
     name,
     description,
+    group,
     minimumQuantity,
     currentQuantity,
     reorderQuantity,
