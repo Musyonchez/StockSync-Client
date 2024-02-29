@@ -17,11 +17,14 @@ const ProductDetail = () => {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [currentQuantity, setCurrentQuantity] = useState(0);
-  const [reorderQuantity, setReorderQuantity] = useState(0);
-  const [minimumQuantity, setMinimumQuantity] = useState(0);
-  const [costCurrent, setCostCurrent] = useState(0);
-  const [costPrevious, setCostPrevious] = useState(0);
+  const [category, setCategory] = useState("");
+  const [current, setCurrent] = useState(0);
+  const [reoderLevel, setReoderLevel] = useState(0);
+  const [unitCost, setUnitCost] = useState(0);
+  const [sellingPrice, setSellingPrice] = useState(0);
+  const [taxInformation, setTaxInformation] = useState(0);
+  const [imageURL, setImageURL] = useState("");
+  const [supplier, setSupplier] = useState("");
 
   const dispatch = useDispatch();
   const initialProduct = useSelector((state: RootState) => state.product.data);
@@ -90,6 +93,8 @@ const ProductDetail = () => {
     );
   }
 
+  console.log("product", product);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -98,11 +103,15 @@ const ProductDetail = () => {
           productId,
           name,
           description,
-          minimumQuantity,
-          currentQuantity,
-          reorderQuantity,
-          costCurrent,
-          costPrevious,
+          category,
+          current,
+          reoderLevel,
+          unitCost,
+          sellingPrice,
+          taxInformation,
+          imageURL,
+          supplier,
+
           company,
           store // Assuming 'store' is the correct variable for the product type
         )
@@ -110,11 +119,14 @@ const ProductDetail = () => {
 
       setName("");
       setDescription("");
-      setCurrentQuantity(0);
-      setReorderQuantity(0);
-      setMinimumQuantity(0);
-      setCostCurrent(0);
-      setCostPrevious(0);
+      setCategory("");
+      setCurrent(0);
+      setReoderLevel(0);
+      setUnitCost(0);
+      setSellingPrice(0);
+      setTaxInformation(0);
+      setImageURL("");
+      setSupplier("");
     } catch (error) {
       console.error("Error editing product:", error);
       // Handle error if needed
@@ -203,16 +215,43 @@ const ProductDetail = () => {
 
             <div className="mb-4">
               <label
+                htmlFor="category"
+                className="block text-sm font-semibold text-gray-600 mb-1"
+              >
+                Product Category:
+              </label>
+              <input
+                type="text"
+                name="category" // Use lowercase 'category'
+                id="category"
+                value={product.category}
+                readOnly
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+              <input
+                type="text"
+                name="category"
+                id="category"
+                value={category || ""}
+                required
+                onChange={(e) => setCategory(e.target.value)}
+                placeholder="Enter New Category"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
                 htmlFor="current"
                 className="block text-sm font-semibold text-gray-600 mb-1"
               >
-                Current Quantity:
+                Current Price:
               </label>
               <input
                 type="number"
                 name="current"
                 id="current"
-                value={product.currentQuantity}
+                value={product.current}
                 readOnly
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -220,124 +259,174 @@ const ProductDetail = () => {
                 type="number"
                 name="current"
                 id="current"
-                value={currentQuantity || ""}
+                value={current || ""}
+                required
+                onChange={(e) => setCurrent(parseInt(e.target.value, 10))}
+                placeholder="Enter New Current Price"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="reoderLevel"
+                className="block text-sm font-semibold text-gray-600 mb-1"
+              >
+                Reorder Level:
+              </label>
+              <input
+                type="reoderLevel"
+                name="reoderLevel"
+                id="reoderLevel"
+                value={product.reoderLevel}
+                readOnly
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+              <input
+                type="number"
+                name="minimum"
+                id="reoderLevel"
+                value={reoderLevel || ""}
+                required
+                onChange={(e) => setReoderLevel(parseInt(e.target.value, 10))}
+                placeholder="Enter New Reoder Level"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="unitCost"
+                className="block text-sm font-semibold text-gray-600 mb-1"
+              >
+                Unit Cost:
+              </label>
+              <input
+                type="number"
+                name="unitCost"
+                id="unitCost"
+                value={product.unitCost}
+                readOnly
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+              <input
+                type="number"
+                name="unitCost"
+                id="unitCost"
+                value={unitCost || ""}
+                required
+                onChange={(e) => setUnitCost(parseInt(e.target.value, 10))}
+                placeholder="Enter New UnitCost"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="sellingPrice"
+                className="block text-sm font-semibold text-gray-600 mb-1"
+              >
+                Selling Price:
+              </label>
+              <input
+                type="number"
+                name="sellingPrice"
+                id="sellingPrice"
+                value={product.sellingPrice}
+                readOnly
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+              <input
+                type="number"
+                name="sellingPrice"
+                id="sellingPrice"
+                value={sellingPrice || ""}
+                required
+                onChange={(e) => setSellingPrice(parseInt(e.target.value, 10))}
+                placeholder="Enter New Selling Price"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="taxInformation"
+                className="block text-sm font-semibold text-gray-600 mb-1"
+              >
+                Tax Information:
+              </label>
+              <input
+                type="number"
+                name="taxInformation"
+                id="taxInformation"
+                value={product.taxInformation}
+                readOnly
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+              <input
+                type="number"
+                name="taxInformation"
+                id="taxInformation"
+                value={taxInformation || ""}
                 required
                 onChange={(e) =>
-                  setCurrentQuantity(parseInt(e.target.value, 10))
+                  setTaxInformation(parseInt(e.target.value, 10))
                 }
-                placeholder="Enter New Current"
+                placeholder="Enter New Tax Information"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
 
             <div className="mb-4">
               <label
-                htmlFor="reorder"
+                htmlFor="imageURL"
                 className="block text-sm font-semibold text-gray-600 mb-1"
               >
-                Reorder Quantity:
+                Image URL:
               </label>
               <input
-                type="number"
-                name="reorder"
-                id="reorder"
-                value={product.reorderQuantity}
+                type="text"
+                name="imageURL"
+                id="imageURL"
+                value={product.imageURL}
                 readOnly
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
               <input
-                type="number"
-                name="reorder"
-                id="reorder"
-                value={reorderQuantity || ""}
+                type="text"
+                name="imageURL"
+                id="imageURL"
+                value={imageURL || ""}
                 required
-                onChange={(e) =>
-                  setReorderQuantity(parseInt(e.target.value, 10))
-                }
-                placeholder="Enter New Reorder"
+                onChange={(e) => setImageURL(e.target.value)}
+                placeholder="Enter New Image URL"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
 
             <div className="mb-4">
               <label
-                htmlFor="minimum"
+                htmlFor="supplier"
                 className="block text-sm font-semibold text-gray-600 mb-1"
               >
-                Minimum Quantity:
+                Product Supplier:
               </label>
               <input
-                type="number"
-                name="minimum"
-                id="minimum"
-                value={product.minimumQuantity}
+                type="text"
+                name="supplier"
+                id="supplier"
+                value={product.supplier}
                 readOnly
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
               <input
-                type="number"
-                name="minimum"
-                id="minimum"
-                value={minimumQuantity || ""}
+                type="text"
+                name="supplier"
+                id="supplier"
+                value={supplier || ""}
                 required
-                onChange={(e) =>
-                  setMinimumQuantity(parseInt(e.target.value, 10))
-                }
-                placeholder="Enter New Minimum"
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="minimum"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Current Cost:
-              </label>
-              <input
-                type="number"
-                name="minimum"
-                id="minimum"
-                value={product.costCurrent}
-                readOnly
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-              <input
-                type="number"
-                name="minimum"
-                id="minimum"
-                value={costCurrent || ""}
-                required
-                onChange={(e) => setCostCurrent(parseInt(e.target.value, 10))}
-                placeholder="Enter New Minimum"
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="minimum"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Previous Cost:
-              </label>
-              <input
-                type="number"
-                name="minimum"
-                id="minimum"
-                value={product.costPrevious}
-                readOnly
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-              <input
-                type="number"
-                name="minimum"
-                id="minimum"
-                value={costPrevious || ""}
-                required
-                onChange={(e) => setCostPrevious(parseInt(e.target.value, 10))}
-                placeholder="Enter New Minimum"
+                onChange={(e) => setSupplier(e.target.value)}
+                placeholder="Enter New Supplier"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
