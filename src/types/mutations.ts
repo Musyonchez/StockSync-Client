@@ -4,24 +4,29 @@ export const ADD_PRODUCT_MUTATION = gql`
   mutation AddProduct(
     $name: String!
     $description: String!
-    $minimumQuantity: Int!
-    $currentQuantity: Int!
-    $reorderQuantity: Int!
-    $costCurrent: Int!
-    $costPrevious: Int!
+    $category: String
+    $current: Float
+    $reoderLevel: Float
+    $unitCost: Float
+    $sellingPrice: Float
+    $taxInformation: Float
+    $imageURL: String
+    $supplier: String
   ) {
     addProduct(
       name: $name
       description: $description
-      minimumQuantity: $minimumQuantity
-      currentQuantity: $currentQuantity
-      reorderQuantity: $reorderQuantity
-      costCurrent: $costCurrent
-      costPrevious: $costPrevious
+      category: $category
+      current: $current
+      reoderLevel: $reoderLevel
+      unitCost: $unitCost
+      sellingPrice: $sellingPrice
+      taxInformation: $taxInformation
+      imageURL: $imageURL
+      supplier: $supplier
     ) {
       id
       name
-      # Add other fields as needed
     }
   }
 `;

@@ -16,7 +16,7 @@ const AddProduct = () => {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [group, setGroup] = useState("");
+  const [category, setCategory] = useState("");
 
   const dispatch = useDispatch();
 
@@ -28,7 +28,7 @@ const AddProduct = () => {
         addProductRequest(
           name,
           description,
-          group,
+          category,
 
           company,
           store // Assuming 'store' is the correct variable for the product type
@@ -37,7 +37,7 @@ const AddProduct = () => {
 
       setName("");
       setDescription("");
-      setGroup("");
+      setCategory("");
 
       // Handle success if needed
     } catch (error) {
@@ -99,9 +99,9 @@ const AddProduct = () => {
                 type="text"
                 name="group"
                 id="group"
-                value={group}
+                value={category}
                 required
-                onChange={(e) => setGroup(e.target.value)}
+                onChange={(e) => setCategory(e.target.value)}
                 placeholder="Enter Product Group"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />

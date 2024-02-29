@@ -8,12 +8,14 @@ export const GET_PRODUCT = gql`
       id
       name
       description
-      group
-      minimumQuantity
-      currentQuantity
-      reorderQuantity
-      costCurrent
-      costPrevious
+      category
+      current
+      reoderLevel
+      unitCost
+      sellingPrice
+      taxInformation
+      imageURL
+      supplier
       active
     }
   }

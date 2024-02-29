@@ -4,7 +4,7 @@ import { Product } from "../../types/product";
 export const addProductRequest = (
   name: string,
   description: string,
-  group: string,
+  category: string,
 
   company: string,
   type: string
@@ -13,7 +13,7 @@ export const addProductRequest = (
   payload: {
     name,
     description,
-    group,
+    category,
 
     company,
     type,

@@ -22,14 +22,14 @@ export const addProductSaga = {
     payload: {
       name: string;
       description: string;
-      group: string;
+      category: string;
       company: string;
       type: string;
     };
   }) {
     try {
-      const { name, description, group, company, type } = action.payload;
-      console.log("Variables in addproduct saga:", name, description, group, company, type);
+      const { name, description, category, company, type } = action.payload;
+      console.log("Variables in addproduct saga:", name, description, category, company, type);
 
       const response: ApolloQueryResult<ProductMutationResponse> = yield call(
         apolloClient.mutate,
@@ -38,7 +38,7 @@ export const addProductSaga = {
           variables: {
             name,
             description,
-            group,
+            category,
             company,
             type,
           },

@@ -1,17 +1,18 @@
 import { gql } from "@apollo/client";
 
-
 export const EDIT_PRODUCT = gql`
   mutation EditProduct(
     $id: String!
     $name: String
-    $group: String!
     $description: String
-    $minimumQuantity: Float
-    $currentQuantity: Float
-    $reorderQuantity: Float
-    $costCurrent: Float
-    $costPrevious: Float
+    $category: String
+    $current: Float
+    $reoderLevel: Float
+    $unitCost: Float
+    $sellingPrice: Float
+    $taxInformation: Float
+    $imageURL: String
+    $supplier: String
     $company: String!
     $type: String!
   ) {
@@ -19,24 +20,28 @@ export const EDIT_PRODUCT = gql`
       id: $id
       name: $name
       description: $description
-      group: $name
-      minimumQuantity: $minimumQuantity
-      currentQuantity: $currentQuantity
-      reorderQuantity: $reorderQuantity
-      costCurrent: $costCurrent
-      costPrevious: $costPrevious
+      category: $category
+      current: $current
+      reoderLevel: $reoderLevel
+      unitCost: $unitCost
+      sellingPrice: $sellingPrice
+      taxInformation: $taxInformation
+      imageURL: $imageURL
+      supplier: $supplier
       company: $company
       type: $type
     ) {
       id
       name
       description
-      group
-      minimumQuantity
-      currentQuantity
-      reorderQuantity
-      costCurrent
-      costPrevious
+      category
+      current
+      reoderLevel
+      unitCost
+      sellingPrice
+      taxInformation
+      imageURL
+      supplier
       active
     }
   }

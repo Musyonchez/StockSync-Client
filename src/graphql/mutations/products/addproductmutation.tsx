@@ -4,14 +4,14 @@ export const ADD_PRODUCT = gql`
   mutation AddProduct(
     $name: String!
     $description: String!
-    $group: String!
+    $category: String!
     $company: String!
     $type: String!
   ) {
     addProduct(
       name: $name
       description: $description
-      group: $group
+      category: $group
 
       company: $company
       type: $type
@@ -19,7 +19,7 @@ export const ADD_PRODUCT = gql`
       id
       name
       description
-      group
+      category
 
       active
     }
