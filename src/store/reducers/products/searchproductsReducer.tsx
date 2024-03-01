@@ -45,8 +45,8 @@ const searchProductsReducer = (
 ): ProductState => {
   switch (action.type) {
     case "SEARCH_PRODUCTS_REQUEST":
-      return { ...state, loading: true, error: null };
-    case "SEARCH_PRODUCTS_SUCCESS":
+      return { ...state, data: [], loading: true, error: null };
+      case "SEARCH_PRODUCTS_SUCCESS":
       // TypeScript knows that action.payload exists and is an array of products
       const existingProductIndex = state.data.findIndex(
         (product: Product) => product.id === action.payload.id

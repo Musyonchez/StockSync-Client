@@ -15,4 +15,5 @@ export interface Product {
   imageURL: string;
   supplier: string;
   active: boolean;
+  quantity: number;
 }
