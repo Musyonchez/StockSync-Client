@@ -1,27 +1,31 @@
-// store/reducers/fetchproductsReducer.tsx
 import { Action } from "redux";
-import { Product } from "../../../types/product"; // Replace 'Product' with the actual type of your product object
+import { Product } from "../../../types/product";
 
 // Define a more specific action type with a payload property
-interface FetchProductsSuccessAction extends Action {
-  type: "FETCH_PRODUCTS_SUCCESS";
+interface SearchProductsSuccessAction extends Action {
+  type: "SEARCH_PRODUCTS_SUCCESS";
   payload: Product; // Adjust this type based on your actual payload
 }
 
-interface FetchProductsFailureAction extends Action {
-  type: "FETCH_PRODUCTS_FAILURE";
-  payload: string; // Adjust this type based on your actual payload
+interface SearchProductsFailureAction extends Action {
+  type: "SEARCH_PRODUCTS_FAILURE";
+  payload: string;
 }
 
-interface FetchProductsRequestAction extends Action {
-  type: "FETCH_PRODUCTS_REQUEST";
+interface SearchProductsRequestAction extends Action {
+  type: "SEARCH_PRODUCTS_REQUEST";
+  payload: {
+    company: string;
+    type: string;
+    filterArray: { field: string; value: string }[];
+  };
 }
 
-// Union type for all possible product actions
-type ProductAction =
-  | FetchProductsSuccessAction
-  | FetchProductsFailureAction
-  | FetchProductsRequestAction;
+// Union type for all possible search product actions
+type SearchProductAction =
+  | SearchProductsSuccessAction
+  | SearchProductsFailureAction
+  | SearchProductsRequestAction;
 
 interface ProductState {
   data: Product[];
@@ -35,16 +39,15 @@ const initialState: ProductState = {
   error: null,
 };
 
-const productReducer = (
+const searchProductsReducer = (
   state: ProductState = initialState,
-  action: ProductAction
+  action: SearchProductAction
 ): ProductState => {
   switch (action.type) {
-    case "FETCH_PRODUCTS_REQUEST":
+    case "SEARCH_PRODUCTS_REQUEST":
       return { ...state, loading: true, error: null };
-    case "FETCH_PRODUCTS_SUCCESS":
-      // Now TypeScript knows that action.payload exists
-      // Check if the product with the same ID already exists
+    case "SEARCH_PRODUCTS_SUCCESS":
+      // TypeScript knows that action.payload exists and is an array of products
       const existingProductIndex = state.data.findIndex(
         (product: Product) => product.id === action.payload.id
       );
@@ -63,7 +66,7 @@ const productReducer = (
           error: null,
         };
       }
-    case "FETCH_PRODUCTS_FAILURE":
+    case "SEARCH_PRODUCTS_FAILURE":
       // TypeScript knows that action.payload exists and is a string
       return { ...state, loading: false, error: action.payload };
     default:
@@ -71,4 +74,4 @@ const productReducer = (
   }
 };
 
-export default productReducer;
+export default searchProductsReducer;

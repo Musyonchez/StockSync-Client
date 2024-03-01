@@ -8,6 +8,7 @@ import addproductReducer from "./products/addproductReducer";
 import editproductReducer from "./products/editproductReducer";
 import deleteproductReducer from "./products/deleteproductReducer";
 import deactivateproductReducer from "./products/deactivateproductReducer";
+import searchproductsReducer from "./products/searchproductsReducer";
 
 
 
@@ -32,7 +33,8 @@ const rootReducer = combineReducers({
   deactivateproduct: deactivateproductReducer,
   activeproducts: activeproductsReducer,
   products: productsReducer,
-  
+  searchproducts: searchproductsReducer,
+
 
 
 

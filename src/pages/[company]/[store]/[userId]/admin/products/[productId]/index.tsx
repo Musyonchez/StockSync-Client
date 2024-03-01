@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useMutation, useQuery } from "@apollo/client";
-import { gql } from "graphql-tag";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Layout from "@/components/DynamicSaasPages/Layout";
