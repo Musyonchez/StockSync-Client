@@ -5,7 +5,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <meta
+          {/* <meta
             name="description"
             content="StockSync - Synchronize stock information across multiple stores"
           />
@@ -51,7 +51,12 @@ export default class MyDocument extends Document {
           <meta
             name="twitter:image"
             content="https://stocksync-client.vercel.app/"
-          />
+          /> */}
+          <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Tilt+Neon&display=swap"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         </Head>
         <body>
           <Main />
