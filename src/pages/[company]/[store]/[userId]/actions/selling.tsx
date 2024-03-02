@@ -8,6 +8,7 @@ import { RootState } from "../../../../../store/reducers/reducers";
 import emptyProduct from "../../../../../../public/emptyProduct.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { sellProductsRequest } from "@/actions/products/sellProducts";
 
 const selling = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const selling = () => {
   );
   const error = useSelector((state: RootState) => state.searchproducts.error);
 
-  const handleSearch = () => {
+  const handleSearch = (): void => {
     const filterArray = [{ field: "name", value: name }];
 
     if (company && store) {
@@ -35,18 +36,54 @@ const selling = () => {
     }
   };
 
+  const handleSell = () => {
+    // Implement the logic for handling the sell action here
+    console.log("Sell action triggered");
+
+    // Check if there are selected products
+    if (selectedProducts.length === 0) {
+      console.error("No products selected for selling.");
+      return;
+    }
+  
+    // Create an array to store the filterArray for the sell mutation
+    const filterArray: { field: string; value: number }[] = [];
+  
+    // Iterate through selected products to build the filterArray
+    selectedProducts.forEach((selectedProduct) => {
+      // Check if the selected product has a valid quantity
+      if (selectedProduct.quantity <= 0) {
+        console.error(`Invalid quantity for product ${selectedProduct.name}.`);
+        return;
+      }
+  
+      // Add product ID and quantity to the filterArray
+      filterArray.push({
+        field: selectedProduct.id,
+        value: selectedProduct.quantity,
+      });
+    });
+  
+    // Dispatch the sellProductsRequest action with the filterArray
+    dispatch(sellProductsRequest(company as string, store as string, filterArray));
+  };
+  
+
+  const handleMpesa = () => {
+    // Implement the logic for handling the Mpesa action here
+    console.log("Mpesa action triggered");
+  };
+
   useEffect(() => {
     // Calculate total amount whenever selectedProducts change
     const calculatedTotal = selectedProducts.reduce(
-      (acc, product) =>
-        acc + product.quantity * (product.sellingPrice || 0),
+      (acc, product) => acc + product.quantity * (product.sellingPrice || 0),
       0
     );
 
     setTotal(calculatedTotal);
   }, [selectedProducts]);
 
-  
   const addSelected = (productId: string) => {
     // Add logic to determine whether the product is already selected
     const isProductSelected = selectedProducts.some(
@@ -87,7 +124,7 @@ const selling = () => {
                 <h1 className="text-lg text-center font-extrabold">
                   Recipt List
                 </h1>
-                <p className=" text-lg text-center font-bold">{total}</p>
+                <p className=" text-lg text-center font-bold">Total: {total}</p>
               </div>
               <ul className="space-y-4">
                 {selectedProducts?.map((selectedProduct: Product) => (
@@ -197,6 +234,20 @@ const selling = () => {
                   </li>
                 ))}
               </ul>
+              <div className=" flex justify-end items-end">
+                <button
+                  className=" bg-emerald-600 text-white px-4 py-2 rounded-md"
+                  onClick={handleSell}
+                >
+                  Sell
+                </button>
+                <button
+                  className=" bg-emerald-600 text-white px-4 py-2 rounded-md"
+                  onClick={handleMpesa}
+                >
+                  Mpesa
+                </button>
+              </div>
             </>
           )}
         </div>
@@ -245,6 +296,7 @@ const selling = () => {
                       <div>
                         <p>Name: {product.name}</p>
                         <p>Category: {product.category}</p>
+                        <p>Quantity: {product.current}</p>
                       </div>
                     </li>
                   ))}

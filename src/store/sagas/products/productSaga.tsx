@@ -15,6 +15,7 @@ import { deactivateProductSaga } from './deactivateProductSaga'; // Adjust the p
 
 
 import { searchProductsSaga } from './searchProductsSaga'; // Adjust the path accordingly
+import { sellProductsSaga } from './sellProductsSaga'; // Adjust the path accordingly
 
 
 
@@ -39,6 +40,9 @@ function* watchFetchProduct() {
   
   
   yield takeEvery('SEARCH_PRODUCTS_REQUEST', searchProductsSaga.saga);
+  yield takeEvery('SELL_PRODUCTS_REQUEST', sellProductsSaga.saga);
+
+
 
 }
 

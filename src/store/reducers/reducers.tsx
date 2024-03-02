@@ -9,6 +9,7 @@ import editproductReducer from "./products/editproductReducer";
 import deleteproductReducer from "./products/deleteproductReducer";
 import deactivateproductReducer from "./products/deactivateproductReducer";
 import searchproductsReducer from "./products/searchproductsReducer";
+import sellproductsReducer from "./products/sellproductsReducer";
 
 
 
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   activeproducts: activeproductsReducer,
   products: productsReducer,
   searchproducts: searchproductsReducer,
+  sellproducts: sellproductsReducer,
 
 
 
