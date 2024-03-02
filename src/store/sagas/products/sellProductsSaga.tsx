@@ -6,7 +6,7 @@ import { SELL_PRODUCTS } from '../../../graphql/mutations/products/sellproductsm
 import { Product } from '../../../types/product';
 
 interface ProductMutationResponse {
-  sellProduct: Product[];
+  sellProduct: boolean;
 }
 
 interface SellFilterInput {
@@ -42,5 +42,4 @@ export const sellProductsSaga = {
     }
   },
 };
-
 

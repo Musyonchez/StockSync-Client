@@ -1,4 +1,3 @@
-import { Product } from "@/types/product";
 
 export const sellProductsRequest = (
     company: string,
@@ -9,10 +8,11 @@ export const sellProductsRequest = (
     payload: { company, type, filterArray },
   });
   
-  export const sellProductsSuccess = (products: Product[]) => ({
+  export const sellProductsSuccess = (success: boolean) => ({
     type: 'SELL_PRODUCTS_SUCCESS',
-    payload: products,
-});
+    payload: success,
+   });
+   
   
   export const sellProductsFailure = (error: string) => ({
     type: 'SELL_PRODUCTS_FAILURE',

@@ -4,8 +4,9 @@ import { Product } from "../../../types/product";
 // Define a more specific action type with a payload property
 interface SellProductsSuccessAction extends Action {
   type: "SELL_PRODUCTS_SUCCESS";
-  payload: Product; // Adjust this type based on your actual payload
-}
+  payload: boolean; // Updated to reflect the boolean payload
+ }
+ 
 
 interface SellProductsFailureAction extends Action {
   type: "SELL_PRODUCTS_FAILURE";
@@ -28,13 +29,13 @@ type SellProductAction =
   | SellProductsRequestAction;
 
 interface ProductState {
-  data: Product[];
+  data: boolean;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: ProductState = {
-  data: [],
+  data: false,
   loading: false,
   error: null,
 };
@@ -47,25 +48,9 @@ const sellProductsReducer = (
     case "SELL_PRODUCTS_REQUEST":
       return { ...state, loading: true, error: null };
     case "SELL_PRODUCTS_SUCCESS":
-      // TypeScript knows that action.payload exists and is a product
-      const existingProductIndex = state.data.findIndex(
-        (product: Product) => product.id === action.payload.id
-      );
-
-      if (existingProductIndex !== -1) {
-        // If exists, create a new array with the updated product
-        const newData = [...state.data];
-        newData[existingProductIndex] = action.payload;
-        return { ...state, data: newData, loading: false, error: null };
-      } else {
-        // If doesn't exist, add the new product to the array
-        return {
-          ...state,
-          data: [...state.data, action.payload],
-          loading: false,
-          error: null,
-        };
-      }
+      // Assuming you want to update the state based on the success boolean
+      // For example, you might want to clear the error or update a success flag
+      return { ...state, loading: false, error: null, data: action.payload };
     case "SELL_PRODUCTS_FAILURE":
       // TypeScript knows that action.payload exists and is a string
       return { ...state, loading: false, error: action.payload };
