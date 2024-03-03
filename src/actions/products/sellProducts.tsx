@@ -2,10 +2,11 @@
 export const sellProductsRequest = (
     company: string,
     type: string,
-    filterArray: { field: string; value: number }[]
+    total: number,
+    filterArray: { productId: string; toSubtract: number; quantity: number }[]
   ) => ({
     type: 'SELL_PRODUCTS_REQUEST',
-    payload: { company, type, filterArray },
+    payload: { company, type, total, filterArray },
   });
   
   export const sellProductsSuccess = (success: boolean) => ({

@@ -45,10 +45,10 @@ const selling = () => {
       console.error("No products selected for selling.");
       return;
     }
-  
+
     // Create an array to store the filterArray for the sell mutation
-    const filterArray: { field: string; value: number }[] = [];
-  
+    const sellfilterArray: { productId: string; toSubtract: number; quantity: number }[] = [];
+
     // Iterate through selected products to build the filterArray
     selectedProducts.forEach((selectedProduct) => {
       // Check if the selected product has a valid quantity
@@ -56,18 +56,20 @@ const selling = () => {
         console.error(`Invalid quantity for product ${selectedProduct.name}.`);
         return;
       }
-  
+
       // Add product ID and quantity to the filterArray
-      filterArray.push({
-        field: selectedProduct.id,
-        value: selectedProduct.quantity,
+      sellfilterArray.push({
+        productId: selectedProduct.id,
+        toSubtract: selectedProduct.quantity,
+        quantity: selectedProduct.quantity,
       });
     });
-  
+
     // Dispatch the sellProductsRequest action with the filterArray
-    dispatch(sellProductsRequest(company as string, store as string, filterArray));
+    dispatch(
+      sellProductsRequest(company as string, store as string, total as number, sellfilterArray)
+    );
   };
-  
 
   const handleMpesa = () => {
     // Implement the logic for handling the Mpesa action here
@@ -75,14 +77,15 @@ const selling = () => {
   };
 
   useEffect(() => {
-    // Calculate total amount whenever selectedProducts change
     const calculatedTotal = selectedProducts.reduce(
-      (acc, product) => acc + product.quantity * (product.sellingPrice || 0),
-      0
+       (acc, product) => {
+         const productTotal = product.quantity * (product.sellingPrice || 0);
+         return acc + productTotal;
+       },
+       0
     );
-
     setTotal(calculatedTotal);
-  }, [selectedProducts]);
+   }, [selectedProducts]);
 
   const addSelected = (productId: string) => {
     // Add logic to determine whether the product is already selected

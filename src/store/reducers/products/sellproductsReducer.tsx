@@ -18,7 +18,8 @@ interface SellProductsRequestAction extends Action {
   payload: {
     company: string;
     type: string;
-    filterArray: { field: string; value: number }[];
+    total: number;
+    filterArray: { productId: string; toSubtract: number; quantity: number }[];
   };
 }
 
