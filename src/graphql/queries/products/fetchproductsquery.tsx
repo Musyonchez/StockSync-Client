@@ -1,6 +1,4 @@
-// graphql/querys.tsx
-
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const GET_ALL_PRODUCTS = gql`
   query GetProducts($company: String!, $type: String!) {

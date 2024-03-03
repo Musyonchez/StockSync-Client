@@ -26,6 +26,10 @@ import edituserReducer from "./users/edituserReducer";
 
 
 
+import transactionsReducer from "./transactions/fetchtransactionReducer";
+
+
+
 const rootReducer = combineReducers({
   product: productReducer,
   addproduct: addproductReducer,
@@ -55,6 +59,10 @@ const rootReducer = combineReducers({
   deleteuser: deleteuserReducer,
   adduser: adduserReducer,
   edituser: edituserReducer,
+
+
+  transactions: transactionsReducer,
+
 
   // Add other reducers as needed
 });
