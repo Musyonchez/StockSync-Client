@@ -2,67 +2,50 @@ import { Action } from "redux";
 import { Transaction } from "../../../types/transaction"; // Assuming you have a transaction type
 
 // Define a more specific action type with a payload property
-interface FetchTransactionsSuccessAction extends Action {
-  type: "FETCH_TRANSACTIONS_SUCCESS";
+interface FetchTransactionSuccessAction extends Action {
+  type: "FETCH_TRANSACTION_SUCCESS";
   payload: Transaction; // Adjust this type based on your actual payload
 }
 
-interface FetchTransactionsFailureAction extends Action {
-  type: "FETCH_TRANSACTIONS_FAILURE";
+interface FetchTransactionFailureAction extends Action {
+  type: "FETCH_TRANSACTION_FAILURE";
   payload: string; // Adjust this type based on your actual payload
 }
 
-interface FetchTransactionsRequestAction extends Action {
-  type: "FETCH_TRANSACTIONS_REQUEST";
+interface FetchTransactionRequestAction extends Action {
+  type: "FETCH_TRANSACTION_REQUEST";
 }
 
 // Union type for all possible transaction actions
 type TransactionAction =
-  | FetchTransactionsSuccessAction
-  | FetchTransactionsFailureAction
-  | FetchTransactionsRequestAction;
+  | FetchTransactionSuccessAction
+  | FetchTransactionFailureAction
+  | FetchTransactionRequestAction;
 
 interface TransactionState {
-  data: Transaction[];
-  loading: boolean;
+    data: Transaction | null;
+    loading: boolean;
   error: string | null;
 }
 
 const initialState: TransactionState = {
-  data: [],
-  loading: false,
+    data: null,
+    loading: false,
   error: null,
 };
 
-const transactionsReducer = (
+const transactionReducer = (
   state: TransactionState = initialState,
   action: TransactionAction
 ): TransactionState => {
   switch (action.type) {
-    case "FETCH_TRANSACTIONS_REQUEST":
+    case "FETCH_TRANSACTION_REQUEST":
       return { ...state, loading: true, error: null };
-      case "FETCH_TRANSACTIONS_SUCCESS":
+      case "FETCH_TRANSACTION_SUCCESS":
         // Now TypeScript knows that action.payload exists
-        // Check if the transaction with the same ID already exists
-        const existingTransactionIndex = state.data.findIndex(
-          (transaction: Transaction) => transaction.id === action.payload.id
-        );
-  
-        if (existingTransactionIndex !== -1) {
-          // If exists, create a new array with the updated transaction
-          const newData = [...state.data];
-          newData[existingTransactionIndex] = action.payload;
-          return { ...state, data: newData, loading: false, error: null };
-        } else {
-          // If doesn't exist, add the new transaction to the array
-          return {
-            ...state,
-            data: [...state.data, action.payload],
-            loading: false,
-            error: null,
-          };
-        }
-    case "FETCH_TRANSACTIONS_FAILURE":
+        return { ...state, data: action.payload, loading: false, error: null };
+
+    case "FETCH_TRANSACTION_FAILURE":
       // TypeScript knows that action.payload exists and is a string
       return { ...state, loading: false, error: action.payload };
     default:
@@ -70,4 +53,4 @@ const transactionsReducer = (
   }
 };
 
-export default transactionsReducer;
+export default transactionReducer;
