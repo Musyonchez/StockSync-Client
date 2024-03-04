@@ -58,33 +58,45 @@ const Transactions = () => {
   }
 
   return (
-    <div>
-      <h1>Transactions</h1>
-      <ul>
-        {transactions.map((transaction: Transaction) => (
-          <li key={transaction.id}>
-            <Link href={`${router.asPath}/${transaction.id}`}>
-              <p>ID: {transaction.id}</p>
-              <p>Created At: {transaction.createdAt}</p>
-              {/* Add other fields from Transaction type */}
-              <p>Total Amount: {transaction.totalAmount}</p>
-              {/* Loop through details array */}
-              <ul>
-                {transaction.details.map((detail: TransactionDetail) => (
-                  <li key={detail.id}>
-                    <p>Detail ID: {detail.id}</p>
-                    {/* Add other fields from TransactionDetail type */}
-                    <p>Name: {detail.name}</p>
-                    <p>Quantity: {detail.quantity}</p>
-                    {/* Add more fields as needed */}
-                  </li>
-                ))}
-              </ul>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Layout>
+      <div className="container mx-auto p-4">
+        <h1 className="text-3xl font-semibold mb-4">Transactions</h1>
+        <ul>
+          {transactions.map((transaction: Transaction) => (
+            <li key={transaction.id} className="mb-8">
+              <Link href={`${router.asPath}/${transaction.id}`}>
+                <div className="bg-white p-6 shadow-md rounded-md">
+                  <p className="text-lg font-semibold mb-2">
+                    ID: {transaction.id}
+                  </p>
+                  <p>Created At: {transaction.createdAt}</p>
+                  <p>Total Amount: {transaction.totalAmount}</p>
+                  <ul className="mt-4">
+                    <p className="text-lg font-semibold mb-2">Details</p>
+                    {transaction.details.map((detail: TransactionDetail) => (
+                      <li
+                        key={detail.id}
+                        className="mb-2 bg-white p-6 shadow-md rounded-md"
+                      >
+                        <p className="text-sm font-semibold">ID: {detail.id}</p>
+                        <p>Name: {detail.name}</p>
+                        <p>Category: {detail.category}</p>
+                        <p>Current: {detail.current}</p>
+                        <p>Unit Cost: {detail.unitCost}</p>
+                        <p>Selling Price: {detail.sellingPrice}</p>
+                        <p>Tax Information: {detail.taxInformation}</p>
+                        <p>Supplier: {detail.supplier}</p>
+                        <p>Quantity: {detail.quantity}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Layout>
   );
 };
 

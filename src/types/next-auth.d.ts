@@ -34,3 +34,22 @@ export type InvoiceDataState = {
   products: any[];
   bank: any[];
 };
+
+interface TransactionDetail {
+  id: string;
+  name: string;
+  category: string;
+  current: number;
+  unitCost: number;
+  sellingPrice: number;
+  taxInformation: number;
+  supplier: string;
+  quantity: number;
+ }
+ 
+ interface TransactionDataState {
+  id: string;
+  createdAt: string;
+  totalAmount: number;
+  details: TransactionDetail[]; // Adjusted to indicate an array of TransactionDetail objects
+ }
