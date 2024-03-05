@@ -40,7 +40,7 @@ const RegisterPage: React.FC = () => {
             administrator or supervisor.
           </p>
           <p className="text-lg mb-4">
-            If you are a business owner, please contact us at{" "}
+            If you are a business owner, please contact us at
             <Link
               href="/contact"
               className="text-emerald-500 dark:text-emerald-400 underline"
