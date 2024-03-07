@@ -16,7 +16,6 @@ const AddUser = () => {
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [age, setAge] = useState(0);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [store1, setStore1] = useState(false);
@@ -38,7 +37,6 @@ const AddUser = () => {
         addUserRequest(
           firstName,
           lastName,
-          age,
           email,
           password,
           store1,
@@ -53,7 +51,6 @@ const AddUser = () => {
 
       setFirstName("");
       setLastName("");
-      setAge(0);
       setEmail("");
       setPassword("");
       setStore1(false);
@@ -106,23 +103,7 @@ const AddUser = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-            <div className="mb-4">
-              <label
-                htmlFor="age"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Age:
-              </label>
-              <input
-                type="number"
-                name="age"
-                id="age"
-                value={age || ""}
-                onChange={(e) => setAge(parseInt(e.target.value, 10))}
-                placeholder="Enter Age"
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-            </div>
+           
             <div className="mb-4">
               <label
                 htmlFor="email"

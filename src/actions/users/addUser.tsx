@@ -6,7 +6,6 @@ import { UserRole } from '../../types/user';
 export const addUserRequest = (
   firstName: string,
   lastName: string,
-  age: number,
   email: string,
   password: string,
   store1: boolean,
@@ -21,7 +20,6 @@ export const addUserRequest = (
   payload: {
     firstName,
     lastName,
-    age,
     email,
     password,
     store1,

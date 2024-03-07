@@ -15,7 +15,6 @@ export const addUserSaga = {
   saga: function* (action: { type: string, payload: { 
     firstName: string,
     lastName: string,
-    age: number,
     email: string,
     password: string,
     store1: boolean,
@@ -30,7 +29,6 @@ export const addUserSaga = {
       const { 
         firstName,
         lastName,
-        age,
         email,
         password,
         store1,
@@ -49,7 +47,6 @@ export const addUserSaga = {
           variables: {
             firstName,
             lastName,
-            age,
             email,
             password,
             store1,

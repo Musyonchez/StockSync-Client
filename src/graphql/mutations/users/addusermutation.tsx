@@ -4,7 +4,6 @@ export const ADD_USER = gql`
   mutation AddUser(
     $firstName: String!
     $lastName: String!
-    $age: Int!
     $email: String!
     $password: String!
     $store1: Boolean!
@@ -18,7 +17,6 @@ export const ADD_USER = gql`
     addUser(
       firstName: $firstName
       lastName: $lastName
-      age: $age
       email: $email
       password: $password
       store1: $store1
@@ -32,7 +30,6 @@ export const ADD_USER = gql`
       id
       firstName
       lastName
-      age
       email
       store1
       store2
