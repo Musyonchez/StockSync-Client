@@ -11,8 +11,7 @@ export const ADD_PRODUCT = gql`
     addProduct(
       name: $name
       description: $description
-      category: $group
-
+      category: $category
       company: $company
       type: $type
     ) {
@@ -20,7 +19,7 @@ export const ADD_PRODUCT = gql`
       name
       description
       category
-
+      imageURL
       active
     }
   }

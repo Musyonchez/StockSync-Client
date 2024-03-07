@@ -35,7 +35,7 @@ const initialState: ProductState = {
 const addproductReducer = (state: ProductState = initialState, action: ProductAction): ProductState => {
   switch (action.type) {
     case 'ADD_PRODUCT_REQUEST':
-      return { ...state, loading: true, error: null };
+      return { ...state, data: null, loading: true, error: null };
       case 'ADD_PRODUCT_SUCCESS':
         // Now TypeScript knows that action.payload exists
         return { ...state, data: action.payload, loading: false, error: null };

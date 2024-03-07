@@ -5,7 +5,6 @@ export const addProductRequest = (
   name: string,
   description: string,
   category: string,
-
   company: string,
   type: string
 ) => ({
@@ -14,7 +13,6 @@ export const addProductRequest = (
     name,
     description,
     category,
-
     company,
     type,
   },

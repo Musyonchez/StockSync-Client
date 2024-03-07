@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { addProductRequest } from "../../../../../../actions/products/addProduct";
-// import { RootState } from "../../../../../../store/reducers/reducers";
-// import { Product } from "../../../../../../types/product"; // Import the Product type
+import { RootState } from "../../../../../../store/reducers/reducers";
+import { Product } from "../../../../../../types/product"; // Import the Product type
 
 // import Link from "next/link";
 import { useRouter } from "next/router";
@@ -17,19 +17,21 @@ const AddProduct = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  const [image, setImage] = useState<File | null>(null);
 
   const dispatch = useDispatch();
+  const product = useSelector((state: RootState) => state.addproduct.data);
+  const loading = useSelector((state: RootState) => state.addproduct.loading);
+  const error = useSelector((state: RootState) => state.addproduct.error);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       dispatch(
         addProductRequest(
           name,
           description,
           category,
-
           company,
           store // Assuming 'store' is the correct variable for the product type
         )
@@ -41,7 +43,38 @@ const AddProduct = () => {
 
       // Handle success if needed
     } catch (error) {
-      // Handle error if needed
+      console.error("Error uploading image:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (image && product) {
+      // Once product data is available, proceed with image upload
+      handleImageUpload();
+    }
+  }, [product]);
+
+  const handleImageUpload = async () => {
+    try {
+      if (image && product) {
+        const formData = new FormData();
+        const newImageName = product.id;
+
+        // Append the file with the desired name
+        formData.append("file", image, newImageName);
+        formData.append("company", company);
+
+
+        console.log("file from fileupload rest api", image , newImageName, product);
+
+        // Send a POST request to your REST API endpoint
+        await fetch("http://localhost:5000/upload", {
+          method: "POST",
+          body: formData,
+        });
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
     }
   };
 
@@ -103,6 +136,24 @@ const AddProduct = () => {
                 required
                 onChange={(e) => setCategory(e.target.value)}
                 placeholder="Enter Product Group"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="image"
+                className="block text-sm font-semibold text-gray-600 mb-1"
+              >
+                Product Image:
+              </label>
+              <input
+                type="file"
+                accept=".jpg,.jpeg,.png,.gif"
+                name="image"
+                id="image"
+                onChange={(e) => setImage(e.target.files?.[0] || null)}
+                placeholder="Enter Product Image"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
