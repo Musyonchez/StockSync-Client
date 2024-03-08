@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import { Transaction } from "../../../types/transaction"; // Assuming you have a transaction type
+import { Transaction } from "../../../../types/transaction"; // Assuming you have a transaction type
 
 // Define a more specific action type with a payload property
 interface FetchTransactionSuccessAction extends Action {

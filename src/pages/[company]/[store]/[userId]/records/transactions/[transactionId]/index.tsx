@@ -4,7 +4,7 @@ import Link from "next/link";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTransactionRequest } from "@/actions/transactions/fetchTransaction";
+import { fetchTransactionRequest } from "@/actions/records/transactions/fetchTransaction";
 
 import { RootState } from "../../../../../../../store/reducers/reducers";
 import { TransactionDetail } from "../../../../../../../types/transaction";

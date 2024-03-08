@@ -1,5 +1,5 @@
 // actions/transactionActions.ts
-import { Transaction } from '../../types/transaction'; // Assuming you have a transaction type
+import { Transaction } from '../../../types/transaction'; // Assuming you have a transaction type
 
 export const fetchTransactionRequest = (  id: string, company: string, type: string) => ({
   type: 'FETCH_TRANSACTION_REQUEST',

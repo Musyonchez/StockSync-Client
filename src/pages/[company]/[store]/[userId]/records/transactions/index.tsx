@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/reducers/reducers";
-import { fetchTransactionsRequest } from "@/actions/transactions/fetchTransactions";
+import { fetchTransactionsRequest } from "@/actions/records/transactions/fetchTransactions";
 import {
   Transaction,
   TransactionDetail,

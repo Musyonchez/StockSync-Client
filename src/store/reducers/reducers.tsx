@@ -27,8 +27,8 @@ import edituserReducer from "./users/edituserReducer";
 
 
 
-import transactionsReducer from "./transactions/fetchtransactionsReducer";
-import transactionReducer from "./transactions/fetchtransactionReducer";
+import transactionsReducer from "./records/transactions/fetchtransactionsReducer";
+import transactionReducer from "./records/transactions/fetchtransactionReducer";
 
 
 

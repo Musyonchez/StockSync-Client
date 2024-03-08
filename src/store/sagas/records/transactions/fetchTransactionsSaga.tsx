@@ -1,11 +1,11 @@
 // sagas/fetchTransactionSaga.ts
 
 import { call, put } from 'redux-saga/effects';
-import { fetchTransactionsSuccess, fetchTransactionsFailure } from '../../../actions/transactions/fetchTransactions';
+import { fetchTransactionsSuccess, fetchTransactionsFailure } from '../../../../actions/records/transactions/fetchTransactions';
 import { ApolloQueryResult } from '@apollo/client';
-import { apolloClient } from '../../../graphql/apolloclient';
-import { GET_TRANSACTIONS } from '../../../graphql/queries/transactions/fetchtransactionsquery'; // Update with your actual query
-import { Transaction } from '../../../types/transaction';
+import { apolloClient } from '../../../../graphql/apolloclient';
+import { GET_TRANSACTIONS } from '../../../../graphql/queries/transactions/fetchtransactionsquery'; // Update with your actual query
+import { Transaction } from '../../../../types/transaction';
 
 interface TransactionQueryResponse {
     getTransactions: never[];
