@@ -127,6 +127,16 @@ const EditUser = () => {
         )
       );
     }
+
+    setData({
+      firstName: "",
+      lastName: "",
+      store1: false,
+      store2: false,
+      store3: false,
+      store4: false,
+      role: "USER",
+    });
   };
 
   return (

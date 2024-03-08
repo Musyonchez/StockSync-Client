@@ -9,6 +9,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
+import emptyProduct from "../../../../../../../../public/emptyProduct.jpg";
+
+
 const ProductDetail = () => {
   const router = useRouter();
   const company = router.query?.company as string; // Ensure company is always a string
@@ -19,7 +22,6 @@ const ProductDetail = () => {
     name: "",
     description: "",
     category: "",
-    current: 0,
     reorderLevel: 0,
     unitCost: 0,
     sellingPrice: 0,
@@ -31,7 +33,6 @@ const ProductDetail = () => {
     name: "",
     description: "",
     category: "",
-    current: 0,
     reorderLevel: 0,
     unitCost: 0,
     sellingPrice: 0,
@@ -122,17 +123,23 @@ const ProductDetail = () => {
     Object.keys(data).forEach((key) => {
       const dataValue = data[key as keyof typeof data];
       const initialValue = initialData[key as keyof typeof initialData];
-  
+
       // Special handling for boolean values and case sensitivity for strings
       if (typeof dataValue === "boolean" || typeof initialValue === "boolean") {
         if (dataValue !== initialValue) {
           filterArray.push({ field: key, value: dataValue.toString() });
         }
-      } else if (typeof dataValue === "string" && typeof initialValue === "string") {
+      } else if (
+        typeof dataValue === "string" &&
+        typeof initialValue === "string"
+      ) {
         if (dataValue.toLowerCase() !== initialValue.toLowerCase()) {
           filterArray.push({ field: key, value: dataValue });
         }
-      } else if (typeof dataValue === "number" || typeof initialValue === "number") {
+      } else if (
+        typeof dataValue === "number" ||
+        typeof initialValue === "number"
+      ) {
         if (dataValue !== initialValue) {
           filterArray.push({ field: key, value: dataValue.toString() });
         }
@@ -161,15 +168,12 @@ const ProductDetail = () => {
       name: "",
       description: "",
       category: "",
-      current: 0,
       reorderLevel: 0,
       unitCost: 0,
       sellingPrice: 0,
       taxInformation: 0,
       supplier: "",
     });
-
-
 
     if (image) {
       const formData = new FormData();
@@ -179,8 +183,12 @@ const ProductDetail = () => {
       formData.append("file", image, newImageName);
       formData.append("company", company);
 
-
-      console.log("file from fileupload rest api", image , newImageName, product);
+      console.log(
+        "file from fileupload rest api",
+        image,
+        newImageName,
+        product
+      );
 
       // Send a POST request to your REST API endpoint
       await fetch("http://localhost:5000/upload", {
@@ -188,7 +196,6 @@ const ProductDetail = () => {
         body: formData,
       });
     }
-
   };
 
   return (
@@ -306,37 +313,6 @@ const ProductDetail = () => {
                   }))
                 }
                 placeholder="Enter New Category"
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="current"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Current Price:
-              </label>
-              <input
-                type="number"
-                name="current"
-                id="current"
-                value={product.current}
-                readOnly
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-              <input
-                type="number"
-                name="current"
-                id="current"
-                value={data.current || ""}
-                onChange={(e) =>
-                  setData((prevData) => ({
-                    ...prevData,
-                    current: +e.target.value,
-                  }))
-                }
-                placeholder="Enter New Current Price"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -476,7 +452,12 @@ const ProductDetail = () => {
                 src={product.imageURL}
                 alt="Product Image"
                 className="w-24 h-24"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).onerror = null; // Prevent infinite loop
+                  (e.target as HTMLImageElement).src = emptyProduct.src; // Corrected line
+                }}
               />
+
               <input
                 type="file"
                 accept=".jpg,.jpeg,.png,.gif"

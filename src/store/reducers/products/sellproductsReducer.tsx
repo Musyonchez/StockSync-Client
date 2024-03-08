@@ -47,7 +47,7 @@ const sellProductsReducer = (
 ): ProductState => {
   switch (action.type) {
     case "SELL_PRODUCTS_REQUEST":
-      return { ...state, loading: true, error: null };
+      return { ...state, data: false, loading: true, error: null };
     case "SELL_PRODUCTS_SUCCESS":
       // Assuming you want to update the state based on the success boolean
       // For example, you might want to clear the error or update a success flag

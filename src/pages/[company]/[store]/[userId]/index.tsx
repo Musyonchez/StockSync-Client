@@ -8,8 +8,6 @@ import { fetchUserRequest } from "../../../../actions/users/fetchUser";
 import { RootState } from "../../../../store/reducers/reducers";
 import Link from "next/link";
 
-
-
 const Index = () => {
   const router = useRouter();
   const { company } = router.query;
@@ -38,9 +36,7 @@ const Index = () => {
         fetchUserRequest(userId as string, company as string, store as string)
       );
     }
-
   }, [dispatch, company, store, userId, router]);
-
 
   return (
     <Layout>
@@ -78,15 +74,19 @@ const Index = () => {
             </div>
             <div className="sm:col-span-2 md:col-span-1">
               <strong className="text-gray-600 dark:text-gray-200">
+                First Name:
+              </strong>
+              <p className="text-gray-800 dark:text-gray-300">
+                {user?.firstName}
+              </p>
+            </div>
+            <div className="sm:col-span-2 md:col-span-1">
+              <strong className="text-gray-600 dark:text-gray-200">
                 Last Name:
               </strong>
               <p className="text-gray-800 dark:text-gray-300">
                 {user?.lastName}
               </p>
-            </div>
-            <div className="sm:col-span-2 md:col-span-1">
-              <strong className="text-gray-600 dark:text-gray-200">Age:</strong>
-              <p className="text-gray-800 dark:text-gray-300">{user?.age}</p>
             </div>
             <div className="sm:col-span-2 md:col-span-1">
               <strong className="text-gray-600 dark:text-gray-200">

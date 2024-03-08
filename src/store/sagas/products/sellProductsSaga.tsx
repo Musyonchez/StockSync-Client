@@ -22,6 +22,8 @@ export const sellProductsSaga = {
   saga: function* (action: {
     type: string;
     payload: {
+      id: string;
+      name: string;
       company: string;
       type: string;
       total: number;
@@ -29,25 +31,27 @@ export const sellProductsSaga = {
     };
   }) {
     try {
-      const { company, type, total, filterArray } = action.payload;
+      const { id, name, company, type, total, filterArray } = action.payload;
       const response: ApolloQueryResult<ProductMutationResponse> = yield call(
         apolloClient.mutate,
         {
           mutation: SELL_PRODUCTS,
-          variables: { company, type, total, filterArray },
+          variables: { id, name, company, type, total, filterArray },
         }
       );
 
       console.log("GraphQL Full Response:", response);
 
-      const updatedProducts = response.data?.sellProduct;
+      const sellProductResponse = response.data?.sellProduct;
 
-      // Check if updatedProducts is an array
-      if (Array.isArray(updatedProducts)) {
-        console.log("boloan sell saga", updatedProducts);
-        yield put(sellProductsSuccess(updatedProducts));
+      if (typeof sellProductResponse === "boolean") {
+        if (sellProductResponse) {
+          yield put(sellProductsSuccess(sellProductResponse));
+        } else {
+          yield put(sellProductsFailure("Sell failed")); // You can customize the failure message
+        }
       } else {
-        yield put(sellProductsFailure("Invalid response or sell array"));
+        yield put(sellProductsFailure("Invalid response from sell mutation"));
       }
     } catch (error) {
       yield put(sellProductsFailure((error as Error).message));

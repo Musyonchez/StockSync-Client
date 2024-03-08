@@ -10,10 +10,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { sellProductsRequest } from "@/actions/products/sellProducts";
 
+import { useSession } from "next-auth/react";
+
 const selling = () => {
+  const { data: session } = useSession();
   const router = useRouter();
   const company = router.query?.company as string; // Ensure company is always a string
   const store = router.query?.store as string;
+  const userId = router.query?.userId as string;
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [name, setName] = useState("");
 
@@ -25,6 +29,11 @@ const selling = () => {
     (state: RootState) => state.searchproducts.loading
   );
   const error = useSelector((state: RootState) => state.searchproducts.error);
+
+  const sellProductResponse = useSelector(
+    (state: RootState) => state.sellproducts.data
+  );
+  const [isSellButtonActive, setIsSelleButtonActive] = useState(true);
 
   const handleSearch = (): void => {
     const filterArray = [{ field: "name", value: name }];
@@ -39,6 +48,8 @@ const selling = () => {
   const handleSell = () => {
     // Implement the logic for handling the sell action here
     console.log("Sell action triggered");
+
+    setIsSelleButtonActive(false);
 
     // Check if there are selected products
     if (selectedProducts.length === 0) {
@@ -69,15 +80,43 @@ const selling = () => {
       });
     });
 
+    // Assuming you're using TypeScript
+    const firstName = session?.user?.firstName || "";
+    const secondName = session?.user?.lastName || "";
+
+    const name = `${firstName} || ${secondName}`;
+
     // Dispatch the sellProductsRequest action with the filterArray
     dispatch(
       sellProductsRequest(
+        userId as string,
+        name as string,
         company as string,
         store as string,
         total as number,
         sellfilterArray
       )
     );
+  };
+
+  useEffect(() => {
+    console.log("up", sellProductResponse);
+    if (sellProductResponse) {
+      console.log("down", sellProductResponse);
+
+      // Once product data is available, proceed with image upload
+      handleSellButton();
+    }
+  }, [sellProductResponse]);
+
+  const handleSellButton = () => {
+    if (sellProductResponse) {
+      if (sellProductResponse) {
+        setIsSelleButtonActive(true);
+      } else {
+        alert("Failed to run the sell");
+      }
+    }
   };
 
   const handleMpesa = () => {
@@ -121,6 +160,16 @@ const selling = () => {
     }
   };
 
+  const removeSelected = (productId: string) => {
+    // Filter out the product with the given productId
+    const updatedSelectedProducts = selectedProducts.filter(
+      (selectedProduct) => selectedProduct?.id !== productId
+    );
+
+    // Update the state with the filtered array
+    setSelectedProducts(updatedSelectedProducts);
+  };
+
   return (
     <Layout>
       <div className="flex w-full flex-col-reverse lg:flex-row lg:min-h-screen">
@@ -139,7 +188,7 @@ const selling = () => {
                 {selectedProducts?.map((selectedProduct: Product) => (
                   <li
                     key={selectedProduct.id}
-                    className="text-lg flex items-center font-semibold"
+                    className="relative text-lg flex items-center h-full w-full justify-between font-semibold"
                   >
                     <img
                       src={selectedProduct.imageURL}
@@ -236,12 +285,23 @@ const selling = () => {
                           selectedProduct.sellingPrice}
                       </p>
                     </div>
+                    <button
+                      className="absolute top-0 right-0 flex justify-end items-start bg-red-500 px-2 rounded-md"
+                      onClick={() => removeSelected(selectedProduct.id)}
+                    >
+                      X
+                    </button>
                   </li>
                 ))}
               </ul>
-              <div className=" flex justify-end items-end">
+              <div className=" flex justify-end items-end space-x-4">
                 <button
-                  className=" bg-emerald-600 text-white px-4 py-2 rounded-md"
+                  className={`${
+                    isSellButtonActive
+                      ? "bg-emerald-600 hover:bg-emerald-800"
+                      : "bg-gray-400 cursor-not-allowed"
+                  } text-white px-4 py-2 rounded-md`}
+                  disabled={!isSellButtonActive}
                   onClick={handleSell}
                 >
                   Sell
