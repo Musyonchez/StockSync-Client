@@ -97,6 +97,9 @@ const selling = () => {
         sellfilterArray
       )
     );
+
+    setSelectedProducts([]);
+    setTotal(0);
   };
 
   useEffect(() => {
@@ -335,8 +338,10 @@ const selling = () => {
               </button>
             </div>
             <div>
-              {loading ? (
+            {loading ? (
                 <p className="text-lg text-center text-black">Loading...</p>
+              ) : products.length === 0 ? (
+                <p className="text-lg text-center text-black">No products found.</p>
               ) : (
                 <ul>
                   {products?.map((product: Product) => (

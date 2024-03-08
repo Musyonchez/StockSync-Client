@@ -25,12 +25,14 @@ export const searchProductsSaga = {
 
       const products = response.data?.search;
 
-      if (Array.isArray(products)) {
+      if (Array.isArray(products) && products.length > 0) {
         for (const product of products) {
           yield put(searchProductsSuccess(product));
         }
+        console.log("the if route was taken in search saga")
       } else {
-        yield put(searchProductsFailure('Invalid response or search array'));
+        yield put(searchProductsFailure('No products found'));
+        console.log("the else route was taken in search saga")
       }
     } catch (error) {
       yield put(searchProductsFailure((error as Error).message));
