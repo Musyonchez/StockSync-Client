@@ -17,7 +17,6 @@ const EditUser = () => {
   const userID = router.query?.userID as string;
 
   const [data, setData] = useState({
-    id: "",
     firstName: "",
     lastName: "",
     store1: false,
@@ -28,7 +27,6 @@ const EditUser = () => {
   });
 
   const [initialData, setInitialData] = useState({
-    id: "",
     firstName: "",
     lastName: "",
     store1: false,
@@ -122,7 +120,7 @@ const EditUser = () => {
       }
       dispatch(
         editUserRequest(
-          userID as string,
+          user.id as string,
           company as string,
           store as string,
           filterArray

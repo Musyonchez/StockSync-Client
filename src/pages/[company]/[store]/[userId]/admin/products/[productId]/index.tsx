@@ -227,16 +227,16 @@ const ProductDetail = () => {
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="name"
+                  htmlFor="category"
                   className="block text-sm font-semibold text-gray-600 mb-1"
                 >
-                  Product Group:
+                  Product Category:
                 </label>
                 <input
                   type="text"
-                  name="name"
-                  id="name"
-                  value={product.group}
+                  name="category"
+                  id="category"
+                  value={product.category}
                   readOnly
                   className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
                 />
@@ -252,71 +252,71 @@ const ProductDetail = () => {
                   type="number"
                   name="current"
                   id="current"
-                  value={product.currentQuantity}
+                  value={product.current}
                   readOnly
                   className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="reorder"
+                  htmlFor="reoderLevel"
                   className="block text-sm font-semibold text-gray-600 mb-1"
                 >
                   Reorder Quantity:
                 </label>
                 <input
                   type="number"
-                  name="reorder"
-                  id="reorder"
-                  value={product.reorderQuantity}
+                  name="reoderLevel"
+                  id="reoderLevel"
+                  value={product.reoderLevel}
                   readOnly
                   className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="minimum"
+                  htmlFor="unitCost"
                   className="block text-sm font-semibold text-gray-600 mb-1"
                 >
-                  Minimum Quantity:
+                  Unit Cost:
                 </label>
                 <input
                   type="number"
-                  name="minimum"
-                  id="minimum"
-                  value={product.minimumQuantity}
+                  name="unitCost"
+                  id="unitCost"
+                  value={product.unitCost}
                   readOnly
                   className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="minimum"
+                  htmlFor="sellingPrice"
                   className="block text-sm font-semibold text-gray-600 mb-1"
                 >
-                  Current Cost:
+                Selling Price:
                 </label>
                 <input
                   type="number"
-                  name="minimum"
-                  id="minimum"
-                  value={product.costCurrent}
+                  name="sellingPrice"
+                  id="sellingPrice"
+                  value={product.sellingPrice}
                   readOnly
                   className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="minimum"
+                  htmlFor="supplier"
                   className="block text-sm font-semibold text-gray-600 mb-1"
                 >
-                  Previous Cost:
+                  Supplier:
                 </label>
                 <input
-                  type="number"
-                  name="minimum"
-                  id="minimum"
-                  value={product.costPrevious}
+                  type="text"
+                  name="supplier"
+                  id="supplier"
+                  value={product.supplier}
                   readOnly
                   className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
                 />

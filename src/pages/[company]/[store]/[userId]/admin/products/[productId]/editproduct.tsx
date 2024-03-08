@@ -26,6 +26,33 @@ const ProductDetail = () => {
   const [imageURL, setImageURL] = useState("");
   const [supplier, setSupplier] = useState("");
 
+  const [data, setData] = useState({
+    name: "",
+    description: "",
+    category: "",
+    current: 0,
+    reoderLevel: 0,
+    unitCost: 0,
+    sellingPrice: 0,
+    taxInformation: 0,
+    imageURL: "",
+    supplier: "",
+  });
+
+  const [initialData, setInitialData] = useState({
+    name: "",
+    description: "",
+    category: "",
+    current: 0,
+    reoderLevel: 0,
+    unitCost: 0,
+    sellingPrice: 0,
+    taxInformation: 0,
+    imageURL: "",
+    supplier: "",
+  });
+
+
   const dispatch = useDispatch();
   const initialProduct = useSelector((state: RootState) => state.product.data);
   const loading = useSelector((state: RootState) => state.product.loading);
@@ -97,39 +124,49 @@ const ProductDetail = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
+
+    console.log("firstname", data.name);
+    console.log("Initial Data:", initialData);
+    console.log("Current Data:", data);
+
+    const filterArray: { field: string; value: string }[] = [];
+
+
+    Object.keys(data).forEach((key) => {
+      const dataValue = data[key as keyof typeof data];
+      const initialValue = initialData[key as keyof typeof initialData];
+
+      // Special handling for boolean values and case sensitivity for strings
+      if (typeof dataValue === "boolean" || typeof initialValue === "boolean") {
+        if (dataValue !== initialValue) {
+          filterArray.push({ field: key, value: dataValue.toString() });
+        }
+      } else if (
+        typeof dataValue === "string" &&
+        typeof initialValue === "string"
+      ) {
+        if (dataValue.toLowerCase() !== initialValue.toLowerCase()) {
+          filterArray.push({ field: key, value: dataValue });
+        }
+      } else {
+        // For other types, use strict equality check
+        if (dataValue !== initialValue) {
+          filterArray.push({ field: key, value: dataValue.toString() });
+        }
+      }
+    });
+
+    console.log("Form submitted with changes:", filterArray);
+
+    if (company && store && productId) {
       dispatch(
         editProductRequest(
-          productId,
-          name,
-          description,
-          category,
-          current,
-          reoderLevel,
-          unitCost,
-          sellingPrice,
-          taxInformation,
-          imageURL,
-          supplier,
-
-          company,
-          store // Assuming 'store' is the correct variable for the product type
+          productId as string,
+          company as string,
+          store as string,
+          filterArray
         )
       );
-
-      setName("");
-      setDescription("");
-      setCategory("");
-      setCurrent(0);
-      setReoderLevel(0);
-      setUnitCost(0);
-      setSellingPrice(0);
-      setTaxInformation(0);
-      setImageURL("");
-      setSupplier("");
-    } catch (error) {
-      console.error("Error editing product:", error);
-      // Handle error if needed
     }
   };
 

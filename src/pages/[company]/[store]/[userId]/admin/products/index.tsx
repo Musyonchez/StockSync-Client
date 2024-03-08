@@ -103,12 +103,12 @@ function ProductList() {
                 >
                   <div className=" min-w-36">Name:</div>
                   <div className=" min-w-64">Description:</div>
-                  <div className=" min-w-32">Group:</div>
-                  <div className=" min-w-28">Minimum Quantity:</div>
+                  <div className=" min-w-32">Category:</div>
                   <div className=" min-w-28">Current Quantity:</div>
                   <div className=" min-w-28">Reorder Quantity:</div>
-                  <div className=" min-w-28">Current Cost:</div>
-                  <div className=" min-w-28">Previous Cost:</div>
+                  <div className=" min-w-28">Unit Cost:</div>
+                  <div className=" min-w-28">Selling Price:</div>
+                  <div className=" min-w-28">Supplier:</div>
                   <div className=" min-w-52">ID:</div>
                 </li>
                 {products
@@ -127,18 +127,18 @@ function ProductList() {
                         <div className=" min-w-64 overflow-hidden">
                           {product.description}
                         </div>
-                        <div className=" min-w-32">{product.group}</div>
+                        <div className=" min-w-32">{product.category}</div>
                         <div className=" min-w-28">
-                          {product.minimumQuantity}
+                          {product.current}
                         </div>
                         <div className=" min-w-28">
-                          {product.currentQuantity}
+                          {product.reoderLevel}
                         </div>
                         <div className=" min-w-28">
-                          {product.reorderQuantity}
+                          {product.unitCost}
                         </div>
-                        <div className=" min-w-28">{product.costCurrent}</div>
-                        <div className=" min-w-28">{product.costPrevious}</div>
+                        <div className=" min-w-28">{product.sellingPrice}</div>
+                        <div className=" min-w-28">{product.supplier}</div>
                         <div className=" min-w-52">{product.id}</div>
                       </Link>
                     </li>
@@ -157,12 +157,12 @@ function ProductList() {
                 >
                   <div className=" min-w-36">Name:</div>
                   <div className=" min-w-64">Description:</div>
-                  <div className=" min-w-32">Group:</div>
-                  <div className=" min-w-28">Minimum Quantity:</div>
+                  <div className=" min-w-32">Category:</div>
                   <div className=" min-w-28">Current Quantity:</div>
                   <div className=" min-w-28">Reorder Quantity:</div>
-                  <div className=" min-w-28">Current Cost:</div>
-                  <div className=" min-w-28">Previous Cost:</div>
+                  <div className=" min-w-28">Unit Cost:</div>
+                  <div className=" min-w-28">Selling Price:</div>
+                  <div className=" min-w-28">Supplier:</div>
                   <div className=" min-w-52">ID:</div>
                 </li>
                 {products
@@ -185,22 +185,22 @@ function ProductList() {
                             {inactiveproduct.description}
                           </div>
                           <div className=" min-w-32">
-                            {inactiveproduct.group}
+                            {inactiveproduct.category}
                           </div>
                           <div className=" min-w-28">
-                            {inactiveproduct.minimumQuantity}
+                            {inactiveproduct.current}
                           </div>
                           <div className=" min-w-28">
-                            {inactiveproduct.currentQuantity}
+                            {inactiveproduct.reoderLevel}
                           </div>
                           <div className=" min-w-28">
-                            {inactiveproduct.reorderQuantity}
+                            {inactiveproduct.unitCost}
                           </div>
                           <div className=" min-w-28">
-                            {inactiveproduct.costCurrent}
+                            {inactiveproduct.sellingPrice}
                           </div>
                           <div className=" min-w-28">
-                            {inactiveproduct.costPrevious}
+                            {inactiveproduct.supplier}
                           </div>
                           <div className=" min-w-52"> {inactiveproduct.id}</div>
                         </Link>
