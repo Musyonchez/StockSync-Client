@@ -95,62 +95,138 @@ const UserList: React.FC = () => {
           </span>
         </div>
         {Array.isArray(users) && users.length > 0 ? (
-          <div>
-            <ul>
-              <li
-                className="mb-2 px-4 py-2 border rounded flex"
-                style={{ width: "1200px" }}
-              >
-                <div className=" min-w-52">ID:</div>
-                <div className=" min-w-36">First Name:</div>
-                <div className=" min-w-36">Last Name:</div>
-                <div className=" min-w-72 overflow-hidden">Email:</div>
-                <div className=" min-w-20">Store 1:</div>
-                <div className=" min-w-20">Store 2:</div>
-                <div className=" min-w-20">Store 3:</div>
-                <div className=" min-w-20">Store 4:</div>
-                <div className=" min-w-28">Role:</div>
-              </li>
-              {users.map((user) => (
+          <>
+            <div>
+              <ul>
                 <li
-                  key={user.id}
-                  className="mb-4 p-4 border rounded"
+                  className="mb-2 px-4 py-2 border rounded flex"
                   style={{ width: "1200px" }}
                 >
-                  <Link
-                    href={`${router.asPath}/${user.id}`}
-                    className="text-blue-500 flex w-full"
-                  >
-                    <div className=" min-w-52">{user.id}</div>
-
-                    <div className=" min-w-36">{user.firstName}</div>
-
-                    <div className=" min-w-36">{user.lastName}</div>
-
-                    <div className=" min-w-72 overflow-hidden">{user.email}</div>
-
-                    <div className=" min-w-20">
-                      {user.store1 ? "Yes" : "No"}
-                    </div>
-
-                    <div className=" min-w-20">
-                      {user.store2 ? "Yes" : "No"}
-                    </div>
-
-                    <div className=" min-w-20">
-                      {user.store3 ? "Yes" : "No"}
-                    </div>
-
-                    <div className=" min-w-20">
-                      {user.store4 ? "Yes" : "No"}
-                    </div>
-
-                    <div className=" min-w-28">{user.role}</div>
-                  </Link>
+                  <div className=" min-w-52">ID:</div>
+                  <div className=" min-w-36">First Name:</div>
+                  <div className=" min-w-36">Last Name:</div>
+                  <div className=" min-w-72 overflow-hidden">Email:</div>
+                  <div className=" min-w-20">Store 1:</div>
+                  <div className=" min-w-20">Store 2:</div>
+                  <div className=" min-w-20">Store 3:</div>
+                  <div className=" min-w-20">Store 4:</div>
+                  <div className=" min-w-28">Role:</div>
                 </li>
-              ))}
-            </ul>
-          </div>
+                {users
+                  .filter((user) => user.active)
+                  .map((user) => (
+                    <li
+                      key={user.id}
+                      className="mb-4 p-4 border rounded"
+                      style={{ width: "1200px" }}
+                    >
+                      <Link
+                        href={`${router.asPath}/${user.id}`}
+                        className="text-blue-500 flex w-full"
+                      >
+                        <div className=" min-w-52">{user.id}</div>
+
+                        <div className=" min-w-36">{user.firstName}</div>
+
+                        <div className=" min-w-36">{user.lastName}</div>
+
+                        <div className=" min-w-72 overflow-hidden">
+                          {user.email}
+                        </div>
+
+                        <div className=" min-w-20">
+                          {user.store1 ? "Yes" : "No"}
+                        </div>
+
+                        <div className=" min-w-20">
+                          {user.store2 ? "Yes" : "No"}
+                        </div>
+
+                        <div className=" min-w-20">
+                          {user.store3 ? "Yes" : "No"}
+                        </div>
+
+                        <div className=" min-w-20">
+                          {user.store4 ? "Yes" : "No"}
+                        </div>
+
+                        <div className=" min-w-28">{user.role}</div>
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+
+            <div>
+              <ul>
+                <h2 className=" text-red-600 font-bold text-xl py-2">
+                  Deactivated
+                </h2>
+                <li
+                  className="mb-2 px-4 py-2 border rounded flex"
+                  style={{ width: "1200px" }}
+                >
+                  <div className=" min-w-52">ID:</div>
+                  <div className=" min-w-36">First Name:</div>
+                  <div className=" min-w-36">Last Name:</div>
+                  <div className=" min-w-72 overflow-hidden">Email:</div>
+                  <div className=" min-w-20">Store 1:</div>
+                  <div className=" min-w-20">Store 2:</div>
+                  <div className=" min-w-20">Store 3:</div>
+                  <div className=" min-w-20">Store 4:</div>
+                  <div className=" min-w-28">Role:</div>
+                </li>
+                {users
+                  .filter((user) => !user.active)
+                  .map((inactiveuser) => (
+                    <>
+                      <li
+                        key={inactiveuser.id}
+                        className="p-4 border rounded"
+                        style={{ width: "1316px" }}
+                      >
+                        <Link
+                          href={`${router.asPath}/${inactiveuser.id}`}
+                          className="text-blue-500 flex w-full"
+                        >
+                          <div className=" min-w-52">{inactiveuser.id}</div>
+
+                          <div className=" min-w-36">
+                            {inactiveuser.firstName}
+                          </div>
+
+                          <div className=" min-w-36">
+                            {inactiveuser.lastName}
+                          </div>
+
+                          <div className=" min-w-72 overflow-hidden">
+                            {inactiveuser.email}
+                          </div>
+
+                          <div className=" min-w-20">
+                            {inactiveuser.store1 ? "Yes" : "No"}
+                          </div>
+
+                          <div className=" min-w-20">
+                            {inactiveuser.store2 ? "Yes" : "No"}
+                          </div>
+
+                          <div className=" min-w-20">
+                            {inactiveuser.store3 ? "Yes" : "No"}
+                          </div>
+
+                          <div className=" min-w-20">
+                            {inactiveuser.store4 ? "Yes" : "No"}
+                          </div>
+
+                          <div className=" min-w-28">{inactiveuser.role}</div>
+                        </Link>
+                      </li>
+                    </>
+                  ))}
+              </ul>
+            </div>
+          </>
         ) : null}
       </div>
     </Layout>

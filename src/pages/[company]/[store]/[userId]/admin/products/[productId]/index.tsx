@@ -89,24 +89,33 @@ const ProductDetail = () => {
 
   const handleDelete = async () => {
     setIsDeleteButtonActive(false);
-
+  
     try {
-      dispatch(
-        deleteProductRequest(
-          productId,
-          company,
-          store // Assuming 'store' is the correct variable for the product type
-        )
-      );
-
-      const userId = query.userId;
-
-      // Use router.push to navigate to the new URL structure
-      router.push(`/${company}/${store}/${userId}/admin/products/`).then(() => {
-        window.location.reload();
-      });
-    } catch (error) {}
+      if (product.firstTransaction === false) {
+        dispatch(
+          deleteProductRequest(
+            productId,
+            company,
+            store // Assuming 'store' is the correct variable for the product type
+          )
+        );
+  
+        const userId = query.userId;
+  
+        // Use router.push to navigate to the new URL structure
+        router.push(`/${company}/${store}/${userId}/admin/products/`).then(() => {
+          window.location.reload();
+        });
+      } else {
+        throw new Error("Product has a transaction hence can't delete");
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      // Handle the error as needed
+    }
   };
+  
+
 
   const handleActivate = async () => {
     setIsActiveButtonActive(false);

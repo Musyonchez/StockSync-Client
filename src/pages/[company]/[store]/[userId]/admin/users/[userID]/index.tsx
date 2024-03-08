@@ -8,6 +8,7 @@ import Link from "next/link";
 
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
+import { deactivateUserRequest } from "@/actions/users/deactivateUser";
 
 const UserDetail = () => {
   const router = useRouter();
@@ -15,9 +16,10 @@ const UserDetail = () => {
   const store = router.query?.store as string;
   const userID = router.query?.userID as string;
   const { userId } = router.query;
-  const { pathname, query } = router;
-  const [isButtonActive, setIsButtonActive] = useState(true);
+  const [isActiveButtonActive, setIsActiveButtonActive] = useState(true);
+  const [isDeleteButtonActive, setIsDeleteButtonActive] = useState(true);
 
+  
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.data);
   const loading = useSelector((state: RootState) => state.user.loading);
@@ -62,13 +64,68 @@ const UserDetail = () => {
     );
   }
 
-  const handleDelete = async () => {
-    setIsButtonActive(false);
+  const handleDeactivate = async () => {
+    setIsActiveButtonActive(false);
 
     try {
-      dispatch(deleteUserRequest(userID, company, store));
+      dispatch(
+        deactivateUserRequest(
+          userID,
+          company,
+          store // Assuming 'store' is the correct variable for the user type
+        )
+      );
 
-      router.push(`/${company}/${store}/${userId}/admin/users`).then(() => {
+
+      // Use router.push to navigate to the new URL structure
+      router.push(`/${company}/${store}/${userId}/admin/users/`).then(() => {
+        window.location.reload();
+      });
+    } catch (error) {}
+  };
+
+
+  const handleDelete = async () => {
+    setIsDeleteButtonActive(false);
+  
+    try {
+      if (user.firstTransaction === false) {
+        dispatch(
+          deleteUserRequest(
+            userID,
+            company,
+            store // Assuming 'store' is the correct variable for the user type
+          )
+        );
+  
+  
+        // Use router.push to navigate to the new URL structure
+        router.push(`/${company}/${store}/${userId}/admin/users/`).then(() => {
+          window.location.reload();
+        });
+      } else {
+        throw new Error("User has a transaction hence can't delete");
+      }
+    } catch (error) {
+      console.error("Error deleting User:", error);
+      // Handle the error as needed
+    }
+  };
+
+  const handleActivate = async () => {
+    setIsActiveButtonActive(false);
+    try {
+      dispatch(
+        deactivateUserRequest(
+          userID,
+          company,
+          store // Assuming 'store' is the correct variable for the user type
+        )
+      );
+
+
+      // Use router.push to navigate to the new URL structure
+      router.push(`/${company}/${store}/${userId}/admin/users/`).then(() => {
         window.location.reload();
       });
     } catch (error) {}
@@ -84,16 +141,38 @@ const UserDetail = () => {
               <Link href={`${router.asPath}/edituser`}>Edit</Link>
             </button>
             <button
-              onClick={handleDelete}
+              onClick={user.active ? handleDeactivate : handleActivate}
               className={`${
-                isButtonActive
-                  ? "bg-red-500 hover:bg-red-600"
+                isActiveButtonActive
+                  ? user.active
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-green-500 hover:bg-green-600"
                   : "bg-gray-400 cursor-not-allowed"
               } text-white px-4 py-2 rounded`}
-              disabled={!isButtonActive}
+              disabled={!isActiveButtonActive}
             >
-              {isButtonActive ? "Delete" : "Deleting..."}
+              {user.active
+                ? isActiveButtonActive
+                  ? "Deactivate"
+                  : "Deactivating..."
+                : isActiveButtonActive
+                ? "Activate"
+                : "Activating"}
             </button>
+
+            {!user.active && (
+              <button
+                onClick={handleDelete}
+                className={`${
+                  isDeleteButtonActive
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-gray-400 cursor-not-allowed"
+                } text-white px-4 py-2 rounded`}
+                disabled={!isDeleteButtonActive}
+              >
+                {isDeleteButtonActive ? "Delete" : "Deleting..."}
+              </button>
+            )}
           </span>
         </div>
 

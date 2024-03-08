@@ -14,6 +14,7 @@ export const GET_ALL_USERS = gql`
       store3
       store4
       role
+      active
     }
   }
 `;

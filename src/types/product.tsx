@@ -16,4 +16,5 @@ export interface Product {
   supplier: string;
   active: boolean;
   quantity: number;
+  firstTransaction : boolean;
 }
