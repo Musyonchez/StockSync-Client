@@ -8,7 +8,7 @@ export interface Product {
   description: string;
   category?: string;
   current: number;
-  reoderLevel: number;
+  reorderLevel: number;
   unitCost: number;
   sellingPrice: number;
   taxInformation: number;

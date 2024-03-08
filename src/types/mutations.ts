@@ -6,7 +6,7 @@ export const ADD_PRODUCT_MUTATION = gql`
     $description: String!
     $category: String
     $current: Float
-    $reoderLevel: Float
+    $reorderLevel: Float
     $unitCost: Float
     $sellingPrice: Float
     $taxInformation: Float
@@ -18,7 +18,7 @@ export const ADD_PRODUCT_MUTATION = gql`
       description: $description
       category: $category
       current: $current
-      reoderLevel: $reoderLevel
+      reorderLevel: $reorderLevel
       unitCost: $unitCost
       sellingPrice: $sellingPrice
       taxInformation: $taxInformation

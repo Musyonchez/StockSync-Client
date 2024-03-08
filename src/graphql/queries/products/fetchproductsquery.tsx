@@ -8,7 +8,7 @@ export const GET_ALL_PRODUCTS = gql`
       description
       category
       current
-      reoderLevel
+      reorderLevel
       unitCost
       sellingPrice
       taxInformation

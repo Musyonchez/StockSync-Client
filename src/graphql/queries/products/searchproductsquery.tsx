@@ -9,7 +9,7 @@ query SearchProducts($company: String!, $type: String!, $filterArray: [SearchFil
       description
       category
       current
-      reoderLevel
+      reorderLevel
       unitCost
       sellingPrice
       taxInformation

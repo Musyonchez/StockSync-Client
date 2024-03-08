@@ -259,16 +259,16 @@ const ProductDetail = () => {
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="reoderLevel"
+                  htmlFor="reorderLevel"
                   className="block text-sm font-semibold text-gray-600 mb-1"
                 >
                   Reorder Quantity:
                 </label>
                 <input
                   type="number"
-                  name="reoderLevel"
-                  id="reoderLevel"
-                  value={product.reoderLevel}
+                  name="reorderLevel"
+                  id="reorderLevel"
+                  value={product.reorderLevel}
                   readOnly
                   className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
                 />

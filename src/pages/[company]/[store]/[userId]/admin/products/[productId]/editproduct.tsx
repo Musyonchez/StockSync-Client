@@ -15,27 +15,15 @@ const ProductDetail = () => {
   const store = router.query?.store as string;
   const productId = router.query?.productId as string;
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [current, setCurrent] = useState(0);
-  const [reoderLevel, setReoderLevel] = useState(0);
-  const [unitCost, setUnitCost] = useState(0);
-  const [sellingPrice, setSellingPrice] = useState(0);
-  const [taxInformation, setTaxInformation] = useState(0);
-  const [imageURL, setImageURL] = useState("");
-  const [supplier, setSupplier] = useState("");
-
   const [data, setData] = useState({
     name: "",
     description: "",
     category: "",
     current: 0,
-    reoderLevel: 0,
+    reorderLevel: 0,
     unitCost: 0,
     sellingPrice: 0,
     taxInformation: 0,
-    imageURL: "",
     supplier: "",
   });
 
@@ -44,14 +32,14 @@ const ProductDetail = () => {
     description: "",
     category: "",
     current: 0,
-    reoderLevel: 0,
+    reorderLevel: 0,
     unitCost: 0,
     sellingPrice: 0,
     taxInformation: 0,
-    imageURL: "",
     supplier: "",
   });
 
+  const [image, setImage] = useState<File | null>(null);
 
   const dispatch = useDispatch();
   const initialProduct = useSelector((state: RootState) => state.product.data);
@@ -131,22 +119,22 @@ const ProductDetail = () => {
 
     const filterArray: { field: string; value: string }[] = [];
 
-
     Object.keys(data).forEach((key) => {
       const dataValue = data[key as keyof typeof data];
       const initialValue = initialData[key as keyof typeof initialData];
-
+  
       // Special handling for boolean values and case sensitivity for strings
       if (typeof dataValue === "boolean" || typeof initialValue === "boolean") {
         if (dataValue !== initialValue) {
           filterArray.push({ field: key, value: dataValue.toString() });
         }
-      } else if (
-        typeof dataValue === "string" &&
-        typeof initialValue === "string"
-      ) {
+      } else if (typeof dataValue === "string" && typeof initialValue === "string") {
         if (dataValue.toLowerCase() !== initialValue.toLowerCase()) {
           filterArray.push({ field: key, value: dataValue });
+        }
+      } else if (typeof dataValue === "number" || typeof initialValue === "number") {
+        if (dataValue !== initialValue) {
+          filterArray.push({ field: key, value: dataValue.toString() });
         }
       } else {
         // For other types, use strict equality check
@@ -168,6 +156,39 @@ const ProductDetail = () => {
         )
       );
     }
+
+    setData({
+      name: "",
+      description: "",
+      category: "",
+      current: 0,
+      reorderLevel: 0,
+      unitCost: 0,
+      sellingPrice: 0,
+      taxInformation: 0,
+      supplier: "",
+    });
+
+
+
+    if (image) {
+      const formData = new FormData();
+      const newImageName = product.id;
+
+      // Append the file with the desired name
+      formData.append("file", image, newImageName);
+      formData.append("company", company);
+
+
+      console.log("file from fileupload rest api", image , newImageName, product);
+
+      // Send a POST request to your REST API endpoint
+      await fetch("http://localhost:5000/upload", {
+        method: "POST",
+        body: formData,
+      });
+    }
+
   };
 
   return (
@@ -216,9 +237,13 @@ const ProductDetail = () => {
                 type="text"
                 name="name"
                 id="name"
-                value={name}
-                required
-                onChange={(e) => setName(e.target.value)}
+                value={data.name}
+                onChange={(e) =>
+                  setData((prevData) => ({
+                    ...prevData,
+                    name: e.target.value,
+                  }))
+                }
                 placeholder="Enter New Product Name"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -242,9 +267,13 @@ const ProductDetail = () => {
               <textarea
                 name="description"
                 id="description"
-                value={description}
-                required
-                onChange={(e) => setDescription(e.target.value)}
+                value={data.description}
+                onChange={(e) =>
+                  setData((prevData) => ({
+                    ...prevData,
+                    description: e.target.value,
+                  }))
+                }
                 placeholder="Enter New Product Description"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -269,9 +298,13 @@ const ProductDetail = () => {
                 type="text"
                 name="category"
                 id="category"
-                value={category || ""}
-                required
-                onChange={(e) => setCategory(e.target.value)}
+                value={data.category || ""}
+                onChange={(e) =>
+                  setData((prevData) => ({
+                    ...prevData,
+                    category: e.target.value,
+                  }))
+                }
                 placeholder="Enter New Category"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -296,9 +329,13 @@ const ProductDetail = () => {
                 type="number"
                 name="current"
                 id="current"
-                value={current || ""}
-                required
-                onChange={(e) => setCurrent(parseInt(e.target.value, 10))}
+                value={data.current || ""}
+                onChange={(e) =>
+                  setData((prevData) => ({
+                    ...prevData,
+                    current: +e.target.value,
+                  }))
+                }
                 placeholder="Enter New Current Price"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -306,27 +343,31 @@ const ProductDetail = () => {
 
             <div className="mb-4">
               <label
-                htmlFor="reoderLevel"
+                htmlFor="reorderLevel"
                 className="block text-sm font-semibold text-gray-600 mb-1"
               >
                 Reorder Level:
               </label>
               <input
-                type="reoderLevel"
-                name="reoderLevel"
-                id="reoderLevel"
-                value={product.reoderLevel}
+                type="reorderLevel"
+                name="reorderLevel"
+                id="reorderLevel"
+                value={product.reorderLevel}
                 readOnly
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
               <input
                 type="number"
                 name="minimum"
-                id="reoderLevel"
-                value={reoderLevel || ""}
-                required
-                onChange={(e) => setReoderLevel(parseInt(e.target.value, 10))}
-                placeholder="Enter New Reoder Level"
+                id="reorderLevel"
+                value={data.reorderLevel || ""}
+                onChange={(e) =>
+                  setData((prevData) => ({
+                    ...prevData,
+                    reorderLevel: +e.target.value,
+                  }))
+                }
+                placeholder="Enter New reorder Level"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -350,9 +391,13 @@ const ProductDetail = () => {
                 type="number"
                 name="unitCost"
                 id="unitCost"
-                value={unitCost || ""}
-                required
-                onChange={(e) => setUnitCost(parseInt(e.target.value, 10))}
+                value={data.unitCost || ""}
+                onChange={(e) =>
+                  setData((prevData) => ({
+                    ...prevData,
+                    unitCost: +e.target.value,
+                  }))
+                }
                 placeholder="Enter New UnitCost"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -377,9 +422,13 @@ const ProductDetail = () => {
                 type="number"
                 name="sellingPrice"
                 id="sellingPrice"
-                value={sellingPrice || ""}
-                required
-                onChange={(e) => setSellingPrice(parseInt(e.target.value, 10))}
+                value={data.sellingPrice || ""}
+                onChange={(e) =>
+                  setData((prevData) => ({
+                    ...prevData,
+                    sellingPrice: +e.target.value,
+                  }))
+                }
                 placeholder="Enter New Selling Price"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -404,10 +453,12 @@ const ProductDetail = () => {
                 type="number"
                 name="taxInformation"
                 id="taxInformation"
-                value={taxInformation || ""}
-                required
+                value={data.taxInformation || ""}
                 onChange={(e) =>
-                  setTaxInformation(parseInt(e.target.value, 10))
+                  setData((prevData) => ({
+                    ...prevData,
+                    taxInformation: +e.target.value,
+                  }))
                 }
                 placeholder="Enter New Tax Information"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
@@ -421,21 +472,17 @@ const ProductDetail = () => {
               >
                 Image URL:
               </label>
-              <input
-                type="text"
-                name="imageURL"
-                id="imageURL"
-                value={product.imageURL}
-                readOnly
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              <img
+                src={product.imageURL}
+                alt="Product Image"
+                className="w-24 h-24"
               />
               <input
-                type="text"
+                type="file"
+                accept=".jpg,.jpeg,.png,.gif"
                 name="imageURL"
                 id="imageURL"
-                value={imageURL || ""}
-                required
-                onChange={(e) => setImageURL(e.target.value)}
+                onChange={(e) => setImage(e.target.files?.[0] || null)}
                 placeholder="Enter New Image URL"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -460,9 +507,13 @@ const ProductDetail = () => {
                 type="text"
                 name="supplier"
                 id="supplier"
-                value={supplier || ""}
-                required
-                onChange={(e) => setSupplier(e.target.value)}
+                value={data.supplier || ""}
+                onChange={(e) =>
+                  setData((prevData) => ({
+                    ...prevData,
+                    supplier: e.target.value,
+                  }))
+                }
                 placeholder="Enter New Supplier"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />

@@ -132,7 +132,7 @@ function ProductList() {
                           {product.current}
                         </div>
                         <div className=" min-w-28">
-                          {product.reoderLevel}
+                          {product.reorderLevel}
                         </div>
                         <div className=" min-w-28">
                           {product.unitCost}
@@ -191,7 +191,7 @@ function ProductList() {
                             {inactiveproduct.current}
                           </div>
                           <div className=" min-w-28">
-                            {inactiveproduct.reoderLevel}
+                            {inactiveproduct.reorderLevel}
                           </div>
                           <div className=" min-w-28">
                             {inactiveproduct.unitCost}

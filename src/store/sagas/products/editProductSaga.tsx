@@ -14,61 +14,31 @@ interface ProductMutationResponse {
   editProduct: Product; // Change to match the actual structure of your GraphQL response
 }
 
+interface EditFilterInput {
+  field: string;
+  value: string;
+}
+
 export const editProductSaga = {
   saga: function* (action: {
     type: string;
     payload: {
       id: string;
-      name?: string;
-      description?: string;
-      category?: string;
-      current: number;
-      reoderLevel: number;
-      unitCost: number;
-      sellingPrice: number;
-      taxInformation: number;
-      imageURL: string;
-      supplier: string;
-      company?: string;
-      type?: string;
+      company: string;
+      type: string;
+      filterArray: EditFilterInput[];
     };
   }) {
     try {
-      const {
-        id,
-        name,
-        description,
-        category,
-        current,
-        reoderLevel,
-        unitCost,
-        sellingPrice,
-        taxInformation,
-        imageURL,
-        supplier,
-        company,
-        type,
-      } = action.payload;
+      const { id, company, type, filterArray } = action.payload;
+
+      console.log("edit user payload", id, company, type, filterArray)
 
       const response: ApolloQueryResult<ProductMutationResponse> = yield call(
         apolloClient.mutate,
         {
           mutation: EDIT_PRODUCT,
-          variables: {
-            id,
-            name,
-            description,
-            category,
-            current,
-            reoderLevel,
-            unitCost,
-            sellingPrice,
-            taxInformation,
-            imageURL,
-            supplier,
-            company,
-            type,
-          },
+          variables: { id, company, type, filterArray },
         }
       );
 

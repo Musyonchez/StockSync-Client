@@ -141,19 +141,15 @@ const selling = () => {
                     key={selectedProduct.id}
                     className="text-lg flex items-center font-semibold"
                   >
-                    {selectedProduct.imageURL === "null" ? (
-                      <img
-                        src={emptyProduct.src}
-                        alt="Product Image"
-                        className="w-24 h-24"
-                      />
-                    ) : (
-                      <img
-                        src={selectedProduct.imageURL}
-                        alt="Product Image"
-                        className=" w-24 h-24"
-                      />
-                    )}
+                    <img
+                      src={selectedProduct.imageURL}
+                      alt="Product Image"
+                      className="w-24 h-24"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).onerror = null; // Prevent infinite loop
+                        (e.target as HTMLImageElement).src = emptyProduct.src; // Corrected line
+                      }}
+                    />
                     <div className="ml-4">
                       <p>Name: {selectedProduct.name}</p>
                       <p>Category: {selectedProduct.category}</p>
@@ -289,19 +285,15 @@ const selling = () => {
                       onClick={() => addSelected(product.id)}
                       className="text-lg flex items-center font-semibold"
                     >
-                      {product.imageURL === "null" ? (
-                        <img
-                          src={emptyProduct.src}
-                          alt="Product Image"
-                          className="w-24 h-24"
-                        />
-                      ) : (
-                        <img
-                          src={product.imageURL}
-                          alt="Product Image"
-                          className="w-24 h-24"
-                        />
-                      )}
+                      <img
+                        src={product.imageURL}
+                        alt="Product Image"
+                        className="w-24 h-24"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).onerror = null; // Prevent infinite loop
+                          (e.target as HTMLImageElement).src = emptyProduct.src; // Corrected line
+                        }}
+                      />
                       <div>
                         <p>Name: {product.name}</p>
                         <p>Category: {product.category}</p>
