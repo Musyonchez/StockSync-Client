@@ -21,7 +21,12 @@ interface SellFilterInput {
 export const sellProductsSaga = {
   saga: function* (action: {
     type: string;
-    payload: { company: string; type: string; total: number; filterArray: SellFilterInput[] };
+    payload: {
+      company: string;
+      type: string;
+      total: number;
+      filterArray: SellFilterInput[];
+    };
   }) {
     try {
       const { company, type, total, filterArray } = action.payload;

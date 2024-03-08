@@ -6,7 +6,6 @@ export interface User {
   id: string;
   firstName: string;
   lastName: string;
-  age: number;
   email: string;
   store1: boolean;
   store2: boolean;
@@ -20,8 +19,19 @@ export interface Users {
   id: string;
   firstName: string;
   lastName: string;
-  age: number;
   email: string;
+  store1: boolean;
+  store2: boolean;
+  store3: boolean;
+  store4: boolean;
+  role: UserRole;
+}
+
+
+export interface UserState {
+  id: string;
+  firstName: string;
+  lastName: string;
   store1: boolean;
   store2: boolean;
   store3: boolean;

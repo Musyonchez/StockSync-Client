@@ -47,7 +47,11 @@ const selling = () => {
     }
 
     // Create an array to store the filterArray for the sell mutation
-    const sellfilterArray: { productId: string; toSubtract: number; quantity: number }[] = [];
+    const sellfilterArray: {
+      productId: string;
+      toSubtract: number;
+      quantity: number;
+    }[] = [];
 
     // Iterate through selected products to build the filterArray
     selectedProducts.forEach((selectedProduct) => {
@@ -67,7 +71,12 @@ const selling = () => {
 
     // Dispatch the sellProductsRequest action with the filterArray
     dispatch(
-      sellProductsRequest(company as string, store as string, total as number, sellfilterArray)
+      sellProductsRequest(
+        company as string,
+        store as string,
+        total as number,
+        sellfilterArray
+      )
     );
   };
 
@@ -77,15 +86,12 @@ const selling = () => {
   };
 
   useEffect(() => {
-    const calculatedTotal = selectedProducts.reduce(
-       (acc, product) => {
-         const productTotal = product.quantity * (product.sellingPrice || 0);
-         return acc + productTotal;
-       },
-       0
-    );
+    const calculatedTotal = selectedProducts.reduce((acc, product) => {
+      const productTotal = product.quantity * (product.sellingPrice || 0);
+      return acc + productTotal;
+    }, 0);
     setTotal(calculatedTotal);
-   }, [selectedProducts]);
+  }, [selectedProducts]);
 
   const addSelected = (productId: string) => {
     // Add logic to determine whether the product is already selected

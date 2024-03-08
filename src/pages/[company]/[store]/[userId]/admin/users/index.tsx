@@ -99,7 +99,7 @@ const UserList: React.FC = () => {
             <ul>
               <li
                 className="mb-2 px-4 py-2 border rounded flex"
-                style={{ width: "1316px" }}
+                style={{ width: "1200px" }}
               >
                 <div className=" min-w-52">ID:</div>
                 <div className=" min-w-36">First Name:</div>
@@ -115,7 +115,7 @@ const UserList: React.FC = () => {
                 <li
                   key={user.id}
                   className="mb-4 p-4 border rounded"
-                  style={{ width: "1316px" }}
+                  style={{ width: "1200px" }}
                 >
                   <Link
                     href={`${router.asPath}/${user.id}`}

@@ -8,7 +8,6 @@ export const GET_ALL_USERS = gql`
       id
       firstName
       lastName
-      age
       email
       store1
       store2

@@ -1,22 +1,13 @@
-
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserRequest } from "../../../../../../../actions/users/fetchUser";
 import { editUserRequest } from "../../../../../../../actions/users/editUser";
 import { RootState } from "../../../../../../../store/reducers/reducers";
 import Link from "next/link";
-import { User, UserRole } from "../../../../../../../types/user"
+import { User, UserRole } from "../../../../../../../types/user";
 
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
-
-
-
-
-
-
-
-
 
 const EditUser = () => {
   const router = useRouter();
@@ -25,14 +16,27 @@ const EditUser = () => {
   const store = router.query?.store as string;
   const userID = router.query?.userID as string;
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [age, setAge] = useState(0);
-  const [store1, setStore1] = useState(false);
-  const [store2, setStore2] = useState(false);
-  const [store3, setStore3] = useState(false);
-  const [store4, setStore4] = useState(false);
-  const [role, setRole] = useState<UserRole>("USER"); // Use UserRole type here
+  const [data, setData] = useState({
+    id: "",
+    firstName: "",
+    lastName: "",
+    store1: false,
+    store2: false,
+    store3: false,
+    store4: false,
+    role: "USER",
+  });
+
+  const [initialData, setInitialData] = useState({
+    id: "",
+    firstName: "",
+    lastName: "",
+    store1: false,
+    store2: false,
+    store3: false,
+    store4: false,
+    role: "USER",
+  });
 
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.data);
@@ -68,7 +72,6 @@ const EditUser = () => {
       </Layout>
     );
 
-
   if (!user) {
     return (
       <Layout>
@@ -79,38 +82,52 @@ const EditUser = () => {
     );
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log("firstname", data.firstName);
+    console.log("Initial Data:", initialData);
+    console.log("Current Data:", data);
 
-    try {
+    const filterArray: { field: string; value: string }[] = [];
+
+    Object.keys(data).forEach((key) => {
+      const dataValue = data[key as keyof typeof data];
+      const initialValue = initialData[key as keyof typeof initialData];
+
+      // Special handling for boolean values and case sensitivity for strings
+      if (typeof dataValue === "boolean" || typeof initialValue === "boolean") {
+        if (dataValue !== initialValue) {
+          filterArray.push({ field: key, value: dataValue.toString() });
+        }
+      } else if (
+        typeof dataValue === "string" &&
+        typeof initialValue === "string"
+      ) {
+        if (dataValue.toLowerCase() !== initialValue.toLowerCase()) {
+          filterArray.push({ field: key, value: dataValue });
+        }
+      } else {
+        // For other types, use strict equality check
+        if (dataValue !== initialValue) {
+          filterArray.push({ field: key, value: dataValue.toString() });
+        }
+      }
+    });
+
+    console.log("Form submitted with changes:", filterArray);
+
+    if (company && store && userId && userID) {
+      if (userId === userID) {
+        router.push(`/${company}/${store}/${userId}/admin/users`);
+      }
       dispatch(
         editUserRequest(
-          userID,
-          firstName,
-          lastName,
-          age,
-          store1,
-          store2,
-          store3,
-          store4,
-          role,
-          company,
-          store
+          userID as string,
+          company as string,
+          store as string,
+          filterArray
         )
       );
-
-
-
-      
-      setFirstName("");
-      setLastName("");
-      setAge(0);
-      setStore1(false);
-      setStore2(false);
-      setStore3(false);
-      setStore4(false);
-      setRole("USER");
-    } catch (error) {
     }
   };
 
@@ -160,9 +177,13 @@ const EditUser = () => {
                 type="text"
                 name="firstName"
                 id="firstName"
-                value={firstName}
-                required
-                onChange={(e) => setFirstName(e.target.value)}
+                value={data.firstName}
+                onChange={(e) =>
+                  setData((prevData) => ({
+                    ...prevData,
+                    firstName: e.target.value,
+                  }))
+                }
                 placeholder="Enter New First Name"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -188,38 +209,14 @@ const EditUser = () => {
                 type="text"
                 name="lastName"
                 id="lastName"
-                value={lastName}
-                required
-                onChange={(e) => setLastName(e.target.value)}
+                value={data.lastName}
+                onChange={(e) =>
+                  setData((prevData) => ({
+                    ...prevData,
+                    lastName: e.target.value,
+                  }))
+                }
                 placeholder="Enter New Last Name"
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="age"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Age:
-              </label>
-              <input
-                type="number"
-                name="age"
-                id="age"
-                value={user.age}
-                readOnly
-                placeholder="Enter Age"
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
-              <input
-                type="number"
-                name="age"
-                id="age"
-                value={age || ""}
-                required
-                onChange={(e) => setAge(parseInt(e.target.value, 10))}
-                placeholder="Enter New Age"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -236,8 +233,13 @@ const EditUser = () => {
                   type="checkbox"
                   name="store1"
                   id="store1"
-                  checked={store1}
-                  onChange={() => setStore1(!store1)}
+                  checked={data.store1}
+                  onChange={() =>
+                    setData((prevData) => ({
+                      ...prevData,
+                      store1: !prevData.store1,
+                    }))
+                  }
                 />
                 <label htmlFor="store1">Store 1</label>
               </div>
@@ -246,8 +248,13 @@ const EditUser = () => {
                   type="checkbox"
                   name="store2"
                   id="store2"
-                  checked={store2}
-                  onChange={() => setStore2(!store2)}
+                  checked={data.store2}
+                  onChange={() =>
+                    setData((prevData) => ({
+                      ...prevData,
+                      store2: !prevData.store2,
+                    }))
+                  }
                 />
                 <label htmlFor="store2">Store 2</label>
               </div>
@@ -256,8 +263,13 @@ const EditUser = () => {
                   type="checkbox"
                   name="store3"
                   id="store3"
-                  checked={store3}
-                  onChange={() => setStore3(!store3)}
+                  checked={data.store3}
+                  onChange={() =>
+                    setData((prevData) => ({
+                      ...prevData,
+                      store3: !prevData.store3,
+                    }))
+                  }
                 />
                 <label htmlFor="store3">Store 3</label>
               </div>
@@ -266,8 +278,13 @@ const EditUser = () => {
                   type="checkbox"
                   name="store4"
                   id="store4"
-                  checked={store4}
-                  onChange={() => setStore4(!store4)}
+                  checked={data.store4}
+                  onChange={() =>
+                    setData((prevData) => ({
+                      ...prevData,
+                      store4: !prevData.store4,
+                    }))
+                  }
                 />
                 <label htmlFor="store4">Store 4</label>
               </div>
@@ -283,8 +300,13 @@ const EditUser = () => {
               <select
                 name="role"
                 id="role"
-                value={role}
-                onChange={(e) => setRole(e.target.value as UserRole)} // Convert the value to UserRole
+                value={data.role}
+                onChange={(e) =>
+                  setData((prevData) => ({
+                    ...prevData,
+                    role: e.target.value as UserRole,
+                  }))
+                }
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               >
                 <option value="ADMIN">Admin</option>

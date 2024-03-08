@@ -9,11 +9,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-
-
-
-
-
 const UserDetail = () => {
   const router = useRouter();
   const company = router.query?.company as string; // Ensure company is always a string
@@ -71,13 +66,7 @@ const UserDetail = () => {
     setIsButtonActive(false);
 
     try {
-      dispatch(
-        deleteUserRequest(
-          userID,
-          company,
-          store 
-        )
-      );
+      dispatch(deleteUserRequest(userID, company, store));
 
       router.push(`/${company}/${store}/${userId}/admin/users`).then(() => {
         window.location.reload();
@@ -152,22 +141,6 @@ const UserDetail = () => {
               type="text"
               id="lastName"
               value={user.lastName}
-              readOnly
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="age"
-              className="block text-sm font-semibold text-gray-600 mb-1"
-            >
-              Age:
-            </label>
-            <input
-              type="number"
-              id="age"
-              value={user.age}
               readOnly
               className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
             />
