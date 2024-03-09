@@ -4,7 +4,7 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { JWT } from "next-auth/jwt";
 
 const client = new ApolloClient({
-  uri: 'http://localhost:5000/graphql/',
+  uri: process.env.GRAPHQL_URI || "http://localhost:5000/graphql/",
   // uri: 'https://stocksync-server.onrender.com',
   cache: new InMemoryCache(),
 });
@@ -45,46 +45,52 @@ export const authOptions = {
           placeholder: "Enter your password",
         },
       },
+
       async authorize(credentials: AuthCredentials | undefined, req: any) {
         if (!credentials) {
           return Promise.resolve(null);
         }
 
-        const res = await client.query({
-          query: gql`
-            query AuthenticateUser(
-              $email: String!
-              $password: String!
-              $company: String!
-            ) {
-              authenticateUser(
-                email: $email
-                password: $password
-                company: $company
+        try {
+          const res = await client.query({
+            query: gql`
+              query AuthenticateUser(
+                $email: String!
+                $password: String!
+                $company: String!
               ) {
-                id
-                firstName
-                lastName
-                store1
-                store2
-                store3
-                store4
-                company
-                role
+                authenticateUser(
+                  email: $email
+                  password: $password
+                  company: $company
+                ) {
+                  id
+                  firstName
+                  lastName
+                  store1
+                  store2
+                  store3
+                  store4
+                  company
+                  role
+                }
               }
-            }
-          `,
-          variables: {
-            email: credentials.email,
-            password: credentials.password,
-            company: credentials.company,
-          },
-        });
+            `,
+            variables: {
+              email: credentials.email,
+              password: credentials.password,
+              company: credentials.company,
+            },
+          });
 
-        const user = res.data.authenticateUser;
-        if (user) {
-          return user;
-        } else {
+          const user = res.data.authenticateUser;
+          if (user) {
+            return user;
+          } else {
+            return null;
+          }
+        } catch (error) {
+          console.error("Authentication error:", error);
           return null;
         }
       },
