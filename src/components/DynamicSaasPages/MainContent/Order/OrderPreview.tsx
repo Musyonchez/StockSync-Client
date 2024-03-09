@@ -15,8 +15,6 @@ const OrderPreview: React.FC<OrderPreviewProps> = ({ orderData }) => {
     const pageWidth = pageSize.width;
     const pageHeight = pageSize.height;
 
-
-
     doc.setFontSize(15);
 
     doc.text("Purchase Order", 70, 15);
@@ -55,30 +53,52 @@ const OrderPreview: React.FC<OrderPreviewProps> = ({ orderData }) => {
     doc.text(`Phone: ${customer.phone}`, 110, 80, { maxWidth: 90 });
     doc.text(`Email: ${customer.email}`, 110, 90, { maxWidth: 90 });
 
-    doc.text("ShippingVia", 15, 110);
-    doc.text("ShippingMethod", 50, 110);
-    doc.text("ShippingTerms", 85, 110);
-    doc.text("ShippingAmount", 120, 110);
-    doc.text("DeliveryDate", 155, 110);
-    doc.line(15, 112, 195, 112);
+    let yPosition = 0;
 
-    doc.text(`${shipping.shippingVia}`, 15, 117, { maxWidth: 30 });
-    doc.text(`${shipping.shippingMethod}`, 50, 117, { maxWidth: 30 });
-    doc.text(`${shipping.shippingTerms}`, 85, 117, { maxWidth: 30 });
-    doc.text(`${shipping.shippingAmount}`, 120, 117, { maxWidth: 30 });
-    doc.text(`${shipping.deliveryDate}`, 155, 117, { maxWidth: 30 });
+    if (
+      !shipping.shippingVia.trim() &&
+      !shipping.shippingMethod.trim() &&
+      !shipping.shippingTerms.trim() &&
+      !shipping.deliveryDate.trim()
+    ) {
+      doc.text("#", 15, 110);
+      doc.text("Code", 25, 110);
+      doc.text("Name", 50, 110);
+      doc.text("Quantity", 100, 110);
+      doc.text("Disc %", 125, 110);
+      doc.text("Tax %", 140, 110);
+      doc.text("Price", 155, 110);
+      doc.text("Total", 175, 110);
+      doc.line(15, 112, 195, 112);
 
-    doc.text("#", 15, 135);
-    doc.text("Code", 25, 135);
-    doc.text("Description", 50, 135);
-    doc.text("Quantity", 100, 135);
-    doc.text("Disc %", 125, 135);
-    doc.text("Tax %", 140, 135);
-    doc.text("Price", 155, 135);
-    doc.text("Total", 175, 135);
-    doc.line(15, 137, 195, 137);
+      yPosition = 118;
+    } else {
+      doc.text("ShippingVia", 15, 110);
+      doc.text("ShippingMethod", 50, 110);
+      doc.text("ShippingTerms", 85, 110);
+      doc.text("ShippingAmount", 120, 110);
+      doc.text("DeliveryDate", 155, 110);
+      doc.line(15, 112, 195, 112);
 
-    let yPosition = 143;
+      doc.text(`${shipping.shippingVia}`, 15, 117, { maxWidth: 30 });
+      doc.text(`${shipping.shippingMethod}`, 50, 117, { maxWidth: 30 });
+      doc.text(`${shipping.shippingTerms}`, 85, 117, { maxWidth: 30 });
+      doc.text(`${shipping.shippingAmount}`, 120, 117, { maxWidth: 30 });
+      doc.text(`${shipping.deliveryDate}`, 155, 117, { maxWidth: 30 });
+
+      doc.text("#", 15, 135);
+      doc.text("Code", 25, 135);
+      doc.text("Name", 50, 135);
+      doc.text("Quantity", 100, 135);
+      doc.text("Disc %", 125, 135);
+      doc.text("Tax %", 140, 135);
+      doc.text("Price", 155, 135);
+      doc.text("Total", 175, 135);
+      doc.line(15, 137, 195, 137);
+
+      yPosition = 143;
+    }
+
     products.forEach((product, index) => {
       if (yPosition > pageHeight - 20) {
         doc.addPage();
@@ -86,7 +106,7 @@ const OrderPreview: React.FC<OrderPreviewProps> = ({ orderData }) => {
 
         doc.text("#", 15, yPosition);
         doc.text("Code", 25, yPosition);
-        doc.text("Description", 50, yPosition);
+        doc.text("Name", 50, yPosition);
         doc.text("Quantity", 100, yPosition);
         doc.text("Disc %", 125, yPosition);
         doc.text("Tax %", 140, yPosition);
@@ -99,7 +119,7 @@ const OrderPreview: React.FC<OrderPreviewProps> = ({ orderData }) => {
 
       doc.text((index + 1).toString(), 15, yPosition, { maxWidth: 10 });
       doc.text(product.code, 25, yPosition, { maxWidth: 25 });
-      doc.text(product.productDescription, 50, yPosition, { maxWidth: 50 });
+      doc.text(product.productName, 50, yPosition, { maxWidth: 50 });
       doc.text(product.quantity.toString(), 100, yPosition, { maxWidth: 25 });
       doc.text(product.discount.toString(), 125, yPosition, { maxWidth: 15 });
       doc.text(product.tax.toString(), 140, yPosition, { maxWidth: 15 });

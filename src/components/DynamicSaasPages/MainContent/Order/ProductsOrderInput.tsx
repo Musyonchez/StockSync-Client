@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, useEffect, useCallback } from "react";
 
 interface ProductData {
   code: string;
-  productDescription: string;
+  productName: string;
   quantity: number;
   discount: number;
   tax: number;
@@ -21,7 +21,7 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
   const [products, setProducts] = useState<ProductData[]>([
     {
       code: "",
-      productDescription: "",
+      productName: "",
       quantity: 0,
       discount: 0,
       tax: 0,
@@ -72,7 +72,7 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
       ...prevProducts,
       {
         code: "",
-        productDescription: "",
+        productName: "",
         quantity: 0,
         discount: 0,
         tax: 0,
@@ -122,15 +122,15 @@ const ProductsOrderInput: React.FC<ProductsOrderInputProps> = ({
           </label>
 
           <label className="block mb-4">
-            <h2 className="text-sm font-bold mb-2">Product Description</h2>
+            <h2 className="text-sm font-bold mb-2">Product Name</h2>
             <input
               type="text"
-              value={product.productDescription}
+              value={product.productName}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                updateProductData(index, "productDescription", e.target.value)
+                updateProductData(index, "productName", e.target.value)
               }
               className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              placeholder="Enter Product Description"
+              placeholder="Enter Product Name"
               required
             />
           </label>

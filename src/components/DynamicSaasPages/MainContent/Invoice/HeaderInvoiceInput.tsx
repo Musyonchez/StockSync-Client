@@ -10,8 +10,8 @@ const HeaderOrderInput: React.FC<HeaderOrderInputProps> = ({ onUpdate }) => {
   const [headerData, setHeaderData] = useState({
     invoice: "",
     pONumber: "",
+    delivaryNumber: "",
     deliveryDate: "",
-    // Add more fields as needed
   });
 
   // Function to update headerData and notify parent component
@@ -27,16 +27,13 @@ const HeaderOrderInput: React.FC<HeaderOrderInputProps> = ({ onUpdate }) => {
 
   const memoizedOnUpdate = useCallback(onUpdate, []);
 
-
   useEffect(() => {
     onUpdate({ ...headerData });
   }, [headerData, memoizedOnUpdate]);
 
-
   return (
     <div className="p-4 border rounded mb-4">
       <div className="text-lg font-bold mb-2">Header Details</div>
-
 
       <label className="block mb-4">
         <h2 className="text-sm font-bold mb-2">Invoice Number</h2>
@@ -50,7 +47,6 @@ const HeaderOrderInput: React.FC<HeaderOrderInputProps> = ({ onUpdate }) => {
         />
       </label>
 
-
       <label className="block mb-4">
         <h2 className="text-sm font-bold mb-2">P.O Number</h2>
         <input
@@ -63,6 +59,17 @@ const HeaderOrderInput: React.FC<HeaderOrderInputProps> = ({ onUpdate }) => {
         />
       </label>
 
+      <label className="block mb-4">
+        <h2 className="text-sm font-bold mb-2">Delivery Number</h2>
+        <input
+          type="number"
+          name="delivaryNumber"
+          value={headerData.delivaryNumber}
+          onChange={(e) => updateHeaderData("delivaryNumber", e.target.value)}
+          className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+          placeholder="Enter Delivery Number"
+        />
+      </label>
 
       <label className="block mb-4">
         <h2 className="text-sm font-bold mb-2"> Delivery Date</h2>
@@ -75,6 +82,7 @@ const HeaderOrderInput: React.FC<HeaderOrderInputProps> = ({ onUpdate }) => {
           placeholder="Enter Delivery Date"
         />
       </label>
+
       {/* Add more input fields as needed */}
     </div>
   );
