@@ -5,6 +5,8 @@ export const GET_TRANSACTIONS = gql`
     getTransactions(company: $company, type: $type) {
       id
       createdAt
+      creatorId
+      creatorName
       totalAmount
       details {
         id

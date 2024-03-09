@@ -2,30 +2,30 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/reducers/reducers";
-import { fetchTransactionsRequest } from "@/actions/records/transactions/fetchTransactions";
+import { fetchWriteoffsRequest } from "@/actions/records/writeoffs/fetchWriteoffs";
 import {
-  Transaction,
-  TransactionDetail,
-} from "../../../../../../types/transaction";
+  Writeoff,
+  WriteoffDetail,
+} from "../../../../../../types/writeoff";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-const Transactions = () => {
+const Writeoffs = () => {
   const router = useRouter();
   const { company } = router.query;
   const { store } = router.query;
 
   const dispatch = useDispatch();
-  const transactions = useSelector(
-    (state: RootState) => state.transactions.data
+  const writeoffs = useSelector(
+    (state: RootState) => state.writeoffs.data
   );
-  const loading = useSelector((state: RootState) => state.transactions.loading);
-  const error = useSelector((state: RootState) => state.transactions.error);
+  const loading = useSelector((state: RootState) => state.writeoffs.loading);
+  const error = useSelector((state: RootState) => state.writeoffs.error);
 
   useEffect(() => {
     if (company && store) {
-      dispatch(fetchTransactionsRequest(company as string, store as string));
+      dispatch(fetchWriteoffsRequest(company as string, store as string));
     }
   }, [dispatch, company, store]);
 
@@ -47,7 +47,7 @@ const Transactions = () => {
       </Layout>
     );
 
-  if (!transactions) {
+  if (!writeoffs) {
     return (
       <Layout>
         <div className="container mx-auto p-4 bg-yellow-100 border-l-4 border-yellow-500">
@@ -60,22 +60,22 @@ const Transactions = () => {
   return (
     <Layout>
       <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-semibold mb-4">Transactions</h1>
+        <h1 className="text-3xl font-semibold mb-4">Writeoffs</h1>
         <ul>
-          {transactions.map((transaction: Transaction) => (
-            <li key={transaction.id} className="mb-8">
-              <Link href={`${router.asPath}/${transaction.id}`}>
+          {writeoffs.map((writeoff: Writeoff) => (
+            <li key={writeoff.id} className="mb-8">
+              <Link href={`${router.asPath}/${writeoff.id}`}>
                 <div className="bg-white p-6 shadow-md rounded-md">
                   <p className="text-lg font-semibold mb-2">
-                    ID: {transaction.id}
+                    ID: {writeoff.id}
                   </p>
-                  <p>Created At: {transaction.createdAt}</p>
-                  <p>Creator ID: {transaction.creatorId}</p>
-                  <p>Creator Name: {transaction.creatorName}</p>
-                  <p>Total Amount: {transaction.totalAmount}</p>
+                  <p>Created At: {writeoff.createdAt}</p>
+                  <p>Creator ID: {writeoff.creatorId}</p>
+                  <p>Creator Name: {writeoff.creatorName}</p>
+                  <p>Total Amount: {writeoff.totalAmount}</p>
                   <ul className="mt-4">
                     <p className="text-lg font-semibold mb-2">Details</p>
-                    {transaction.details.map((detail: TransactionDetail) => (
+                    {writeoff.details.map((detail: WriteoffDetail) => (
                       <li
                         key={detail.id}
                         className="mb-2 bg-white p-6 shadow-md rounded-md"
@@ -102,4 +102,4 @@ const Transactions = () => {
   );
 };
 
-export default Transactions;
+export default Writeoffs;

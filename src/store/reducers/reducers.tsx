@@ -30,6 +30,13 @@ import edituserReducer from "./users/edituserReducer";
 import transactionsReducer from "./records/transactions/fetchtransactionsReducer";
 import transactionReducer from "./records/transactions/fetchtransactionReducer";
 
+import writeoffsReducer from "./records/writeoffs/fetchwriteoffsReducer";
+import writeoffReducer from "./records/writeoffs/fetchwriteoffReducer";
+
+
+import restockingsReducer from "./records/restockings/fetchrestockingsReducer";
+import restockingReducer from "./records/restockings/fetchrestockingReducer";
+
 
 
 const rootReducer = combineReducers({
@@ -66,6 +73,13 @@ const rootReducer = combineReducers({
 
   transactions: transactionsReducer,
   transaction: transactionReducer,
+
+
+  writeoffs: writeoffsReducer,
+  writeoff: writeoffReducer,
+
+  restockings: restockingsReducer,
+  restocking: restockingReducer,
 
 
   // Add other reducers as needed

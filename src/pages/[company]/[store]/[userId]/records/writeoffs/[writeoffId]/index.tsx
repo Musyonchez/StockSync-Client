@@ -4,34 +4,34 @@ import Link from "next/link";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTransactionRequest } from "@/actions/records/transactions/fetchTransaction";
+import { fetchWriteoffRequest } from "@/actions/records/writeoffs/fetchWriteoff";
 
 import { RootState } from "../../../../../../../store/reducers/reducers";
-import { TransactionDetail } from "../../../../../../../types/transaction";
-import TransactionPreview from "@/components/DynamicSaasPages/MainContent/Transaction/TransactionPreview";
+import { WriteoffDetail } from "../../../../../../../types/writeoff";
+import WriteoffPreview from "@/components/DynamicSaasPages/MainContent/Writeoff/WriteoffPreview";
 
-const Transaction = () => {
+const Writeoff = () => {
   const router = useRouter();
   const company = router.query?.company as string; // Ensure company is always a string
   const store = router.query?.store as string;
-  const transactionId = router.query?.transactionId as string; // Ensure company is always a string
+  const writeoffId = router.query?.writeoffId as string; // Ensure company is always a string
 
   const dispatch = useDispatch();
-  const transaction = useSelector((state: RootState) => state.transaction.data);
-  const loading = useSelector((state: RootState) => state.transaction.loading);
-  const error = useSelector((state: RootState) => state.transaction.error);
+  const writeoff = useSelector((state: RootState) => state.writeoff.data);
+  const loading = useSelector((state: RootState) => state.writeoff.loading);
+  const error = useSelector((state: RootState) => state.writeoff.error);
 
   useEffect(() => {
     if (company && store) {
       dispatch(
-        fetchTransactionRequest(
-          transactionId as string,
+        fetchWriteoffRequest(
+          writeoffId as string,
           company as string,
           store as string
         )
       );
     }
-  }, [dispatch, company, store, transactionId]);
+  }, [dispatch, company, store, writeoffId]);
 
   if (loading)
     return (
@@ -51,7 +51,7 @@ const Transaction = () => {
       </Layout>
     );
 
-  if (!transaction) {
+  if (!writeoff) {
     return (
       <Layout>
         <div className="container mx-auto p-4 bg-yellow-100 border-l-4 border-yellow-500">
@@ -64,20 +64,20 @@ const Transaction = () => {
   return (
     <Layout>
       <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-semibold mb-4">Transaction</h1>
+        <h1 className="text-3xl font-semibold mb-4">Writeoff</h1>
         <ul>
-          <li key={transaction.id} className="mb-8">
+          <li key={writeoff.id} className="mb-8">
             <div className="bg-white p-6 shadow-md rounded-md">
-              <p className="text-lg font-semibold mb-2">ID: {transaction.id}</p>
-              <p>Created At: {transaction.createdAt}</p>
-              <p>Creator ID: {transaction.creatorId}</p>
-              <p>Creator Name: {transaction.creatorName}</p>
-              <p>Total Amount: {transaction.totalAmount}</p>
+              <p className="text-lg font-semibold mb-2">ID: {writeoff.id}</p>
+              <p>Created At: {writeoff.createdAt}</p>
+              <p>Creator ID: {writeoff.creatorId}</p>
+              <p>Creator Name: {writeoff.creatorName}</p>
+              <p>Total Amount: {writeoff.totalAmount}</p>
 
               {/* Loop through details array */}
               <ul className="mt-4">
                 <p className="text-lg font-semibold mb-2">Details</p>
-                {transaction.details.map((detail: TransactionDetail) => (
+                {writeoff.details.map((detail: WriteoffDetail) => (
                   <li
                     key={detail.id}
                     className="mb-2 bg-white p-6 shadow-md rounded-md"
@@ -97,12 +97,12 @@ const Transaction = () => {
             </div>
           </li>
         </ul>
-        <TransactionPreview
-          transactionData={{
-            id: transaction.id,
-            createdAt: transaction.createdAt,
-            totalAmount: transaction.totalAmount,
-            details: transaction.details.map((detail: TransactionDetail) => ({
+        <WriteoffPreview
+          writeoffData={{
+            id: writeoff.id,
+            createdAt: writeoff.createdAt,
+            totalAmount: writeoff.totalAmount,
+            details: writeoff.details.map((detail: WriteoffDetail) => ({
               id: detail.id,
               name: detail.name,
               category: detail.category,
@@ -120,4 +120,4 @@ const Transaction = () => {
   );
 };
 
-export default Transaction;
+export default Writeoff;

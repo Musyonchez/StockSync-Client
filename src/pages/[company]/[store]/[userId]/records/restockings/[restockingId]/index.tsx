@@ -4,34 +4,34 @@ import Link from "next/link";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTransactionRequest } from "@/actions/records/transactions/fetchTransaction";
+import { fetchRestockingRequest } from "@/actions/records/restockings/fetchRestocking";
 
 import { RootState } from "../../../../../../../store/reducers/reducers";
-import { TransactionDetail } from "../../../../../../../types/transaction";
-import TransactionPreview from "@/components/DynamicSaasPages/MainContent/Transaction/TransactionPreview";
+import { RestockingDetail } from "../../../../../../../types/restocking";
+import RestockingPreview from "@/components/DynamicSaasPages/MainContent/Restocking/RestockingPreview";
 
-const Transaction = () => {
+const Restocking = () => {
   const router = useRouter();
   const company = router.query?.company as string; // Ensure company is always a string
   const store = router.query?.store as string;
-  const transactionId = router.query?.transactionId as string; // Ensure company is always a string
+  const restockingId = router.query?.restockingId as string; // Ensure company is always a string
 
   const dispatch = useDispatch();
-  const transaction = useSelector((state: RootState) => state.transaction.data);
-  const loading = useSelector((state: RootState) => state.transaction.loading);
-  const error = useSelector((state: RootState) => state.transaction.error);
+  const restocking = useSelector((state: RootState) => state.restocking.data);
+  const loading = useSelector((state: RootState) => state.restocking.loading);
+  const error = useSelector((state: RootState) => state.restocking.error);
 
   useEffect(() => {
     if (company && store) {
       dispatch(
-        fetchTransactionRequest(
-          transactionId as string,
+        fetchRestockingRequest(
+          restockingId as string,
           company as string,
           store as string
         )
       );
     }
-  }, [dispatch, company, store, transactionId]);
+  }, [dispatch, company, store, restockingId]);
 
   if (loading)
     return (
@@ -51,7 +51,7 @@ const Transaction = () => {
       </Layout>
     );
 
-  if (!transaction) {
+  if (!restocking) {
     return (
       <Layout>
         <div className="container mx-auto p-4 bg-yellow-100 border-l-4 border-yellow-500">
@@ -64,20 +64,19 @@ const Transaction = () => {
   return (
     <Layout>
       <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-semibold mb-4">Transaction</h1>
+        <h1 className="text-3xl font-semibold mb-4">Restocking</h1>
         <ul>
-          <li key={transaction.id} className="mb-8">
+          <li key={restocking.id} className="mb-8">
             <div className="bg-white p-6 shadow-md rounded-md">
-              <p className="text-lg font-semibold mb-2">ID: {transaction.id}</p>
-              <p>Created At: {transaction.createdAt}</p>
-              <p>Creator ID: {transaction.creatorId}</p>
-              <p>Creator Name: {transaction.creatorName}</p>
-              <p>Total Amount: {transaction.totalAmount}</p>
+              <p className="text-lg font-semibold mb-2">ID: {restocking.id}</p>
+              <p>Created At: {restocking.createdAt}</p>
+              <p>Creator ID: {restocking.creatorId}</p>
+              <p>Creator Name: {restocking.creatorName}</p>
 
               {/* Loop through details array */}
               <ul className="mt-4">
                 <p className="text-lg font-semibold mb-2">Details</p>
-                {transaction.details.map((detail: TransactionDetail) => (
+                {restocking.details.map((detail: RestockingDetail) => (
                   <li
                     key={detail.id}
                     className="mb-2 bg-white p-6 shadow-md rounded-md"
@@ -88,7 +87,6 @@ const Transaction = () => {
                     <p>Current: {detail.current}</p>
                     <p>Unit Cost: {detail.unitCost}</p>
                     <p>Selling Price: {detail.sellingPrice}</p>
-                    <p>Tax Information: {detail.taxInformation}</p>
                     <p>Supplier: {detail.supplier}</p>
                     <p>Quantity: {detail.quantity}</p>
                   </li>
@@ -97,19 +95,17 @@ const Transaction = () => {
             </div>
           </li>
         </ul>
-        <TransactionPreview
-          transactionData={{
-            id: transaction.id,
-            createdAt: transaction.createdAt,
-            totalAmount: transaction.totalAmount,
-            details: transaction.details.map((detail: TransactionDetail) => ({
+        <RestockingPreview
+          restockingData={{
+            id: restocking.id,
+            createdAt: restocking.createdAt,
+            details: restocking.details.map((detail: RestockingDetail) => ({
               id: detail.id,
               name: detail.name,
               category: detail.category,
               current: detail.current,
               unitCost: detail.unitCost,
               sellingPrice: detail.sellingPrice,
-              taxInformation: detail.taxInformation,
               supplier: detail.supplier,
               quantity: detail.quantity,
             })),
@@ -120,4 +116,4 @@ const Transaction = () => {
   );
 };
 
-export default Transaction;
+export default Restocking;

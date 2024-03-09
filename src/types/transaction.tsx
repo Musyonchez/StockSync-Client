@@ -2,6 +2,8 @@ export interface Transaction {
   id: string;
   details: TransactionDetail[];
   createdAt: string;
+  creatorId: string;
+  creatorName: string;
   totalAmount: number;
 }
 

@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
-export const GET_TRANSACTION = gql`
-  query GetTransaction($id: String!, $company: String!, $type: String!) {
-    getTransaction(id: $id, company: $company, type: $type) {
+export const GET_RESTOCKING = gql`
+  query GetRestocking($id: String!, $company: String!, $type: String!) {
+    getRestocking(id: $id, company: $company, type: $type) {
       id
       createdAt
       creatorId
