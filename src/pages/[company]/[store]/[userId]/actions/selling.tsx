@@ -98,8 +98,6 @@ const selling = () => {
       )
     );
 
-    setSelectedProducts([]);
-    setTotal(0);
   };
 
   useEffect(() => {

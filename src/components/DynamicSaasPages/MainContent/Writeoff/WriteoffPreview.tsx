@@ -1,13 +1,13 @@
 import React from "react";
 import { jsPDF } from "jspdf";
-import { TransactionDataState } from "@/types/next-auth";
+import { WriteoffDataState } from "@/types/next-auth";
 
-interface TransactionPreviewProps {
-  transactionData: TransactionDataState;
+interface WriteoffPreviewProps {
+  writeoffData: WriteoffDataState;
 }
 
-const TransactionPreview: React.FC<TransactionPreviewProps> = ({ transactionData }) => {
-    const { id, createdAt, totalAmount, details } = transactionData;
+const TransactionPreview: React.FC<WriteoffPreviewProps> = ({ writeoffData }) => {
+    const { id, createdAt, totalAmount, details } = writeoffData;
     const downloadPdf = () => {
         const doc = new jsPDF({
           orientation: "landscape", 

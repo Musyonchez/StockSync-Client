@@ -16,6 +16,8 @@ import { deactivateProductSaga } from './deactivateProductSaga'; // Adjust the p
 
 import { searchProductsSaga } from './searchProductsSaga'; // Adjust the path accordingly
 import { sellProductsSaga } from './sellProductsSaga'; // Adjust the path accordingly
+import { writeoffProductsSaga } from './writeoffProductsSaga'; // Adjust the path accordingly
+import { restockingProductsSaga } from './restockingProductsSaga'; // Adjust the path accordingly
 
 
 
@@ -41,6 +43,8 @@ function* watchFetchProduct() {
   
   yield takeEvery('SEARCH_PRODUCTS_REQUEST', searchProductsSaga.saga);
   yield takeEvery('SELL_PRODUCTS_REQUEST', sellProductsSaga.saga);
+  yield takeEvery('WRITEOFF_PRODUCTS_REQUEST', writeoffProductsSaga.saga);
+  yield takeEvery('RESTOCKING_PRODUCTS_REQUEST', restockingProductsSaga.saga);
 
 
 

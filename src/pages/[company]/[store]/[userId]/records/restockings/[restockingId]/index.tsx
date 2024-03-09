@@ -99,6 +99,8 @@ const Restocking = () => {
           restockingData={{
             id: restocking.id,
             createdAt: restocking.createdAt,
+            creatorId: restocking.creatorId,
+            creatorName: restocking.creatorName,
             details: restocking.details.map((detail: RestockingDetail) => ({
               id: detail.id,
               name: detail.name,

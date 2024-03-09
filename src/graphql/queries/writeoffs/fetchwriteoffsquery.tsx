@@ -8,6 +8,7 @@ export const GET_WRITEOFFS = gql`
       creatorId
       creatorName
       totalAmount
+      reason
       details {
         id
         name
@@ -15,8 +16,6 @@ export const GET_WRITEOFFS = gql`
         current
         unitCost
         sellingPrice
-        taxInformation
-        supplier
         quantity
       }
     }

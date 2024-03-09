@@ -7,7 +7,6 @@ export const GET_RESTOCKING = gql`
       createdAt
       creatorId
       creatorName
-      totalAmount
       details {
         id
         name
@@ -15,7 +14,6 @@ export const GET_RESTOCKING = gql`
         current
         unitCost
         sellingPrice
-        taxInformation
         supplier
         quantity
       }

@@ -91,7 +91,7 @@ const ProductDetail = () => {
     setIsDeleteButtonActive(false);
   
     try {
-      if (product.firstTransaction === false) {
+      if (product.firstRecordAction === false) {
         dispatch(
           deleteProductRequest(
             productId,

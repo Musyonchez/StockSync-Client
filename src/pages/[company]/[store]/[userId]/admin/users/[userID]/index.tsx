@@ -89,7 +89,7 @@ const UserDetail = () => {
     setIsDeleteButtonActive(false);
   
     try {
-      if (user.firstTransaction === false) {
+      if (user.firstRecordAction === false) {
         dispatch(
           deleteUserRequest(
             userID,

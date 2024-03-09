@@ -18,6 +18,11 @@ export const fetchWriteoffsSaga = {
   saga: function* (action: { type: string, payload: { company: string, type: string } }) {
     try {
       const { company, type } = action.payload;
+
+
+      console.log("wriiteoff saga", company, type)
+
+
       const response: ApolloQueryResult<WriteoffQueryResponse> = yield call(
         apolloClient.query,
         {

@@ -15,8 +15,6 @@ export const GET_WRITEOFF = gql`
         current
         unitCost
         sellingPrice
-        taxInformation
-        supplier
         quantity
       }
     }

@@ -10,6 +10,8 @@ import deleteproductReducer from "./products/deleteproductReducer";
 import deactivateproductReducer from "./products/deactivateproductReducer";
 import searchproductsReducer from "./products/searchproductsReducer";
 import sellproductsReducer from "./products/sellproductsReducer";
+import writeoffproductsReducer from "./products/writeoffproductsReducer";
+import restockingproductsReducer from "./products/restockingproductsReducer";
 
 
 
@@ -49,6 +51,8 @@ const rootReducer = combineReducers({
   products: productsReducer,
   searchproducts: searchproductsReducer,
   sellproducts: sellproductsReducer,
+  writeoffproducts:  writeoffproductsReducer,
+  restockingproducts: restockingproductsReducer,
 
 
 

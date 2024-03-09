@@ -45,11 +45,49 @@ interface TransactionDetail {
   taxInformation: number;
   supplier: string;
   quantity: number;
- }
- 
- interface TransactionDataState {
+}
+
+interface TransactionDataState {
   id: string;
   createdAt: string;
   totalAmount: number;
-  details: TransactionDetail[]; // Adjusted to indicate an array of TransactionDetail objects
- }
+  details: TransactionDetail[];
+}
+
+interface WriteoffDetail {
+  id: string;
+  name: string;
+  category: string;
+  current: number;
+  unitCost: number;
+  sellingPrice: number;
+  taxInformation: number;
+  supplier: string;
+  quantity: number;
+}
+
+interface WriteoffDataState {
+  id: string;
+  createdAt: string;
+  totalAmount: number;
+  details: WriteoffDetail[];
+}
+
+interface RestockingDetail {
+  id: string;
+  name: string;
+  category: string;
+  current: number;
+  unitCost: number;
+  sellingPrice: number;
+  supplier: string;
+  quantity: number;
+}
+
+interface RestockingDataState {
+  id: string;
+  createdAt: string;
+  creatorId: string;
+  creatorName: string;
+  details: RestockingDetail[];
+}

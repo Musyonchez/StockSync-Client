@@ -13,7 +13,7 @@ export interface User {
   store4: boolean;
   role: UserRole;
   company: string;
-  firstTransaction: boolean;
+  firstRecordAction: boolean;
   active: boolean;
 }
 
@@ -39,5 +39,5 @@ export interface UserState {
   store3: boolean;
   store4: boolean;
   role: UserRole;
-  firstTransaction: boolean;
+  firstRecordAction: boolean;
 }
