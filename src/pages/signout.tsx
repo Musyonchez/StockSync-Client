@@ -16,7 +16,7 @@ const LogoutPage: React.FC = () => {
   }, [session, isClient]);
 
   const handleLogout = async () => {
-    await signOut();
+    await signOut({ callbackUrl: '/' }); // Redirects to the homepage after signing out
     if (isClient) {
       if (!session || !session.user) {
         window.location.href = "/";

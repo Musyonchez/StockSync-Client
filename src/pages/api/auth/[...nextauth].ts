@@ -1,11 +1,12 @@
-import NextAuth from "next-auth/next";
+// pages/api/auth/[...nextauth].js
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { JWT } from "next-auth/jwt";
 
+// Initialize Apollo Client
 const client = new ApolloClient({
   uri: process.env.GRAPHQL_URI || "http://localhost:5000/graphql/",
-  // uri: 'https://stocksync-server.onrender.com',
   cache: new InMemoryCache(),
 });
 
@@ -15,16 +16,7 @@ interface AuthCredentials {
   company: string;
 }
 
-interface SessionConfig {
-  strategy: "jwt";
-  maxAge: number;
-}
-
-export const authOptions = {
-  session: {
-    strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60,
-  } as SessionConfig,
+export default NextAuth({
   providers: [
     CredentialsProvider({
       type: "credentials",
@@ -34,21 +26,21 @@ export const authOptions = {
           type: "text",
           placeholder: "Enter your email",
         },
-        company: {
-          label: "Company",
-          type: "text",
-          placeholder: "Enter your Company name",
-        },
         password: {
           label: "Password",
           type: "password",
           placeholder: "Enter your password",
         },
+        company: {
+          label: "Company",
+          type: "text",
+          placeholder: "Enter your Company name",
+        },
       },
-
       async authorize(credentials: AuthCredentials | undefined, req: any) {
         if (!credentials) {
-          return Promise.resolve(null);
+          console.error("Credentials are undefined");
+          return null;
         }
 
         try {
@@ -73,6 +65,7 @@ export const authOptions = {
                   store4
                   company
                   role
+                  firstsignin
                 }
               }
             `,
@@ -99,35 +92,39 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, user }: { token: JWT; user: Record<string, any> }) {
       if (user) {
+        token.id = user.id;
         token.firstName = user.firstName;
         token.lastName = user.lastName;
-        token.id = user.id;
-        token.accessToken = user.accessToken;
+        token.email = user.email;
+        token.password = user.password;
         token.store1 = user.store1;
         token.store2 = user.store2;
         token.store3 = user.store3;
         token.store4 = user.store4;
         token.company = user.company;
         token.role = user.role;
+        token.firstsignin = user.firstsignin;
       }
       return token;
     },
     async session({ session, token }: { session: any; token: JWT }) {
-      if (token) {
-        session.user.firstName = token.firstName;
-        session.user.lastName = token.lastName;
-        session.user.id = token.id;
-        session.user.accessToken = token.accessToken;
-        session.user.store1 = token.store1;
-        session.user.store2 = token.store2;
-        session.user.store3 = token.store3;
-        session.user.store4 = token.store4;
-        session.user.company = token.company;
-        session.user.role = token.role;
-      }
+      session.user.id = token.id;
+      session.user.firstName = token.firstName;
+      session.user.lastName = token.lastName;
+      session.user.email = token.email;
+      session.user.password = token.password;
+      session.user.store1 = token.store1;
+      session.user.store2 = token.store2;
+      session.user.store3 = token.store3;
+      session.user.store4 = token.store4;
+      session.user.company = token.company;
+      session.user.role = token.role;
+      session.user.firstsignin = token.firstsignin;
       return session;
     },
   },
-};
-
-export default NextAuth(authOptions);
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
+  },
+});
