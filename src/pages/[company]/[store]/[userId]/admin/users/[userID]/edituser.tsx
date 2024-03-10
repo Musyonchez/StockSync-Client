@@ -9,10 +9,15 @@ import { User, UserRole } from "../../../../../../../types/user";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
+import { useSession } from "next-auth/react";
+import { getSession } from 'next-auth/react';
+import { GetServerSidePropsContext } from "next";
+
 const EditUser = () => {
+  const { data: session } = useSession();
   const router = useRouter();
-  const userId = router.query?.userId as string;
-  const company = router.query?.company as string; // Ensure company is always a string
+  const  userId  = session?.user?.id;
+  const  company  = session?.user?.company;
   const store = router.query?.store as string;
   const userID = router.query?.userID as string;
 
@@ -336,3 +341,23 @@ const EditUser = () => {
 };
 
 export default EditUser;
+
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  console.log("Server-side session:", session); // Add this line for debugging
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

@@ -8,10 +8,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
+import { useSession } from "next-auth/react";
+import { getSession } from 'next-auth/react';
+import { GetServerSidePropsContext } from "next";
+
 function ProductList() {
+  const { data: session } = useSession();
   const router = useRouter();
-  const { company } = router.query;
-  const { store } = router.query;
+  const  company  = session?.user?.company;
+  const store = router.query?.store as string;
 
   const dispatch = useDispatch();
   const products = useSelector((state: RootState) => state.products.data);
@@ -123,23 +128,23 @@ function ProductList() {
                         href={`${router.asPath}/${product.id}`}
                         className="text-blue-500 flex w-full"
                       >
-                        <div className=" min-w-36">{product.name}</div>
+                        <div className=" min-w-36 overflow-hidden">{product.name}</div>
                         <div className=" min-w-64 overflow-hidden">
                           {product.description}
                         </div>
-                        <div className=" min-w-32">{product.category}</div>
-                        <div className=" min-w-28">
+                        <div className=" min-w-32 overflow-hidden">{product.category}</div>
+                        <div className=" min-w-28 overflow-hidden">
                           {product.current}
                         </div>
-                        <div className=" min-w-28">
+                        <div className=" min-w-28 overflow-hidden">
                           {product.reorderLevel}
                         </div>
-                        <div className=" min-w-28">
+                        <div className=" min-w-28 overflow-hidden">
                           {product.unitCost}
                         </div>
-                        <div className=" min-w-28">{product.sellingPrice}</div>
-                        <div className=" min-w-28">{product.supplier}</div>
-                        <div className=" min-w-52">{product.id}</div>
+                        <div className=" min-w-28 overflow-hidden">{product.sellingPrice}</div>
+                        <div className=" min-w-28 overflow-hidden">{product.supplier}</div>
+                        <div className=" min-w-52 overflow-hidden">{product.id}</div>
                       </Link>
                     </li>
                   ))}
@@ -217,3 +222,23 @@ function ProductList() {
 }
 
 export default ProductList;
+
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  console.log("Server-side session:", session); // Add this line for debugging
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

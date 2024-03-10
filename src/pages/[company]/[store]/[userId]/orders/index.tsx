@@ -7,6 +7,8 @@ import ProductsOrderInput from "@/components/DynamicSaasPages/MainContent/Order/
 import ShippingOrderInput from "@/components/DynamicSaasPages/MainContent/Order/ShippingOrderInput";
 import VenderOrderInput from "@/components/DynamicSaasPages/MainContent/Order/VenderOrderInput";
 import { OrderDataState } from "@/types/next-auth";
+import { GetServerSidePropsContext } from "next";
+import { getSession } from "next-auth/react";
 
 const Index = () => {
   const [orderData, setOrderData] = useState<OrderDataState>({
@@ -52,3 +54,22 @@ const Index = () => {
 };
 
 export default Index;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  console.log("Server-side session:", session); // Add this line for debugging
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

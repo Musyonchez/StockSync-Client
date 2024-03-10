@@ -11,13 +11,16 @@ import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { sellProductsRequest } from "@/actions/products/sellProducts";
 
 import { useSession } from "next-auth/react";
+import { getSession } from 'next-auth/react';
+import { GetServerSidePropsContext } from "next";
+
 
 const selling = () => {
   const { data: session } = useSession();
   const router = useRouter();
-  const company = router.query?.company as string; // Ensure company is always a string
+  const  company  = session?.user?.company;
   const store = router.query?.store as string;
-  const userId = router.query?.userId as string;
+  const  userId  = session?.user?.id;
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [name, setName] = useState("");
 
@@ -375,3 +378,23 @@ const selling = () => {
 };
 
 export default selling;
+
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  console.log("Server-side session:", session); // Add this line for debugging
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

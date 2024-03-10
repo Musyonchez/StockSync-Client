@@ -11,10 +11,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
+import { useSession } from "next-auth/react";
+import { getSession } from 'next-auth/react';
+import { GetServerSidePropsContext } from "next";
+
 const Restockings = () => {
+  const { data: session } = useSession();
   const router = useRouter();
-  const { company } = router.query;
-  const { store } = router.query;
+  const  company  = session?.user?.company;
+  const store = router.query?.store as string;
 
   const dispatch = useDispatch();
   const restockings = useSelector(
@@ -101,3 +106,22 @@ const Restockings = () => {
 };
 
 export default Restockings;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  console.log("Server-side session:", session); // Add this line for debugging
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

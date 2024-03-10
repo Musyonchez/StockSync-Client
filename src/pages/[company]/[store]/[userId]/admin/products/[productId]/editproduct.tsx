@@ -11,10 +11,14 @@ import Layout from "@/components/DynamicSaasPages/Layout";
 
 import emptyProduct from "../../../../../../../../public/emptyProduct.jpg";
 
+import { useSession } from "next-auth/react";
+import { getSession } from 'next-auth/react';
+import { GetServerSidePropsContext } from "next";
 
 const ProductDetail = () => {
+  const { data: session } = useSession();
   const router = useRouter();
-  const company = router.query?.company as string; // Ensure company is always a string
+  const  company  = session?.user?.company;
   const store = router.query?.store as string;
   const productId = router.query?.productId as string;
 
@@ -181,7 +185,13 @@ const ProductDetail = () => {
 
       // Append the file with the desired name
       formData.append("file", image, newImageName);
-      formData.append("company", company);
+      if (company) {
+        formData.append("company", company);
+       } else {
+        // Handle the case where company is undefined
+        // For example, you might want to skip appending it or provide a default value
+        console.error("Company is undefined, skipping append operation");
+       }
 
       console.log(
         "file from fileupload rest api",
@@ -514,3 +524,23 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
+
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  console.log("Server-side session:", session); // Add this line for debugging
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

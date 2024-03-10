@@ -4,14 +4,19 @@ import { addUserRequest } from "../../../../../../actions/users/addUser";
 import { RootState } from "../../../../../../store/reducers/reducers";
 import Link from "next/link";
 // import { User } from "../../../../../../../types/user"
-import { UserRole } from '../../../../../../types/user';
+import { UserRole } from "../../../../../../types/user";
 
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
+import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
+import { GetServerSidePropsContext } from "next";
+
 const AddUser = () => {
+  const { data: session } = useSession();
   const router = useRouter();
-  const company = router.query?.company as string; // Ensure company is always a string
+  const company = session?.user?.company;
   const store = router.query?.store as string;
 
   const [firstName, setFirstName] = useState("");
@@ -33,31 +38,33 @@ const AddUser = () => {
     e.preventDefault();
 
     try {
-      dispatch(
-        addUserRequest(
-          firstName,
-          lastName,
-          email,
-          password,
-          store1,
-          store2,
-          store3,
-          store4,
-          role,
-          company,
-          store
-        )
-      );
+      if (company && store) {
+        dispatch(
+          addUserRequest(
+            firstName,
+            lastName,
+            email,
+            password,
+            store1,
+            store2,
+            store3,
+            store4,
+            role,
+            company,
+            store
+          )
+        );
 
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setPassword("");
-      setStore1(false);
-      setStore2(false);
-      setStore3(false);
-      setStore4(false);
-      setRole("USER");
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setPassword("");
+        setStore1(false);
+        setStore2(false);
+        setStore3(false);
+        setStore4(false);
+        setRole("USER");
+      }
     } catch (error) {}
   };
 
@@ -103,7 +110,7 @@ const AddUser = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
-           
+
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -222,3 +229,22 @@ const AddUser = () => {
 };
 
 export default AddUser;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  console.log("Server-side session:", session); // Add this line for debugging
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

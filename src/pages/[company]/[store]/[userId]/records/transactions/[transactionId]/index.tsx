@@ -10,9 +10,14 @@ import { RootState } from "../../../../../../../store/reducers/reducers";
 import { TransactionDetail } from "../../../../../../../types/transaction";
 import TransactionPreview from "@/components/DynamicSaasPages/MainContent/Transaction/TransactionPreview";
 
+import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
+import { GetServerSidePropsContext } from "next";
+
 const Transaction = () => {
+  const { data: session } = useSession();
   const router = useRouter();
-  const company = router.query?.company as string; // Ensure company is always a string
+  const company = session?.user?.company;
   const store = router.query?.store as string;
   const transactionId = router.query?.transactionId as string; // Ensure company is always a string
 
@@ -121,3 +126,23 @@ const Transaction = () => {
 };
 
 export default Transaction;
+
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  console.log("Server-side session:", session); // Add this line for debugging
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

@@ -8,10 +8,14 @@ import { Product } from "../../../../../../types/product"; // Import the Product
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
+import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
+import { GetServerSidePropsContext } from "next";
+
 const AddProduct = () => {
-  // const [addProduct] = useMutation(ADD_PRODUCT);
+  const { data: session } = useSession();
   const router = useRouter();
-  const company = router.query?.company as string; // Ensure company is always a string
+  const company = session?.user?.company;
   const store = router.query?.store as string;
 
   const [name, setName] = useState("");
@@ -27,20 +31,21 @@ const AddProduct = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      dispatch(
-        addProductRequest(
-          name,
-          description,
-          category,
-          company,
-          store // Assuming 'store' is the correct variable for the product type
-        )
-      );
+      if (company && store) {
+        dispatch(
+          addProductRequest(
+            name,
+            description,
+            category,
+            company,
+            store // Assuming 'store' is the correct variable for the product type
+          )
+        );
 
-      setName("");
-      setDescription("");
-      setCategory("");
-
+        setName("");
+        setDescription("");
+        setCategory("");
+      }
       // Handle success if needed
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -62,10 +67,21 @@ const AddProduct = () => {
 
         // Append the file with the desired name
         formData.append("file", image, newImageName);
-        formData.append("company", company);
 
+        if (company) {
+          formData.append("company", company);
+        } else {
+          // Handle the case where company is undefined
+          // For example, you might want to skip appending it or provide a default value
+          console.error("Company is undefined, skipping append operation");
+        }
 
-        console.log("file from fileupload rest api", image , newImageName, product);
+        console.log(
+          "file from fileupload rest api",
+          image,
+          newImageName,
+          product
+        );
 
         // Send a POST request to your REST API endpoint
         await fetch("http://localhost:5000/upload", {
@@ -172,3 +188,23 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
+
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  console.log("Server-side session:", session); // Add this line for debugging
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

@@ -10,9 +10,14 @@ import { RootState } from "../../../../../../../store/reducers/reducers";
 import { RestockingDetail } from "../../../../../../../types/restocking";
 import RestockingPreview from "@/components/DynamicSaasPages/MainContent/Restocking/RestockingPreview";
 
+import { useSession } from "next-auth/react";
+import { getSession } from 'next-auth/react';
+import { GetServerSidePropsContext } from "next";
+
 const Restocking = () => {
+  const { data: session } = useSession();
   const router = useRouter();
-  const company = router.query?.company as string; // Ensure company is always a string
+  const  company  = session?.user?.company;
   const store = router.query?.store as string;
   const restockingId = router.query?.restockingId as string; // Ensure company is always a string
 
@@ -119,3 +124,22 @@ const Restocking = () => {
 };
 
 export default Restocking;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  console.log("Server-side session:", session); // Add this line for debugging
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

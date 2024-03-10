@@ -10,12 +10,17 @@ import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 import { deactivateUserRequest } from "@/actions/users/deactivateUser";
 
+import { useSession } from "next-auth/react";
+import { getSession } from 'next-auth/react';
+import { GetServerSidePropsContext } from "next";
+
 const UserDetail = () => {
+  const { data: session } = useSession();
   const router = useRouter();
-  const company = router.query?.company as string; // Ensure company is always a string
+  const  company  = session?.user?.company;
   const store = router.query?.store as string;
   const userID = router.query?.userID as string;
-  const { userId } = router.query;
+  const  userId  = session?.user?.id;
   const [isActiveButtonActive, setIsActiveButtonActive] = useState(true);
   const [isDeleteButtonActive, setIsDeleteButtonActive] = useState(true);
 
@@ -89,6 +94,8 @@ const UserDetail = () => {
     setIsDeleteButtonActive(false);
   
     try {
+      if (company && store) {
+
       if (user.firstRecordAction === false) {
         dispatch(
           deleteUserRequest(
@@ -106,6 +113,7 @@ const UserDetail = () => {
       } else {
         throw new Error("User has a transaction hence can't delete");
       }
+    }
     } catch (error) {
       console.error("Error deleting User:", error);
       // Handle the error as needed
@@ -278,3 +286,22 @@ const UserDetail = () => {
 };
 
 export default UserDetail;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  console.log("Server-side session:", session); // Add this line for debugging
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

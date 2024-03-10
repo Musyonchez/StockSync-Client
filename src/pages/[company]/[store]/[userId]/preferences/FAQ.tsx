@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Layout from "@/components/DynamicSaasPages/Layout";
+import { GetServerSidePropsContext } from "next";
+import { getSession } from "next-auth/react";
 
 const FAQ = () => {
     const faqData = [
@@ -77,3 +79,22 @@ const FAQ = () => {
 };
 
 export default FAQ;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  console.log("Server-side session:", session); // Add this line for debugging
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

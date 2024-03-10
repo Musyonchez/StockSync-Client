@@ -8,6 +8,8 @@ import CustomerInvoiceInput from "@/components/DynamicSaasPages/MainContent/Invo
 import InvoicePreview from "@/components/DynamicSaasPages/MainContent/Invoice/InvoicePreview";
 import ProductsInvoiceInput from "@/components/DynamicSaasPages/MainContent/Invoice/ProductsInvoiceInput";
 import ShippingInvoiceInput from "@/components/DynamicSaasPages/MainContent/Invoice/ShippingInvoiceInput";
+import { GetServerSidePropsContext } from "next";
+import { getSession } from "next-auth/react";
 
 const Index = () => {
   const [InvoiceData, setInvoiceData] = useState<InvoiceDataState>({
@@ -57,3 +59,23 @@ const Index = () => {
 };
 
 export default Index;
+
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  console.log("Server-side session:", session); // Add this line for debugging
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}

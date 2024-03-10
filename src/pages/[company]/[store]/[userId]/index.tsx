@@ -1,5 +1,4 @@
 import Layout from "@/components/DynamicSaasPages/Layout";
-import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -8,11 +7,16 @@ import { fetchUserRequest } from "../../../../actions/users/fetchUser";
 import { RootState } from "../../../../store/reducers/reducers";
 import Link from "next/link";
 
+import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
+import { GetServerSidePropsContext } from "next";
+
 const Index = () => {
+  const { data: session } = useSession();
   const router = useRouter();
-  const { company } = router.query;
-  const { store } = router.query;
-  const { userId } = router.query;
+  const company = session?.user?.company;
+  const store = router.query?.store as string;
+  const userId = session?.user?.id;
   const [greeting, setGreeting] = useState("");
 
   const dispatch = useDispatch();
@@ -148,3 +152,22 @@ const Index = () => {
 };
 
 export default Index;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req } = context;
+  const session = await getSession({ req });
+
+  console.log("Server-side session:", session); // Add this line for debugging
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}
