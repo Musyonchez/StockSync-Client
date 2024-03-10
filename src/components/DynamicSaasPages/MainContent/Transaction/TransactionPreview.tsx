@@ -7,7 +7,7 @@ interface TransactionPreviewProps {
 }
 
 const TransactionPreview: React.FC<TransactionPreviewProps> = ({ transactionData }) => {
-    const { id, createdAt, totalAmount, details } = transactionData;
+    const { id, createdAt, creatorId, creatorName, totalAmount, details } = transactionData;
     const downloadPdf = () => {
         const doc = new jsPDF({
           orientation: "landscape", 
@@ -19,7 +19,7 @@ const TransactionPreview: React.FC<TransactionPreviewProps> = ({ transactionData
     
     doc.setFontSize(15);
 
-    doc.text("Transaction Report", 120, 15);
+    doc.text("Transactions Report", 120, 15);
 
     doc.setFontSize(10);
 
@@ -42,7 +42,9 @@ const TransactionPreview: React.FC<TransactionPreviewProps> = ({ transactionData
 
     doc.text(`Transaction Id: ${id}`, 150, 25, { maxWidth: 90 });
     doc.text(`Created At: ${createdAt}`, 150, 30, { maxWidth: 90 });
-    doc.text(`Total Amount: ${totalAmount}`, 150, 35, { maxWidth: 90 });
+    doc.text(`Creator Id: ${creatorId}`, 150, 35, { maxWidth: 90 });
+    doc.text(`Creator Name: ${creatorName}`, 150, 40, { maxWidth: 90 });
+    doc.text(`Total Amount: ${totalAmount}`, 150, 45, { maxWidth: 90 });
 
 
     doc.text("Id", 15, 55);
@@ -84,7 +86,7 @@ const TransactionPreview: React.FC<TransactionPreviewProps> = ({ transactionData
       doc.text(detail.sellingPrice.toString(), 185, yPosition, { maxWidth: 24 });
       doc.text(detail.taxInformation.toString(), 210, yPosition, { maxWidth: 24 });
       doc.text(detail.current.toString(), 235, yPosition, { maxWidth: 24 });
-      doc.text(detail.quantity.toString(), 260, yPosition, { maxWidth: 24 });
+      doc.text(detail.quantity.toString(), 260, yPosition, { maxWidth: 34 });
 
       yPosition += 10;
     });

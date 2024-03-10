@@ -109,6 +109,8 @@ const Transaction = () => {
           transactionData={{
             id: transaction.id,
             createdAt: transaction.createdAt,
+            creatorId: transaction.creatorId,
+            creatorName: transaction.creatorName,
             totalAmount: transaction.totalAmount,
             details: transaction.details.map((detail: TransactionDetail) => ({
               id: detail.id,

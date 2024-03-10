@@ -50,6 +50,8 @@ interface TransactionDetail {
 interface TransactionDataState {
   id: string;
   createdAt: string;
+  creatorId: string;
+  creatorName: string
   totalAmount: number;
   details: TransactionDetail[];
 }
@@ -61,14 +63,14 @@ interface WriteoffDetail {
   current: number;
   unitCost: number;
   sellingPrice: number;
-  taxInformation: number;
-  supplier: string;
   quantity: number;
 }
 
 interface WriteoffDataState {
   id: string;
   createdAt: string;
+  creatorId: string;
+  creatorName: string;
   totalAmount: number;
   details: WriteoffDetail[];
 }

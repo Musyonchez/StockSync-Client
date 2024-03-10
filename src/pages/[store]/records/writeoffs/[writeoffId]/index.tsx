@@ -109,6 +109,8 @@ const Writeoff = () => {
           writeoffData={{
             id: writeoff.id,
             createdAt: writeoff.createdAt,
+            creatorId: writeoff.creatorId,
+            creatorName: writeoff.creatorName,
             totalAmount: writeoff.totalAmount,
             details: writeoff.details.map((detail: WriteoffDetail) => ({
               id: detail.id,
@@ -117,8 +119,6 @@ const Writeoff = () => {
               current: detail.current,
               unitCost: detail.unitCost,
               sellingPrice: detail.sellingPrice,
-              taxInformation: detail.taxInformation,
-              supplier: detail.supplier,
               quantity: detail.quantity,
             })),
           }}
@@ -129,7 +129,6 @@ const Writeoff = () => {
 };
 
 export default Writeoff;
-
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
