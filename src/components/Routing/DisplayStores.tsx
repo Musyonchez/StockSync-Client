@@ -10,7 +10,7 @@ const DisplayStores = () => {
       {session?.user?.store1 && (
         <Link
           className="flex"
-          href={`/${session?.user?.company}/store1/${session?.user?.id}`}
+          href={`/store1`}
         >
           <button className="flex flex-row py-2 px-4 hover:bg-purple-100">
             <svg
@@ -34,7 +34,7 @@ const DisplayStores = () => {
       {session?.user?.store2 && (
         <Link
           className="flex"
-          href={`/${session?.user?.company}/store2/${session?.user?.id}`}
+          href={`/store2`}
         >
           <button className="flex flex-row py-2 px-4 hover:bg-purple-100">
             <svg
@@ -58,7 +58,7 @@ const DisplayStores = () => {
       {session?.user?.store3 && (
         <Link
           className="flex"
-          href={`/${session?.user?.company}/store3/${session?.user?.id}`}
+          href={`/store3`}
         >
           <button className="flex flex-row py-2 px-4 hover:bg-purple-100">
             <svg
@@ -82,7 +82,7 @@ const DisplayStores = () => {
       {session?.user?.store4 && (
         <Link
           className="flex"
-          href={`/${session?.user?.company}/store4/${session?.user?.id}`}
+          href={`/store4`}
         >
           <button className="flex flex-row py-2 px-4 hover:bg-purple-100">
             <svg

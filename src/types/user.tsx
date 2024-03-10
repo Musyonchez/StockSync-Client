@@ -15,6 +15,9 @@ export interface User {
   company: string;
   firstRecordAction: boolean;
   active: boolean;
+
+  [key: string]: string | boolean | undefined;
+
 }
 
 export interface Users {
