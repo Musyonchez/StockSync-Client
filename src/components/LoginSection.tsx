@@ -22,13 +22,11 @@ export default function LoginSection() {
   return (
     <div className=" flex-col flex md:flex-row w-full text-center">
       <Link href="/login">
-        {" "}
         <button className="whitespace-nowrap max-md:w-full border-black dark:border-white border-2 md:border-0 p-2 mb-2 md:mb-0">
           Log in
         </button>
       </Link>
       <Link href="/register">
-        {" "}
         <button className=" bg-emerald-300 max-md:w-full md:rounded-md p-2 md:ml-3">
           Register
         </button>

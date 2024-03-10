@@ -13,6 +13,13 @@ import { useSession } from "next-auth/react";
 import { getSession } from 'next-auth/react';
 import { GetServerSidePropsContext } from "next";
 
+interface DynamicRouteParams {
+  company: string;
+  store: string;
+  userId: string;
+  userID: string;
+ }
+ 
 const EditUser = () => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -47,9 +54,6 @@ const EditUser = () => {
   const error = useSelector((state: RootState) => state.user.error);
 
   useEffect(() => {
-    if (userId === userID) {
-      router.push(`/${company}/${store}/${userId}/admin/users`);
-    }
     if (company && store) {
       dispatch(
         fetchUserRequest(userID as string, company as string, store as string)
@@ -344,7 +348,7 @@ export default EditUser;
 
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { req } = context;
+  const { req, params } = context;
   const session = await getSession({ req });
 
   console.log("Server-side session:", session); // Add this line for debugging
@@ -357,6 +361,20 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       },
     };
   }
+
+  const { store, userID } = params as unknown as DynamicRouteParams;
+
+    // Check if the user IDs match
+    if (userID === session.user.id) {
+      return {
+        redirect: {
+          destination: `/${ session.user.company}/${store}/${ session.user.id}/admin/users`,
+          permanent: false,
+        },
+      };
+    }
+
+
   return {
     props: { session },
   };

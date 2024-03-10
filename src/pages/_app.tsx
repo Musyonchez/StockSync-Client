@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import "@/styles/404.css";
 
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { ThemeProvider } from "next-themes";

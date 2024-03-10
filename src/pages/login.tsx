@@ -29,11 +29,17 @@ const LoginPage: React.FC = () => {
       password,
       company,
     })
-      .then(() => {
-        if (isClient) {
+    .then(() => {
+      if (isClient) {
+        // Redirect to the previous page or home if no previous page is stored
+        const previousPage = sessionStorage.getItem('previousPage');
+        if (previousPage) {
+          window.location.href = previousPage;
+        } else {
           window.location.href = "/";
         }
-      })
+      }
+    })
       .catch((error) => {
         setError(
           "Invalid credentials. Please check your email, password, and company."
