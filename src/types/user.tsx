@@ -14,6 +14,7 @@ export interface User {
   role: UserRole;
   company: string;
   firstRecordAction: boolean;
+  firstsignin: boolean;
   active: boolean;
 
   [key: string]: string | boolean | undefined;
@@ -43,4 +44,5 @@ export interface UserState {
   store4: boolean;
   role: UserRole;
   firstRecordAction: boolean;
+  firstsignin: boolean;
 }

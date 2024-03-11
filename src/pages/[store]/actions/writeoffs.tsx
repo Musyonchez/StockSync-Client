@@ -94,22 +94,20 @@ const writeoff = () => {
 
     // Dispatch the writeoffProductsRequest action with the filterArray
     if (session?.user && (session.user as User)[store] === true && company) {
-
-    dispatch(
-      writeoffProductsRequest(
-        userId as string,
-        name as string,
-        company as string,
-        store as string,
-        total as number,
-        reason as string,
-        writeofffilterArray
-      )
-      
-    );
-  } else {
-    console.error(`User does not have access to ${store}.`);
-  }
+      dispatch(
+        writeoffProductsRequest(
+          userId as string,
+          name as string,
+          company as string,
+          store as string,
+          total as number,
+          reason as string,
+          writeofffilterArray
+        )
+      );
+    } else {
+      console.error(`User does not have access to ${store}.`);
+    }
     console.log("reason from writeoff.tsx", reason);
   };
 

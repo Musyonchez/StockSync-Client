@@ -10,6 +10,9 @@ import { deactivateProductRequest } from "../../../../../actions/products/deacti
 import { RootState } from "../../../../../store/reducers/reducers";
 import { Product } from "../../../../../types/product"; // Import the Product type
 
+import emptyProduct from "../../../../../../public/emptyProduct.jpg";
+
+
 import { useSession } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
@@ -132,24 +135,23 @@ const ProductDetail = () => {
     setIsActiveButtonActive(false);
     try {
       if (session?.user && (session.user as User)[store] === true && company) {
+        dispatch(
+          deactivateProductRequest(
+            productId,
+            company,
+            store // Assuming 'store' is the correct variable for the product type
+          )
+        );
 
-      dispatch(
-        deactivateProductRequest(
-          productId,
-          company,
-          store // Assuming 'store' is the correct variable for the product type
-        )
-      );
+        const userId = query.userId;
 
-      const userId = query.userId;
-
-      // Use router.push to navigate to the new URL structure
-      router.push(`/${store}/admin/products/`).then(() => {
-        window.location.reload();
-      });
-    } else {
-      console.error(`User does not have access to ${store}.`);
-    }
+        // Use router.push to navigate to the new URL structure
+        router.push(`/${store}/admin/products/`).then(() => {
+          window.location.reload();
+        });
+      } else {
+        console.error(`User does not have access to ${store}.`);
+      }
     } catch (error) {}
   };
 
@@ -330,6 +332,24 @@ const ProductDetail = () => {
                   className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="supplier"
+                  className="block text-sm font-semibold text-gray-600 mb-1"
+                >
+                  Image:
+                </label>
+                <img
+                  src={product.imageURL}
+                  alt="Product Image"
+                  className="w-24 h-24"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).onerror = null; // Prevent infinite loop
+                    (e.target as HTMLImageElement).src = emptyProduct.src; // Corrected line
+                  }}
+                />
+              </div>
+
               <div className="mb-4">
                 <label
                   htmlFor="supplier"

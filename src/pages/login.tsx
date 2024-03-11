@@ -9,7 +9,7 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [company, setCompany] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const isClient = typeof window !== "undefined";
 
@@ -29,21 +29,21 @@ const LoginPage: React.FC = () => {
       password,
       company,
     })
-    .then(() => {
-      if (isClient) {
-        // Redirect to the previous page or home if no previous page is stored
-        const previousPage = sessionStorage.getItem('previousPage');
-        if (previousPage) {
-          window.location.href = previousPage;
-        } else {
-          window.location.href = "/";
+      .then(() => {
+        if (isClient) {
+          // Redirect to the previous page or home if no previous page is stored
+          const previousPage = sessionStorage.getItem("previousPage");
+          if (previousPage) {
+            window.location.href = previousPage;
+          } else {
+            window.location.href = "/";
+          }
         }
-      }
-    })
+      })
       .catch((error) => {
-        setError(
-          "Invalid credentials. Please check your email, password, and company."
-        );
+        // Handle the error and stay on the login page
+        console.error("Login failed:", error);
+        // Optionally, display an error message to the user
       });
   };
 
@@ -65,7 +65,26 @@ const LoginPage: React.FC = () => {
               className="mt-1 p-2 border dark:border-gray-600 rounded-md w-full sm:w-96"
             />
           </label>
-          <br/>
+          <br />
+          <label className="flex flex-col text-sm font-medium text-gray-700 dark:text-white w-full sm:w-96">
+            Password:
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                required
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 p-2 border dark:border-gray-600 rounded-md w-full sm:w-96"
+              />
+              <span
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </span>
+            </div>
+          </label>
+          <br />
           <label className=" flex flex-col text-sm font-medium text-gray-700 dark:text-white w-full sm:w-96">
             Company:
             <input
@@ -76,18 +95,7 @@ const LoginPage: React.FC = () => {
               className="mt-1 p-2 border dark:border-gray-600 rounded-md w-full sm:w-96"
             />
           </label>
-          <br/>
-          <label className=" flex flex-col text-sm font-medium text-gray-700 dark:text-white w-full sm:w-96">
-            Password:
-            <input
-              type="password"
-              value={password}
-              required
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 p-2 border dark:border-gray-600 rounded-md w-full sm:w-96"
-            />
-          </label>
-          <br/>
+          <br />
           <button
             type="submit"
             className="mt-4 p-2 bg-emerald-500 text-white rounded-md dark:bg-emerald-700 w-full sm:w-96"

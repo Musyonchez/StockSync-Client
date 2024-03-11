@@ -28,6 +28,8 @@ const AddUser = () => {
   const [store4, setStore4] = useState(false);
   const [role, setRole] = useState<UserRole>("USER"); // Use UserRole type here
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.adduser.data);
   const loading = useSelector((state: RootState) => state.adduser.loading);
@@ -136,15 +138,23 @@ const AddUser = () => {
               >
                 Password:
               </label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter Password"
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              />
+              <div className=" relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter Password"
+                  className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+                />
+                <span
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </span>
+              </div>
             </div>
             <div className="mb-4">
               <label className="block text-sm font-semibold text-gray-600 mb-1">

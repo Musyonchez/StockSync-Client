@@ -32,12 +32,13 @@ const Hero = () => {
               Contact Us
             </button>
           </Link>
-            <button
-              onClick={() => signIn()}
+          <Link href="/register">
+          <button
               className="bg-emerald-300 rounded-3xl py-2 px-6"
             >
               Register
             </button>
+            </Link>
         </div>
       </div>
       <div className="flex flex-1.5">

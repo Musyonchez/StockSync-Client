@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
-import emptyProduct from "../../../../../../../../public/emptyProduct.jpg";
+import emptyProduct from "../../../../../../public/emptyProduct.jpg";
 
 import { useSession } from "next-auth/react";
 import { getSession } from "next-auth/react";

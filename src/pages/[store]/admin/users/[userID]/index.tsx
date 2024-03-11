@@ -319,7 +319,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   if (userID === session.user.id) {
     return {
       redirect: {
-        destination: `/${session.user.company}/${store}/${session.user.id}/admin/users`,
+        destination: `/${store}/admin/users`,
         permanent: false,
       },
     };
