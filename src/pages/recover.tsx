@@ -3,10 +3,10 @@ import { User } from "@/types/user";
 import HorizontalNavbar from "@/components/HorizontalNavbar";
 import { signOut, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
-import { firstTimeResetUserRequest } from "@/actions/users/firstTimeResetUser";
+import { recoverPasswordUserRequest } from "@/actions/users/recoverPasswordUser";
 import { RootState } from "@/store/reducers/reducers";
 
-const FirstTimeReset = () => {
+const RecoverPassword = () => {
   const { data: session } = useSession();
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -18,14 +18,14 @@ const FirstTimeReset = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const dispatch = useDispatch();
-  const firsttimeresetuser = useSelector(
-    (state: RootState) => state.firsttimeresetuser.data
+  const recoverpassworduser = useSelector(
+    (state: RootState) => state.recoverpassworduser.data
   );
   const loading = useSelector(
-    (state: RootState) => state.firsttimeresetuser.loading
+    (state: RootState) => state.recoverpassworduser.loading
   );
   const error = useSelector(
-    (state: RootState) => state.firsttimeresetuser.error
+    (state: RootState) => state.recoverpassworduser.error
   );
 
   const handleResetPassword = async () => {
@@ -41,7 +41,7 @@ const FirstTimeReset = () => {
         if (session?.user?.id) {
           // Check if userId is not undefined
           dispatch(
-            firstTimeResetUserRequest(
+            recoverPasswordUserRequest(
               session?.user?.id,
               password,
               session?.user?.company,
@@ -58,7 +58,7 @@ const FirstTimeReset = () => {
     }
   };
 
-  console.log("firsttimeresetuser reset page", firsttimeresetuser);
+  console.log("recoverpassworduser reset page", recoverpassworduser);
 
   return (
     <div className="flex flex-col h-screen">
@@ -152,4 +152,4 @@ const FirstTimeReset = () => {
   );
 };
 
-export default FirstTimeReset;
+export default RecoverPassword;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import HorizontalNavbar from "@/components/HorizontalNavbar";
+import Link from "next/link";
 
 const LoginPage: React.FC = () => {
   const { data: session } = useSession();
@@ -95,6 +96,17 @@ const LoginPage: React.FC = () => {
               className="mt-1 p-2 border dark:border-gray-600 rounded-md w-full sm:w-96"
             />
           </label>
+          <br />
+          <p className="text-lg mb-4 text-center">
+            If you have forgotten your password{" "}
+            <Link
+              href="/recover"
+              className="text-emerald-500 dark:text-emerald-400 underline"
+            >
+              click here to recover
+            </Link>
+            .
+          </p>
           <br />
           <button
             type="submit"

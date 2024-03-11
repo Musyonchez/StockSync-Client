@@ -7,6 +7,7 @@ import { deleteUserSaga } from './deleteUserSaga'; // Adjust the path accordingl
 import { deactivateUserSaga } from './deactivateUserSaga'; // Adjust the path accordingly
 import { addUserSaga } from './addUserSaga'; // Adjust the path accordingly
 import { editUserSaga } from './editUserSaga'; // Adjust the path accordingly
+import { firstTimeResetUserSaga } from './firsttimeresetUserSaga'; // Adjust the path accordingly
 
 
 
@@ -21,6 +22,7 @@ function* watchFetchUser() {
   yield takeEvery('DEACTIVATE_USER_REQUEST', deactivateUserSaga.saga);
   yield takeEvery('ADD_USER_REQUEST', addUserSaga.saga);
   yield takeEvery('EDIT_USER_REQUEST', editUserSaga.saga);
+  yield takeEvery('FIRSTTIMERESET_USER_REQUEST', firstTimeResetUserSaga.saga);
 
 
 

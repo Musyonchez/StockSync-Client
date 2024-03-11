@@ -26,6 +26,8 @@ import deleteuserReducer from "./users/deleteuserReducer";
 import deactivateuserReducer from "./users/deactivateuserReducer";
 import adduserReducer from "./users/adduserReducer";
 import edituserReducer from "./users/edituserReducer";
+import firsttimeresetuserReducer from "./users/firsttimeresetuserReducer";
+
 
 
 
@@ -73,7 +75,7 @@ const rootReducer = combineReducers({
   deactivateuser: deactivateuserReducer,
   adduser: adduserReducer,
   edituser: edituserReducer,
-
+  firsttimeresetuser: firsttimeresetuserReducer,
 
   transactions: transactionsReducer,
   transaction: transactionReducer,
