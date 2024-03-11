@@ -8,6 +8,8 @@ import { deactivateUserSaga } from './deactivateUserSaga'; // Adjust the path ac
 import { addUserSaga } from './addUserSaga'; // Adjust the path accordingly
 import { editUserSaga } from './editUserSaga'; // Adjust the path accordingly
 import { firstTimeResetUserSaga } from './firsttimeresetUserSaga'; // Adjust the path accordingly
+import { sendPasswordRecoveryEmailUserSaga } from './sendPasswordRecoveryEmailUserSaga'; // Adjust the path accordingly
+import { updateNewPasswordRecoveryUserSaga } from './updatenewpasswordrecoveryUserSaga'; // Adjust the path accordingly
 
 
 
@@ -23,6 +25,8 @@ function* watchFetchUser() {
   yield takeEvery('ADD_USER_REQUEST', addUserSaga.saga);
   yield takeEvery('EDIT_USER_REQUEST', editUserSaga.saga);
   yield takeEvery('FIRSTTIMERESET_USER_REQUEST', firstTimeResetUserSaga.saga);
+  yield takeEvery('SENDPASSWORDRECOVERYEMAIL_USER_REQUEST', sendPasswordRecoveryEmailUserSaga.saga);
+  yield takeEvery('UPDATENEWPASSWORDRECOVERY_USER_REQUEST', updateNewPasswordRecoveryUserSaga.saga);
 
 
 

@@ -27,6 +27,8 @@ import deactivateuserReducer from "./users/deactivateuserReducer";
 import adduserReducer from "./users/adduserReducer";
 import edituserReducer from "./users/edituserReducer";
 import firsttimeresetuserReducer from "./users/firsttimeresetuserReducer";
+import sendpasswordrecoveryemailuserReducer from "./users/sendpasswordrecoveryemailuserReducer";
+import updatenewpasswordrecoveryuserReducer from "./users/updatenewpasswordrecoveryuserReducer";
 
 
 
@@ -76,6 +78,9 @@ const rootReducer = combineReducers({
   adduser: adduserReducer,
   edituser: edituserReducer,
   firsttimeresetuser: firsttimeresetuserReducer,
+  sendpasswordrecoveryemailuser: sendpasswordrecoveryemailuserReducer,
+  updatenewpasswordrecoveryuser: updatenewpasswordrecoveryuserReducer,
+
 
   transactions: transactionsReducer,
   transaction: transactionReducer,

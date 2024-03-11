@@ -3,7 +3,8 @@ import { User } from "@/types/user";
 import HorizontalNavbar from "@/components/HorizontalNavbar";
 import { signOut, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
-import { recoverPasswordUserRequest } from "@/actions/users/recoverPasswordUser";
+import { sendPasswordRecoveryEmailUserRequest } from "@/actions/users/sendPasswordRecoveryEmailUser";
+import { updateNewPasswordRecoveryUserRequest } from "@/actions/users/updateNewPasswordRecoveryUser";
 import { RootState } from "@/store/reducers/reducers";
 
 const RecoverPassword = () => {
@@ -18,15 +19,46 @@ const RecoverPassword = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const dispatch = useDispatch();
+  const sendpasswordrecoveryemailuser = useSelector(
+    (state: RootState) => state.sendpasswordrecoveryemailuser.data
+  );
+  const loadingemail = useSelector(
+    (state: RootState) => state.sendpasswordrecoveryemailuser.loading
+  );
+  const erroremail = useSelector(
+    (state: RootState) => state.sendpasswordrecoveryemailuser.error
+  );
+
   const recoverpassworduser = useSelector(
-    (state: RootState) => state.recoverpassworduser.data
+    (state: RootState) => state.updatenewpasswordrecoveryuser.data
   );
-  const loading = useSelector(
-    (state: RootState) => state.recoverpassworduser.loading
+  const loadingpassword = useSelector(
+    (state: RootState) => state.updatenewpasswordrecoveryuser.loading
   );
-  const error = useSelector(
-    (state: RootState) => state.recoverpassworduser.error
+  const errorpassword = useSelector(
+    (state: RootState) => state.updatenewpasswordrecoveryuser.error
   );
+
+  const handleSendPasswordRecoveryEmail = async () => {
+    console.log("Sending  email...");
+    try {
+      if (session?.user?.id && session?.user?.email) {
+        dispatch(
+          sendPasswordRecoveryEmailUserRequest(
+            session?.user?.id,
+            session?.user?.email,
+            session?.user?.company,
+            store
+          )
+        );
+      } else {
+        console.error(`session ID or Session Email is empty.`);
+      }
+      await signOut({ callbackUrl: "/" });
+    } catch (error) {
+      console.error("Error sending Email:", error);
+    }
+  };
 
   const handleResetPassword = async () => {
     console.log("Resetting password...");
@@ -41,7 +73,7 @@ const RecoverPassword = () => {
         if (session?.user?.id) {
           // Check if userId is not undefined
           dispatch(
-            recoverPasswordUserRequest(
+            updateNewPasswordRecoveryUserRequest(
               session?.user?.id,
               password,
               session?.user?.company,
