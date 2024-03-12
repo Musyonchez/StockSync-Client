@@ -2,17 +2,13 @@
 import { User } from "../../types/user";
 
 export const sendPasswordRecoveryEmailUserRequest = (
-  id: string,
   email: string,
-  company?: string,
-  type?: string
+  company?: string
 ) => ({
   type: "SENDPASSWORDRECOVERYEMAIL_USER_REQUEST",
   payload: {
-    id,
     email,
     company,
-    type,
   },
 });
 

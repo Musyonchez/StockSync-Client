@@ -18,21 +18,17 @@ export const sendPasswordRecoveryEmailUserSaga = {
   saga: function* (action: {
     type: string;
     payload: {
-      id: string;
-      password: string;
+      email: string;
       company?: string;
-      type?: string;
     };
   }) {
     try {
-      const { id, password, company, type } = action.payload;
+      const { email, company } = action.payload;
 
       console.log(
-        "sendPasswordRecoveryEmailuser user Sag starting:",
-        id,
-        password,
-        company,
-        type
+        "sendPasswordRecoveryEmailuser user Saga starting:",
+        email,
+        company
       );
 
       const response: ApolloQueryResult<UserMutationResponse> = yield call(
@@ -40,10 +36,8 @@ export const sendPasswordRecoveryEmailUserSaga = {
         {
           mutation: SENDPASSWORDRECOVERYEMAIL_USER,
           variables: {
-            id,
-            password,
-            company,
-            type,
+            email,
+            company
           },
         }
       );
@@ -56,7 +50,9 @@ export const sendPasswordRecoveryEmailUserSaga = {
         yield put(sendPasswordRecoveryEmailUserSuccess(user));
       } else {
         yield put(
-          sendPasswordRecoveryEmailUserFailure("Invalid response or user not deactivated")
+          sendPasswordRecoveryEmailUserFailure(
+            "Invalid response or user not deactivated"
+          )
         );
       }
     } catch (error) {

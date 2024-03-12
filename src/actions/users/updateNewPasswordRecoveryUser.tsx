@@ -3,6 +3,7 @@ import { User } from "../../types/user";
 
 export const updateNewPasswordRecoveryUserRequest = (
   id: string,
+  temporaryAccessKey: string,
   password: string,
   company?: string,
   type?: string
@@ -10,6 +11,7 @@ export const updateNewPasswordRecoveryUserRequest = (
   type: "UPDATENEWPASSWORDRECOVERY_USER_REQUEST",
   payload: {
     id,
+    temporaryAccessKey,
     password,
     company,
     type,

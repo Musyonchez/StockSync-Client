@@ -19,17 +19,19 @@ export const updateNewPasswordRecoveryUserSaga = {
     type: string;
     payload: {
       id: string;
+      temporaryAccessKey: string;
       password: string;
       company?: string;
       type?: string;
     };
   }) {
     try {
-      const { id, password, company, type } = action.payload;
+      const { id, temporaryAccessKey, password, company, type } = action.payload;
 
       console.log(
         "updateNewPasswordRecoveryuser user Sag starting:",
         id,
+        temporaryAccessKey,
         password,
         company,
         type
@@ -41,6 +43,7 @@ export const updateNewPasswordRecoveryUserSaga = {
           mutation: UPDATENEWPASSWORDRECOVERY_USER,
           variables: {
             id,
+            temporaryAccessKey,
             password,
             company,
             type,

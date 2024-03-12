@@ -98,12 +98,12 @@ const LoginPage: React.FC = () => {
           </label>
           <br />
           <p className="text-lg mb-4 text-center">
-            If you have forgotten your password{" "}
+            Have you{" "}
             <Link
               href="/recover"
               className="text-emerald-500 dark:text-emerald-400 underline"
             >
-              click here to recover
+              forgotten your password
             </Link>
             .
           </p>
