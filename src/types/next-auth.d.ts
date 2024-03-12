@@ -14,6 +14,11 @@ declare module "next-auth" {
       company?: string;
       role?: string;
       accessToken?: string;
+      firstRecordAction: boolean;
+      firstsignin: boolean;
+      active: boolean;
+      companyLogo: string
+      imageURL: string
     } & DefaultSession["user"];
   }
 }
@@ -48,6 +53,7 @@ interface TransactionDetail {
 }
 
 interface TransactionDataState {
+  companyLogo: string;
   id: string;
   createdAt: string;
   creatorId: string;
@@ -67,6 +73,7 @@ interface WriteoffDetail {
 }
 
 interface WriteoffDataState {
+  companyLogo: string;
   id: string;
   createdAt: string;
   creatorId: string;
@@ -87,6 +94,7 @@ interface RestockingDetail {
 }
 
 interface RestockingDataState {
+  companyLogo: string;
   id: string;
   createdAt: string;
   creatorId: string;

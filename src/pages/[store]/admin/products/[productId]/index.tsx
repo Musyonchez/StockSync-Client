@@ -159,7 +159,7 @@ const ProductDetail = () => {
     <Layout>
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold">Product Details</h2>
+          <h2 className="text-2xl font-semibold dark:text-white">Product Details</h2>
           <span className="flex space-x-4">
             <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
               <Link href={`${router.asPath}/editproduct`}>Edit</Link>
@@ -208,7 +208,7 @@ const ProductDetail = () => {
               <div className="mb-4">
                 <label
                   htmlFor="name"
-                  className="block text-sm font-semibold text-gray-600 mb-1"
+                  className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
                 >
                   Product ID:
                 </label>
@@ -224,7 +224,7 @@ const ProductDetail = () => {
               <div className="mb-4">
                 <label
                   htmlFor="name"
-                  className="block text-sm font-semibold text-gray-600 mb-1"
+                  className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
                 >
                   Product Name:
                 </label>
@@ -240,7 +240,7 @@ const ProductDetail = () => {
               <div className="mb-4">
                 <label
                   htmlFor="description"
-                  className="block text-sm font-semibold text-gray-600 mb-1"
+                  className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
                 >
                   Product Description:
                 </label>
@@ -255,7 +255,7 @@ const ProductDetail = () => {
               <div className="mb-4">
                 <label
                   htmlFor="category"
-                  className="block text-sm font-semibold text-gray-600 mb-1"
+                  className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
                 >
                   Product Category:
                 </label>
@@ -271,7 +271,7 @@ const ProductDetail = () => {
               <div className="mb-4">
                 <label
                   htmlFor="current"
-                  className="block text-sm font-semibold text-gray-600 mb-1"
+                  className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
                 >
                   Current Quantity:
                 </label>
@@ -287,7 +287,7 @@ const ProductDetail = () => {
               <div className="mb-4">
                 <label
                   htmlFor="reorderLevel"
-                  className="block text-sm font-semibold text-gray-600 mb-1"
+                  className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
                 >
                   Reorder Quantity:
                 </label>
@@ -303,7 +303,7 @@ const ProductDetail = () => {
               <div className="mb-4">
                 <label
                   htmlFor="unitCost"
-                  className="block text-sm font-semibold text-gray-600 mb-1"
+                  className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
                 >
                   Unit Cost:
                 </label>
@@ -319,7 +319,7 @@ const ProductDetail = () => {
               <div className="mb-4">
                 <label
                   htmlFor="sellingPrice"
-                  className="block text-sm font-semibold text-gray-600 mb-1"
+                  className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
                 >
                   Selling Price:
                 </label>
@@ -335,7 +335,7 @@ const ProductDetail = () => {
               <div className="mb-4">
                 <label
                   htmlFor="supplier"
-                  className="block text-sm font-semibold text-gray-600 mb-1"
+                  className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
                 >
                   Image:
                 </label>
@@ -353,7 +353,7 @@ const ProductDetail = () => {
               <div className="mb-4">
                 <label
                   htmlFor="supplier"
-                  className="block text-sm font-semibold text-gray-600 mb-1"
+                  className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
                 >
                   Supplier:
                 </label>

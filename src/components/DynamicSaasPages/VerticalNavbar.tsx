@@ -7,6 +7,7 @@ import logo_black from "../../../public/logo-tower-black.png";
 import logo_white from "../../../public/logo-tower-white.png";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import emptyUser from "../../../public/emptyUser.jpeg";
 
 const VerticalNavbar = () => {
   const { data: session } = useSession();
@@ -23,8 +24,6 @@ const VerticalNavbar = () => {
   const toggleMenu = () => {
     setSideMenuVisible(!isSideMenuVisible);
   };
-
-
 
   return (
     <>
@@ -68,9 +67,7 @@ const VerticalNavbar = () => {
           <hr className="mb-5" />
           <h2 className="mb-2">Manage</h2>
           <ul className="ml-2 flex flex-col space-y-2">
-            <Link
-              href={`/${store}`}
-            >
+            <Link href={`/${store}`}>
               <li className=" flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -89,9 +86,7 @@ const VerticalNavbar = () => {
                 <p>Dashboard</p>
               </li>
             </Link>
-            <Link
-              href={`/${store}/products`}
-            >
+            <Link href={`/${store}/products`}>
               <li className=" flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -110,9 +105,7 @@ const VerticalNavbar = () => {
                 <p>Products</p>
               </li>
             </Link>
-            <Link
-              href={`/${store}/orders`}
-            >
+            <Link href={`/${store}/orders`}>
               <li className=" flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -132,9 +125,7 @@ const VerticalNavbar = () => {
               </li>
             </Link>
 
-            <Link
-              href={`/${store}/invoice`}
-            >
+            <Link href={`/${store}/invoice`}>
               <li className=" flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -159,9 +150,7 @@ const VerticalNavbar = () => {
           <hr className="mb-5" />
           <h2 className=" mb-2">Actions</h2>
           <ul className="ml-2 flex flex-col space-y-2">
-            <Link
-              href={`/${store}/actions/selling`}
-            >
+            <Link href={`/${store}/actions/selling`}>
               <li className=" flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -180,9 +169,7 @@ const VerticalNavbar = () => {
                 <p>Selling</p>
               </li>
             </Link>
-            <Link
-              href={`/${store}/actions/writeoffs`}
-            >
+            <Link href={`/${store}/actions/writeoffs`}>
               <li className="flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -199,9 +186,7 @@ const VerticalNavbar = () => {
                 <p>Writeoffs</p>
               </li>
             </Link>
-            <Link
-              href={`/${store}/actions/restocking`}
-            >
+            <Link href={`/${store}/actions/restocking`}>
               <li className="flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -224,9 +209,7 @@ const VerticalNavbar = () => {
           <hr className="mb-5" />
           <h2 className=" mb-2">Records</h2>
           <ul className="ml-2 flex flex-col space-y-2">
-            <Link
-              href={`/${store}/records/transactions`}
-            >
+            <Link href={`/${store}/records/transactions`}>
               <li className=" flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -245,9 +228,7 @@ const VerticalNavbar = () => {
                 <p>Transactions</p>
               </li>
             </Link>
-            <Link
-              href={`/${store}/records/writeoffs`}
-            >
+            <Link href={`/${store}/records/writeoffs`}>
               <li className="flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -264,9 +245,7 @@ const VerticalNavbar = () => {
                 <p>Writeoffs</p>
               </li>
             </Link>
-            <Link
-              href={`/${store}/records/restockings`}
-            >
+            <Link href={`/${store}/records/restockings`}>
               <li className="flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -292,9 +271,7 @@ const VerticalNavbar = () => {
             <li>
               <ThemeSwitch />
             </li>
-            <Link
-              href={`/${store}/preferences/FAQ`}
-            >
+            <Link href={`/${store}/preferences/FAQ`}>
               <li className=" flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -338,9 +315,7 @@ const VerticalNavbar = () => {
             <hr className="mb-5" />
             <h2 className="mb-2">Admin</h2>
             <ul className="ml-2 flex flex-col space-y-2">
-              <Link
-                href={`/${store}/admin/users`}
-              >
+              <Link href={`/${store}/admin/users`}>
                 <li className="flex space-x-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -359,9 +334,7 @@ const VerticalNavbar = () => {
                   <p>Users</p>
                 </li>
               </Link>
-              <Link
-                href={`/${store}/admin/products`}
-              >
+              <Link href={`/${store}/admin/products`}>
                 <li className="flex space-x-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -386,10 +359,23 @@ const VerticalNavbar = () => {
 
         <div className="mb-4">
           <hr className="mb-5" />
-          <p className="">
-            {session?.user?.firstName} {session?.user?.lastName}
-          </p>
-          <p>{session?.user?.role}</p>
+          <div className="flex w-full justify-center">
+            <img
+              src={session?.user?.imageURL}
+              alt="Product Image"
+              className="w-24 h-24"
+              onError={(e) => {
+                (e.target as HTMLImageElement).onerror = null; // Prevent infinite loop
+                (e.target as HTMLImageElement).src = emptyUser.src; // Corrected line
+              }}
+            />
+            <div>
+              <p className="">
+                {session?.user?.firstName} {session?.user?.lastName}
+              </p>
+              <p>{session?.user?.role}</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -433,9 +419,7 @@ const VerticalNavbar = () => {
           <hr className="mb-5" />
           <h2 className="mb-2">Manage</h2>
           <ul className="ml-2 flex flex-col space-y-2">
-            <Link
-              href={`/${store}`}
-            >
+            <Link href={`/${store}`}>
               <li className=" flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -454,9 +438,7 @@ const VerticalNavbar = () => {
                 <p>Dashboard</p>
               </li>
             </Link>
-            <Link
-              href={`/${store}/products`}
-            >
+            <Link href={`/${store}/products`}>
               <li className=" flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -475,9 +457,7 @@ const VerticalNavbar = () => {
                 <p>Products</p>
               </li>
             </Link>
-            <Link
-              href={`/${store}/orders`}
-            >
+            <Link href={`/${store}/orders`}>
               <li className=" flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -497,9 +477,7 @@ const VerticalNavbar = () => {
               </li>
             </Link>
 
-            <Link
-              href={`/${store}/invoice`}
-            >
+            <Link href={`/${store}/invoice`}>
               <li className=" flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -524,9 +502,7 @@ const VerticalNavbar = () => {
           <hr className="mb-5" />
           <h2 className=" mb-2">Actions</h2>
           <ul className="ml-2 flex flex-col space-y-2">
-            <Link
-              href={`/${store}/actions/selling`}
-            >
+            <Link href={`/${store}/actions/selling`}>
               <li className=" flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -545,9 +521,7 @@ const VerticalNavbar = () => {
                 <p>Selling</p>
               </li>
             </Link>
-            <Link
-              href={`/${store}/actions/writeoffs`}
-            >
+            <Link href={`/${store}/actions/writeoffs`}>
               <li className="flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -564,9 +538,7 @@ const VerticalNavbar = () => {
                 <p>Writeoffs</p>
               </li>
             </Link>
-            <Link
-              href={`/${store}/actions/restocking`}
-            >
+            <Link href={`/${store}/actions/restocking`}>
               <li className="flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -589,9 +561,7 @@ const VerticalNavbar = () => {
           <hr className="mb-5" />
           <h2 className=" mb-2">Records</h2>
           <ul className="ml-2 flex flex-col space-y-2">
-            <Link
-              href={`/${store}/records/transactions`}
-            >
+            <Link href={`/${store}/records/transactions`}>
               <li className=" flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -610,9 +580,7 @@ const VerticalNavbar = () => {
                 <p>Transactions</p>
               </li>
             </Link>
-            <Link
-              href={`/${store}/records/writeoffs`}
-            >
+            <Link href={`/${store}/records/writeoffs`}>
               <li className="flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -629,9 +597,7 @@ const VerticalNavbar = () => {
                 <p>Writeoffs</p>
               </li>
             </Link>
-            <Link
-              href={`/${store}/records/restockings`}
-            >
+            <Link href={`/${store}/records/restockings`}>
               <li className="flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -657,9 +623,7 @@ const VerticalNavbar = () => {
             <li>
               <ThemeSwitch />
             </li>
-            <Link
-              href={`/${store}/preferences/FAQ`}
-            >
+            <Link href={`/${store}/preferences/FAQ`}>
               <li className=" flex space-x-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -702,9 +666,7 @@ const VerticalNavbar = () => {
             <hr className="mb-5" />
             <h2 className="mb-2">Admin</h2>
             <ul className="ml-2 flex flex-col space-y-2">
-              <Link
-                href={`/${store}/admin/users`}
-              >
+              <Link href={`/${store}/admin/users`}>
                 <li className="flex space-x-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -723,9 +685,7 @@ const VerticalNavbar = () => {
                   <p>Users</p>
                 </li>
               </Link>
-              <Link
-                href={`/${store}/admin/products`}
-              >
+              <Link href={`/${store}/admin/products`}>
                 <li className="flex space-x-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -749,11 +709,24 @@ const VerticalNavbar = () => {
         )}
         <div className="mb-4">
           <hr className="mb-5" />
-          <p className="">
-            {session?.user?.firstName} {session?.user?.lastName}
-          </p>
-          <p>{session?.user?.role}</p>
-        </div>{" "}
+          <div className="flex w-full justify-center">
+            <img
+              src={session?.user?.imageURL}
+              alt="Product Image"
+              className="w-24 h-24"
+              onError={(e) => {
+                (e.target as HTMLImageElement).onerror = null; // Prevent infinite loop
+                (e.target as HTMLImageElement).src = emptyUser.src; // Corrected line
+              }}
+            />
+            <div>
+              <p className="">
+                {session?.user?.firstName} {session?.user?.lastName}
+              </p>
+              <p>{session?.user?.role}</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <button className="sm:hidden absolute top-1 right-2" onClick={toggleMenu}>

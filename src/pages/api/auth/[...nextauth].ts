@@ -66,6 +66,8 @@ export default NextAuth({
                   company
                   role
                   firstsignin
+                  companyLogo
+                  imageURL
                 }
               }
             `,
@@ -104,6 +106,8 @@ export default NextAuth({
         token.company = user.company;
         token.role = user.role;
         token.firstsignin = user.firstsignin;
+        token.companyLogo = user.companyLogo;
+        token.imageURL = user.imageURL;
       }
       return token;
     },
@@ -120,6 +124,8 @@ export default NextAuth({
       session.user.company = token.company;
       session.user.role = token.role;
       session.user.firstsignin = token.firstsignin;
+      session.user.companyLogo = token.companyLogo;
+      session.user.imageURL = token.imageURL;
       return session;
     },
   },

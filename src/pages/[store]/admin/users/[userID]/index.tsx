@@ -199,7 +199,7 @@ const UserDetail = () => {
           <div className="mb-4">
             <label
               htmlFor="userId"
-              className="block text-sm font-semibold text-gray-600 mb-1"
+              className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
             >
               User ID:
             </label>
@@ -215,7 +215,7 @@ const UserDetail = () => {
           <div className="mb-4">
             <label
               htmlFor="firstName"
-              className="block text-sm font-semibold text-gray-600 mb-1"
+              className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
             >
               First Name:
             </label>
@@ -231,7 +231,7 @@ const UserDetail = () => {
           <div className="mb-4">
             <label
               htmlFor="lastName"
-              className="block text-sm font-semibold text-gray-600 mb-1"
+              className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
             >
               Last Name:
             </label>
@@ -247,7 +247,7 @@ const UserDetail = () => {
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-sm font-semibold text-gray-600 mb-1"
+              className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
             >
               Email:
             </label>
@@ -263,7 +263,7 @@ const UserDetail = () => {
           <div className="mb-4">
             <label
               htmlFor="stores"
-              className="block text-sm font-semibold text-gray-600 mb-1"
+              className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
             >
               Stores:
             </label>
@@ -278,7 +278,7 @@ const UserDetail = () => {
           <div className="mb-4">
             <label
               htmlFor="role"
-              className="block text-sm font-semibold text-gray-600 mb-1"
+              className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
             >
               Role:
             </label>

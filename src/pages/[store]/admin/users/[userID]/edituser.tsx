@@ -161,7 +161,7 @@ const EditUser = () => {
             <div className="mb-4">
               <label
                 htmlFor="id"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 User ID:
               </label>
@@ -179,7 +179,7 @@ const EditUser = () => {
             <div className="mb-4">
               <label
                 htmlFor="firstName"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 First Name:
               </label>
@@ -211,7 +211,7 @@ const EditUser = () => {
             <div className="mb-4">
               <label
                 htmlFor="lastName"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Last Name:
               </label>
@@ -243,7 +243,7 @@ const EditUser = () => {
             <div className="mb-4">
               <label
                 htmlFor="storePermissions"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Store Permissions:
               </label>
@@ -312,7 +312,7 @@ const EditUser = () => {
             <div className="mb-4">
               <label
                 htmlFor="role"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 User Role:
               </label>

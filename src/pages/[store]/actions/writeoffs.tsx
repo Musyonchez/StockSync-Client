@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { searchProductsRequest } from "../../../actions/products/searchProducts";
 import { RootState } from "../../../store/reducers/reducers";
-import emptyProduct from "../../../../../../public/emptyProduct.jpg";
+import emptyProduct from "../../../../public/emptyProduct.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { writeoffProductsRequest } from "@/actions/products/writeoffProducts";
@@ -346,9 +346,11 @@ const writeoff = () => {
             </div>
             <div>
               {loading ? (
-                <p className="text-lg text-center text-black">Loading...</p>
+                <p className="text-lg text-center dark:text-white text-black">
+                  Loading...
+                </p>
               ) : products.length === 0 ? (
-                <p className="text-lg text-center text-black">
+                <p className="text-lg text-center dark:text-white text-black">
                   No products found.
                 </p>
               ) : (
@@ -357,7 +359,7 @@ const writeoff = () => {
                     <li
                       key={product.id}
                       onClick={() => addSelected(product.id)}
-                      className="text-lg flex items-center font-semibold"
+                      className="text-lg flex items-center justify-between font-semibold"
                     >
                       <img
                         src={product.imageURL}

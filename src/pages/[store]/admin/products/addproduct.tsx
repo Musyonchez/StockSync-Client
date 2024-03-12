@@ -108,7 +108,7 @@ const AddProduct = () => {
             <div className="mb-4">
               <label
                 htmlFor="name"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Product Name:
               </label>
@@ -126,7 +126,7 @@ const AddProduct = () => {
             <div className="mb-4">
               <label
                 htmlFor="description"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Product Description:
               </label>
@@ -143,7 +143,7 @@ const AddProduct = () => {
             <div className="mb-4">
               <label
                 htmlFor="group"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Product Group:
               </label>
@@ -162,7 +162,7 @@ const AddProduct = () => {
             <div className="mb-4">
               <label
                 htmlFor="image"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Product Image:
               </label>

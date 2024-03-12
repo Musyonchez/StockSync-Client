@@ -82,7 +82,7 @@ const AddUser = () => {
             <div className="mb-4">
               <label
                 htmlFor="firstName"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 First Name:
               </label>
@@ -99,7 +99,7 @@ const AddUser = () => {
             <div className="mb-4">
               <label
                 htmlFor="lastName"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Last Name:
               </label>
@@ -117,7 +117,7 @@ const AddUser = () => {
             <div className="mb-4">
               <label
                 htmlFor="email"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Email:
               </label>
@@ -134,7 +134,7 @@ const AddUser = () => {
             <div className="mb-4">
               <label
                 htmlFor="password"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Password:
               </label>
@@ -157,7 +157,7 @@ const AddUser = () => {
               </div>
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-600 mb-1">
+              <label className="block text-sm font-semibold dark:text-white text-gray-600 mb-1">
                 Stores:
               </label>
               <div className="flex space-x-4">
@@ -211,7 +211,7 @@ const AddUser = () => {
             <div className="mb-4">
               <label
                 htmlFor="role"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Role:
               </label>

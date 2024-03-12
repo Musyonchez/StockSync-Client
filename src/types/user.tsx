@@ -16,6 +16,8 @@ export interface User {
   firstRecordAction: boolean;
   firstsignin: boolean;
   active: boolean;
+  companyLogo: string
+  imageURL: string
 
   [key: string]: string | boolean | undefined;
 
@@ -45,4 +47,6 @@ export interface UserState {
   role: UserRole;
   firstRecordAction: boolean;
   firstsignin: boolean;
+  companyLogo: string
+  imageURL: string
 }

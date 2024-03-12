@@ -67,13 +67,13 @@ const Transactions = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto p-4">
+      <div className="container min-h-screen mx-auto dark:bg-black dark:text-white p-4">
         <h1 className="text-3xl font-semibold mb-4">Transactions</h1>
         <ul>
           {transactions.map((transaction: Transaction) => (
             <li key={transaction.id} className="mb-8">
               <Link href={`${router.asPath}/${transaction.id}`}>
-                <div className="bg-white p-6 shadow-md rounded-md">
+                <div className="bg-white p-6 dark:bg-gray-900 shadow-md rounded-md">
                   <p className="text-lg font-semibold mb-2">
                     ID: {transaction.id}
                   </p>
@@ -86,7 +86,7 @@ const Transactions = () => {
                     {transaction.details.map((detail: TransactionDetail) => (
                       <li
                         key={detail.id}
-                        className="mb-2 bg-white p-6 shadow-md rounded-md"
+                        className="mb-2 dark:bg-gray-800 bg-white p-6 shadow-md rounded-md"
                       >
                         <p className="text-sm font-semibold">ID: {detail.id}</p>
                         <p>Name: {detail.name}</p>

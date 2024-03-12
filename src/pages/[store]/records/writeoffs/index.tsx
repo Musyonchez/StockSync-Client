@@ -62,13 +62,13 @@ const Writeoffs = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto p-4">
+      <div className="container dark:bg-black dark:text-white mx-auto p-4">
         <h1 className="text-3xl font-semibold mb-4">Writeoffs</h1>
         <ul>
           {writeoffs.map((writeoff: Writeoff) => (
             <li key={writeoff.id} className="mb-8">
               <Link href={`${router.asPath}/${writeoff.id}`}>
-                <div className="bg-white p-6 shadow-md rounded-md">
+                <div className="bg-white dark:bg-gray-900 p-6 shadow-md rounded-md">
                   <p className="text-lg font-semibold mb-2">
                     ID: {writeoff.id}
                   </p>
@@ -81,7 +81,7 @@ const Writeoffs = () => {
                     {writeoff.details.map((detail: WriteoffDetail) => (
                       <li
                         key={detail.id}
-                        className="mb-2 bg-white p-6 shadow-md rounded-md"
+                        className="mb-2 dark:bg-gray-800 bg-white p-6 shadow-md rounded-md"
                       >
                         <p className="text-sm font-semibold">ID: {detail.id}</p>
                         <p>Name: {detail.name}</p>

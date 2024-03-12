@@ -217,14 +217,14 @@ const ProductDetail = () => {
     <Layout>
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold">Edit Product</h2>
+          <h2 className="text-2xl font-semibold dark:text-white">Edit Product</h2>
         </div>
         <div className="bg-white dark:bg-gray-800 p-4 border rounded">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label
                 htmlFor="name"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Product ID:
               </label>
@@ -242,7 +242,7 @@ const ProductDetail = () => {
             <div className="mb-4">
               <label
                 htmlFor="name"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Product Name:
               </label>
@@ -274,7 +274,7 @@ const ProductDetail = () => {
             <div className="mb-4">
               <label
                 htmlFor="description"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Product Description:
               </label>
@@ -304,7 +304,7 @@ const ProductDetail = () => {
             <div className="mb-4">
               <label
                 htmlFor="category"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Product Category:
               </label>
@@ -335,7 +335,7 @@ const ProductDetail = () => {
             <div className="mb-4">
               <label
                 htmlFor="reorderLevel"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Reorder Level:
               </label>
@@ -366,7 +366,7 @@ const ProductDetail = () => {
             <div className="mb-4">
               <label
                 htmlFor="unitCost"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Unit Cost:
               </label>
@@ -397,7 +397,7 @@ const ProductDetail = () => {
             <div className="mb-4">
               <label
                 htmlFor="sellingPrice"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Selling Price:
               </label>
@@ -428,7 +428,7 @@ const ProductDetail = () => {
             <div className="mb-4">
               <label
                 htmlFor="taxInformation"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Tax Information:
               </label>
@@ -459,7 +459,7 @@ const ProductDetail = () => {
             <div className="mb-4">
               <label
                 htmlFor="imageURL"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Image URL:
               </label>
@@ -487,7 +487,7 @@ const ProductDetail = () => {
             <div className="mb-4">
               <label
                 htmlFor="supplier"
-                className="block text-sm font-semibold text-gray-600 mb-1"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
                 Product Supplier:
               </label>

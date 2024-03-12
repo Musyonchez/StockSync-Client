@@ -334,9 +334,11 @@ const restocking = () => {
             </div>
             <div>
               {loading ? (
-                <p className="text-lg text-center text-black">Loading...</p>
+                <p className="text-lg text-center dark:text-white text-black">
+                  Loading...
+                </p>
               ) : products.length === 0 ? (
-                <p className="text-lg text-center text-black">
+                <p className="text-lg text-center dark:text-white text-black">
                   No products found.
                 </p>
               ) : (
@@ -345,7 +347,7 @@ const restocking = () => {
                     <li
                       key={product.id}
                       onClick={() => addSelected(product.id)}
-                      className="text-lg flex items-center font-semibold"
+                      className="text-lg flex items-center justify-between font-semibold"
                     >
                       <img
                         src={product.imageURL}

@@ -9,8 +9,8 @@ interface WriteoffPreviewProps {
 const TransactionPreview: React.FC<WriteoffPreviewProps> = ({
   writeoffData,
 }) => {
-  const { id, createdAt, creatorId, creatorName, totalAmount, details } = writeoffData;
-  const downloadPdf = () => {
+  const { companyLogo, id, createdAt, creatorId, creatorName, totalAmount, details } = writeoffData;
+  const downloadPdf = async () => {
     const doc = new jsPDF({
       orientation: "landscape",
     });
@@ -25,7 +25,25 @@ const TransactionPreview: React.FC<WriteoffPreviewProps> = ({
 
     doc.setFontSize(10);
 
-    const logoUrl = "https://i.ibb.co/GnmS8Wj/Logo-tower-black.png";
+    const fetch = require('node-fetch');
+
+    async function isImageValid(url: string) {
+     try {
+        const response = await fetch(url);
+        const contentType = response.headers.get('content-type');
+        return contentType && contentType.startsWith('image/');
+     } catch (error) {
+        console.error('Failed to fetch image:', error);
+        return false;
+     }
+    }
+    
+    // Example usage
+    const fallbackUrl = 'https://i.ibb.co/GnmS8Wj/Logo-tower-black.png';
+    
+    const valid = await isImageValid(companyLogo);
+
+    const logoUrl = valid ? companyLogo : fallbackUrl;
 
     const logoxCoordinate = 15;
     const logoyCoordinate = 15;

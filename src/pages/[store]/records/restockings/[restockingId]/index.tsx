@@ -71,11 +71,11 @@ const Restocking = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto p-4">
+      <div className="container min-h-screen dark:bg-black dark:text-white mx-auto p-4">
         <h1 className="text-3xl font-semibold mb-4">Restocking</h1>
         <ul>
           <li key={restocking.id} className="mb-8">
-            <div className="bg-white p-6 shadow-md rounded-md">
+            <div className="bg-white dark:bg-gray-900 p-6 shadow-md rounded-md">
               <p className="text-lg font-semibold mb-2">ID: {restocking.id}</p>
               <p>Created At: {restocking.createdAt}</p>
               <p>Creator ID: {restocking.creatorId}</p>
@@ -87,7 +87,7 @@ const Restocking = () => {
                 {restocking.details.map((detail: RestockingDetail) => (
                   <li
                     key={detail.id}
-                    className="mb-2 bg-white p-6 shadow-md rounded-md"
+                    className="mb-2 dark:bg-gray-800 bg-white p-6 shadow-md rounded-md"
                   >
                     <p className="text-sm font-semibold">ID: {detail.id}</p>
                     <p>Name: {detail.name}</p>
@@ -105,6 +105,7 @@ const Restocking = () => {
         </ul>
         <RestockingPreview
           restockingData={{
+            companyLogo: session?.user?.companyLogo ?? "",
             id: restocking.id,
             createdAt: restocking.createdAt,
             creatorId: restocking.creatorId,
