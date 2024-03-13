@@ -16,9 +16,7 @@ import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 
 interface DynamicRouteParams {
-  company: string;
   store: string;
-  userId: string;
   userID: string;
 }
 
@@ -449,6 +447,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const { store, userID } = params as unknown as DynamicRouteParams;
 
+  if (session.user.id !== "ADMIN") {
+    return {
+      redirect: {
+        destination: `/${store}`,
+        permanent: false,
+      },
+    };
+  }
+
+  
   // Check if the user IDs match
   if (userID === session.user.id) {
     return {

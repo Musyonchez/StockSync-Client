@@ -334,6 +334,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const { store, userID } = params as unknown as DynamicRouteParams;
 
+  if (session.user.id !== "ADMIN") {
+    return {
+      redirect: {
+        destination: `/${store}`,
+        permanent: false,
+      },
+    };
+  }
+
   // Check if the user IDs match
   if (userID === session.user.id) {
     return {

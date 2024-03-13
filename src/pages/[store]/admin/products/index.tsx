@@ -13,6 +13,11 @@ import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 import { User } from "@/types/user";
 
+interface DynamicRouteParams {
+  store: string;
+  userID: string;
+}
+
 function ProductList() {
   const { data: session } = useSession();
   const router = useRouter();
@@ -237,7 +242,7 @@ function ProductList() {
 export default ProductList;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { req } = context;
+  const { req, params } = context;
   const session = await getSession({ req });
 
   console.log("Server-side session:", session); // Add this line for debugging
@@ -250,6 +255,19 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       },
     };
   }
+
+  const { store } = params as unknown as DynamicRouteParams;
+
+
+  if (session.user.id !== "ADMIN") {
+    return {
+      redirect: {
+        destination: `/${store}`,
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: { session },
   };
