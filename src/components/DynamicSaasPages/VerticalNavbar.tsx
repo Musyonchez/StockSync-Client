@@ -11,9 +11,15 @@ import emptyUser from "../../../public/emptyUser.jpeg";
 
 const VerticalNavbar = () => {
   const { data: session } = useSession();
+  const company = session?.user?.company;
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isSideMenuVisible, setSideMenuVisible] = useState(false);
+  const [changeLogo, setChangeLogo] = useState(false);
+  const [logo, setLogo] = useState<File | null>(null);
+  const [changeProfile, setChangeProfile] = useState(false);
+  const [profile, setProfile] = useState<File | null>(null);
+
   const router = useRouter();
   const { store } = router.query;
 
@@ -25,6 +31,70 @@ const VerticalNavbar = () => {
     setSideMenuVisible(!isSideMenuVisible);
   };
 
+  const handleLogoUpload = async () => {
+    try {
+      if (session?.user?.role === "ADMIN") {
+        if (logo) {
+          const formData = new FormData();
+          const company = session?.user?.company;
+
+          // Append the file with the desired name
+          formData.append("file", logo, company);
+
+          if (company) {
+            formData.append("company", company);
+          } else {
+            // Handle the case where company is undefined
+            // For example, you might want to skip appending it or provide a default value
+            console.error("Company is undefined, skipping append operation");
+          }
+
+          console.log("file from fileupload rest api", logo, company);
+
+          // Send a POST request to your REST API endpoint
+          await fetch("http://localhost:5000/upload", {
+            method: "POST",
+            body: formData,
+          });
+        }
+      } else {
+        console.log("You dont have the authority");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+
+  const handleProfileUpload = async () => {
+    try {
+      if (profile) {
+        const formData = new FormData();
+        const userId = session?.user?.id;
+
+        // Append the file with the desired name
+        formData.append("file", profile, userId);
+
+        if (company) {
+          formData.append("company", company);
+        } else {
+          // Handle the case where company is undefined
+          // For example, you might want to skip appending it or provide a default value
+          console.error("Company is undefined, skipping append operation");
+        }
+
+        console.log("file from fileupload rest api", profile, company);
+
+        // Send a POST request to your REST API endpoint
+        await fetch("http://localhost:5000/upload", {
+          method: "POST",
+          body: formData,
+        });
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+
   return (
     <>
       <div
@@ -32,33 +102,104 @@ const VerticalNavbar = () => {
           isSideMenuVisible ? "fixed" : "relative"
         } sm:flex-col pt-2 pl-2 sm:min-w-40 bg-gray-100 dark:bg-black h-screen overflow-x-hidden overflow-y-auto scrollbar`}
       >
-        <Link href="/">
+        <div className=" flex items-center justify-between">
           <div className="w-60 h-34 mb-2">
-            {mounted && (
-              <>
-                {resolvedTheme === "dark" ? (
-                  <Image
-                    src={logo_white}
-                    alt="Logo for dark theme"
-                    width={120}
-                    height={60}
-                    priority
-                    style={{ width: "auto", height: "auto" }}
+            <Link href="/">
+              {mounted && (
+                <>
+                  {resolvedTheme === "dark" ? (
+                    <Image
+                      src={logo_white}
+                      alt="Logo for dark theme"
+                      width={120}
+                      height={60}
+                      priority
+                      style={{ width: "auto", height: "auto" }}
+                    />
+                  ) : (
+                    <Image
+                      src={logo_black}
+                      alt="Logo for a white theme"
+                      width={120}
+                      height={60}
+                      priority
+                      style={{ width: "auto", height: "auto" }}
+                    />
+                  )}
+                </>
+              )}
+            </Link>
+          </div>
+          <div>
+            {session?.user?.role === "ADMIN" && (
+              <button onClick={() => setChangeLogo(true)} className="p-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
                   />
-                ) : (
-                  <Image
-                    src={logo_black}
-                    alt="Logo for a white theme"
-                    width={120}
-                    height={60}
-                    priority
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                )}
-              </>
+                </svg>
+              </button>
             )}
           </div>
-        </Link>
+        </div>
+        {changeLogo && (
+          <div
+            className=" absolute py-10 bg-slate-100 dark:bg-black p-2"
+            style={{ width: "295px" }}
+          >
+            <div className=" flex justify-between items-center">
+              <h1 className=" text-xl font-bold">Logo Change</h1>
+              <button onClick={() => setChangeLogo(false)}>
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="image"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
+              ></label>
+              <input
+                type="file"
+                accept=".jpg,.jpeg,.png,.gif"
+                name="logo"
+                id="logo"
+                onChange={(e) => setLogo(e.target.files?.[0] || null)}
+                placeholder="Enter New Logo"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <button
+                onClick={handleLogoUpload}
+                className=" bg-green-500 w-full py-2 rounded-md text-xl font-bold text-slate-100 "
+              >
+                Change logo
+              </button>
+            </div>
+          </div>
+        )}
         <div className="mb-4">
           <hr className="mb-3" />
           <h1 className="capitalize font-bold text-lg">{store}</h1>
@@ -357,60 +498,196 @@ const VerticalNavbar = () => {
           </div>
         )}
 
-        <div className="mb-4">
+        <div className="mb-4 relative">
           <hr className="mb-5" />
-          <div className="flex w-full justify-center">
+          <div className="flex w-full justify-between items-center">
             <img
               src={session?.user?.imageURL}
               alt="Product Image"
               className="w-24 h-24"
               onError={(e) => {
-                (e.target as HTMLImageElement).onerror = null; // Prevent infinite loop
-                (e.target as HTMLImageElement).src = emptyUser.src; // Corrected line
+                (e.target as HTMLImageElement).onerror = null;
+                (e.target as HTMLImageElement).src = emptyUser.src;
               }}
             />
             <div>
-              <p className="">
-                {session?.user?.firstName} {session?.user?.lastName}
-              </p>
-              <p>{session?.user?.role}</p>
+              <button onClick={() => setChangeProfile(true)} className="p-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
+                </svg>
+              </button>
             </div>
+          </div>
+          <div>
+            <p className="">
+              {session?.user?.firstName} {session?.user?.lastName}
+            </p>
+            <p>{session?.user?.role}</p>
           </div>
         </div>
       </div>
+      {changeProfile && (
+        <div
+          className=" absolute bottom-0 left-0 py-10 bg-slate-100 dark:bg-black p-2"
+          style={{ width: "295px" }}
+        >
+          <div className=" flex justify-between items-center">
+            <h1 className=" text-xl font-bold">Profile Change</h1>
+            <button onClick={() => setChangeProfile(false)}>
+              <svg
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="image"
+              className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
+            ></label>
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png,.gif"
+              name="profile"
+              id="profile"
+              onChange={(e) => setProfile(e.target.files?.[0] || null)}
+              placeholder="Enter New profile"
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+            />
+          </div>
+          <div>
+            <button
+              onClick={handleProfileUpload}
+              className=" bg-green-500 w-full py-2 rounded-md text-xl font-bold text-slate-100 "
+            >
+              Change profile
+            </button>
+          </div>
+        </div>
+      )}
 
       <div
         className={`sm:flex-col ${
           isSideMenuVisible ? "flex" : "hidden"
         } flex-col sm:flex-col p-10 mt-4 w-screen`}
       >
-        <Link href="/">
-          <div className="w-60 h-34">
-            {mounted && (
-              <>
-                {resolvedTheme === "dark" ? (
-                  <Image
-                    src={logo_white}
-                    alt="Logo for dark theme"
-                    width={120}
-                    height={60}
-                    priority
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                ) : (
-                  <Image
-                    src={logo_black}
-                    alt="Logo for a white theme"
-                    width={120}
-                    height={60}
-                    priority
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                )}
-              </>
-            )}
+        <div className=" flex items-center justify-between">
+          <div className="w-60 h-34 mb-2">
+            <Link href="/">
+              {mounted && (
+                <>
+                  {resolvedTheme === "dark" ? (
+                    <Image
+                      src={logo_white}
+                      alt="Logo for dark theme"
+                      width={120}
+                      height={60}
+                      priority
+                      style={{ width: "auto", height: "auto" }}
+                    />
+                  ) : (
+                    <Image
+                      src={logo_black}
+                      alt="Logo for a white theme"
+                      width={120}
+                      height={60}
+                      priority
+                      style={{ width: "auto", height: "auto" }}
+                    />
+                  )}
+                </>
+              )}
+            </Link>
           </div>
-        </Link>
+          <div>
+            <button onClick={() => setChangeLogo(true)} className="p-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        {changeLogo && (
+          <div
+            className=" absolute px-2 py-10 w-full bg-slate-100 dark:bg-black"
+            // style={{ width: "495px" }}
+          >
+            <div className=" flex justify-between items-center">
+              <h1 className=" text-xl font-bold">Logo Change</h1>
+              <button onClick={() => setChangeLogo(false)}>
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="image"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
+              ></label>
+              <input
+                type="file"
+                accept=".jpg,.jpeg,.png,.gif"
+                name="logo"
+                id="logo"
+                onChange={(e) => setLogo(e.target.files?.[0] || null)}
+                placeholder="Enter New Logo"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <button
+                onClick={handleLogoUpload}
+                className=" bg-green-500 w-full py-2 rounded-md text-xl font-bold text-slate-100 "
+              >
+                Change logo
+              </button>
+            </div>
+          </div>
+        )}
         <div className="mb-4">
           <hr className="mb-5" />
           <h1 className="capitalize font-bold text-lg">{store}</h1>
