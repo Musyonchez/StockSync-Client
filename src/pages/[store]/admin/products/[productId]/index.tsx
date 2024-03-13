@@ -12,7 +12,6 @@ import { Product } from "../../../../../types/product"; // Import the Product ty
 
 import emptyProduct from "../../../../../../public/emptyProduct.jpg";
 
-
 import { useSession } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
@@ -159,7 +158,9 @@ const ProductDetail = () => {
     <Layout>
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold dark:text-white">Product Details</h2>
+          <h2 className="text-2xl font-semibold dark:text-white">
+            Product Details
+          </h2>
           <span className="flex space-x-4">
             <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
               <Link href={`${router.asPath}/editproduct`}>Edit</Link>
@@ -334,7 +335,7 @@ const ProductDetail = () => {
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="supplier"
+                  htmlFor="image"
                   className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
                 >
                   Image:

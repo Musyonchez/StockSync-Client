@@ -30,6 +30,8 @@ const AddUser = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const [profile, setProfile] = useState<File | null>(null);
+
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.adduser.data);
   const loading = useSelector((state: RootState) => state.adduser.loading);
@@ -69,6 +71,48 @@ const AddUser = () => {
         console.error(`User does not have access to ${store}.`);
       }
     } catch (error) {}
+  };
+
+  useEffect(() => {
+    if (profile && user) {
+      // Once product data is available, proceed with image upload
+      handleImageUpload();
+    }
+  }, [user]);
+
+  const handleImageUpload = async () => {
+    try {
+      if (profile && user) {
+        const formData = new FormData();
+        const newImageName = user.id;
+
+        // Append the file with the desired name
+        formData.append("file", profile, newImageName);
+
+        if (company) {
+          formData.append("company", company);
+        } else {
+          // Handle the case where company is undefined
+          // For example, you might want to skip appending it or provide a default value
+          console.error("Company is undefined, skipping append operation");
+        }
+
+        console.log(
+          "file from fileupload rest api",
+          profile,
+          newImageName,
+          user
+        );
+
+        // Send a POST request to your REST API endpoint
+        await fetch("http://localhost:5000/upload", {
+          method: "POST",
+          body: formData,
+        });
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
   };
 
   return (
@@ -131,6 +175,25 @@ const AddUser = () => {
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="image"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
+              >
+                Profile Image:
+              </label>
+              <input
+                type="file"
+                accept=".jpg,.jpeg,.png,.gif"
+                name="image"
+                id="image"
+                onChange={(e) => setProfile(e.target.files?.[0] || null)}
+                placeholder="Enter Product Image"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
             <div className="mb-4">
               <label
                 htmlFor="password"

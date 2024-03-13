@@ -9,6 +9,8 @@ import { User, UserRole } from "../../../../../types/user";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
+import emptyUser from "../../../../../../public/emptyUser.jpeg";
+
 import { useSession } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
@@ -47,6 +49,8 @@ const EditUser = () => {
     store4: false,
     role: "USER",
   });
+
+  const [profile, setProfile] = useState<File | null>(null);
 
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.data);
@@ -91,7 +95,7 @@ const EditUser = () => {
     );
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("firstname", data.firstName);
     console.log("Initial Data:", initialData);
@@ -146,6 +150,31 @@ const EditUser = () => {
         store3: false,
         store4: false,
         role: "USER",
+      });
+    } else {
+      console.error(`User does not have access to ${store}.`);
+    }
+
+    if (profile) {
+      const formData = new FormData();
+      const newImageName = user.id;
+
+      // Append the file with the desired name
+      formData.append("file", profile, newImageName);
+      if (company) {
+        formData.append("company", company);
+      } else {
+        // Handle the case where company is undefined
+        // For example, you might want to skip appending it or provide a default value
+        console.error("Company is undefined, skipping append operation");
+      }
+
+      console.log("file from fileupload rest api", profile, newImageName, user);
+
+      // Send a POST request to your REST API endpoint
+      await fetch("http://localhost:5000/upload", {
+        method: "POST",
+        body: formData,
       });
     }
   };
@@ -242,6 +271,52 @@ const EditUser = () => {
 
             <div className="mb-4">
               <label
+                htmlFor="email"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
+              >
+                Email:
+              </label>
+              <input
+                type="text"
+                name="email"
+                id="email"
+                value={user.email}
+                readOnly
+                placeholder="Enter Email"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="imageURL"
+                className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
+              >
+                Image URL:
+              </label>
+              <img
+                src={user.imageURL}
+                alt="Product Image"
+                className="w-24 h-24"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).onerror = null; // Prevent infinite loop
+                  (e.target as HTMLImageElement).src = emptyUser.src; // Corrected line
+                }}
+              />
+
+              <input
+                type="file"
+                accept=".jpg,.jpeg,.png,.gif"
+                name="imageURL"
+                id="imageURL"
+                onChange={(e) => setProfile(e.target.files?.[0] || null)}
+                placeholder="Enter New Image URL"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
                 htmlFor="storePermissions"
                 className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
               >
@@ -316,6 +391,15 @@ const EditUser = () => {
               >
                 User Role:
               </label>
+              <input
+                type="text"
+                name="role"
+                id="role"
+                value={user.role}
+                readOnly
+                placeholder="Enter Role"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+              />
               <select
                 name="role"
                 id="role"

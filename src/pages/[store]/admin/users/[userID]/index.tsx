@@ -5,6 +5,7 @@ import { deleteUserRequest } from "../../../../../actions/users/deleteUser";
 import { RootState } from "../../../../../store/reducers/reducers";
 import Link from "next/link";
 // import { User } from "../../../../../../../types/user"
+import emptyUser from "../../../../../../public/emptyUser.jpeg";
 
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
@@ -259,6 +260,24 @@ const UserDetail = () => {
               className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
             />
           </div>
+
+          <div className="mb-4">
+                <label
+                  htmlFor="profile"
+                  className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
+                >
+                  Profile:
+                </label>
+                <img
+                  src={user.imageURL}
+                  alt="User Profile"
+                  className="w-24 h-24"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).onerror = null; // Prevent infinite loop
+                    (e.target as HTMLImageElement).src = emptyUser.src; // Corrected line
+                  }}
+                />
+              </div>
 
           <div className="mb-4">
             <label
