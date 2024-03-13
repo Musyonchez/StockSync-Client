@@ -2,19 +2,17 @@
 import { User } from "../../types/user";
 
 export const updateNewPasswordRecoveryUserRequest = (
-  id: string,
+  email: string,
   temporaryAccessKey: string,
   password: string,
   company?: string,
-  type?: string
 ) => ({
   type: "UPDATENEWPASSWORDRECOVERY_USER_REQUEST",
   payload: {
-    id,
+    email,
     temporaryAccessKey,
     password,
     company,
-    type,
   },
 });
 

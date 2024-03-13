@@ -18,23 +18,21 @@ export const updateNewPasswordRecoveryUserSaga = {
   saga: function* (action: {
     type: string;
     payload: {
-      id: string;
+      email: string;
       temporaryAccessKey: string;
       password: string;
       company?: string;
-      type?: string;
     };
   }) {
     try {
-      const { id, temporaryAccessKey, password, company, type } = action.payload;
+      const { email, temporaryAccessKey, password, company } = action.payload;
 
       console.log(
-        "updateNewPasswordRecoveryuser user Sag starting:",
-        id,
+        "updateNewPasswordRecoveryuser user Saga starting:",
+        email,
         temporaryAccessKey,
         password,
         company,
-        type
       );
 
       const response: ApolloQueryResult<UserMutationResponse> = yield call(
@@ -42,11 +40,10 @@ export const updateNewPasswordRecoveryUserSaga = {
         {
           mutation: UPDATENEWPASSWORDRECOVERY_USER,
           variables: {
-            id,
+            email,
             temporaryAccessKey,
             password,
             company,
-            type,
           },
         }
       );

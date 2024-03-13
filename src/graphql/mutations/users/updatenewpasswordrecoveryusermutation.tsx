@@ -2,18 +2,16 @@ import { gql } from "@apollo/client";
 
 export const UPDATENEWPASSWORDRECOVERY_USER = gql`
   mutation updateNewPasswordRecoveryUser(
-    $id: String!
+    $email: String!
     $temporaryAccessKey: String!
     $password: String!
     $company: String!
-    $type: String!
   ) {
     updateNewPasswordRecoveryUser(
-      id: $id
+      email: $email
       temporaryAccessKey: $temporaryAccessKey
       password: $password
       company: $company
-      type: $type
     ) {
       id
     }

@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { User } from "@/types/user";
 import HorizontalNavbar from "@/components/HorizontalNavbar";
-import { signOut, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import { sendPasswordRecoveryEmailUserRequest } from "@/actions/users/sendPasswordRecoveryEmailUser";
 import { updateNewPasswordRecoveryUserRequest } from "@/actions/users/updateNewPasswordRecoveryUser";
 import { RootState } from "@/store/reducers/reducers";
 
 const RecoverPassword = () => {
-  const { data: session } = useSession();
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
@@ -16,7 +13,6 @@ const RecoverPassword = () => {
   const [isActiveButtonActive, setIsActiveButtonActive] = useState(true);
   const [isGetTemporaryAKActive, setIsGetTemporaryAKActive] = useState(false);
   const [timer, setTimer] = useState(90); // New state for the timer
-  const store = "users";
 
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -73,16 +69,29 @@ const RecoverPassword = () => {
       // Check if password and confirm password are not empty
       if (password.trim() && confirmPassword.trim()) {
         if (email) {
-          // Check if userId is not undefined
-          dispatch(
-            updateNewPasswordRecoveryUserRequest(
+          try {
+            console.log(
+              "updateNewPasswordRecoveryUserRequest passed",
               email,
+              company,
               temporaryAccessKey,
-              password,
-              session?.user?.company,
-              store // Assuming 'store' is the correct variable for the user type
-            )
-          );
+              password
+            );
+            dispatch(
+              updateNewPasswordRecoveryUserRequest(
+                email,
+                temporaryAccessKey,
+                password,
+                company
+              )
+            );
+          } catch (error) {
+            console.error("Error resting password:", error);
+          }
+          setTemporaryAccessKey("")
+          setPassword("")
+          setConfirmPassword(""
+          )
         }
       } else {
         console.error(`Password or confirm password is empty.`);
@@ -107,7 +116,6 @@ const RecoverPassword = () => {
     clearInterval(timerId); // Clear the interval when done
     setIsActiveButtonActive(true);
   };
-
 
   return (
     <div className="flex flex-col h-screen">
@@ -135,6 +143,7 @@ const RecoverPassword = () => {
                 required
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full p-2 border rounded"
+                placeholder="Enter your Email"
               />
             </div>
             <div className="mb-2">
@@ -151,6 +160,7 @@ const RecoverPassword = () => {
                 required
                 onChange={(e) => setCompany(e.target.value)}
                 className="w-full p-2 border rounded"
+                placeholder="Enter your company name"
               />
             </div>
             <p className={`${isGetTemporaryAKActive ? "flex" : "hidden"} mb-1`}>
@@ -185,7 +195,23 @@ const RecoverPassword = () => {
               isGetTemporaryAKActive ? "flex" : "hidden"
             } flex flex-col`}
           >
-            {" "}
+            <div className="mb-2">
+              <label
+                htmlFor="temporaryAccessKey"
+                className="text-sm flex justify-start font-medium text-gray-600"
+              >
+                Temporary Access Key:
+              </label>
+              <input
+                type="temporaryAccessKey"
+                id="temporaryAccessKey"
+                value={temporaryAccessKey}
+                required
+                onChange={(e) => setTemporaryAccessKey(e.target.value)}
+                className="w-full p-2 border rounded"
+                placeholder="Enter your Access Key"
+              />
+            </div>
             <div className="mb-4">
               <label
                 htmlFor="password"
@@ -198,8 +224,10 @@ const RecoverPassword = () => {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   value={password}
+                  required
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full p-2 border rounded"
+                  placeholder="Enter your New Password"
                 />
                 <span
                   onClick={() => setShowPassword(!showPassword)}
@@ -221,8 +249,10 @@ const RecoverPassword = () => {
                   type={showConfirmPassword ? "text" : "password"}
                   id="confirmPassword"
                   value={confirmPassword}
+                  required
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="w-full p-2 border rounded"
+                  placeholder="Confirm your new password"
                 />
                 <span
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -233,7 +263,7 @@ const RecoverPassword = () => {
               </div>
             </div>
             <button
-              onClick={handleSendPasswordRecoveryEmail}
+              onClick={handleResetPassword}
               className="bg-blue-500 text-white p-2 rounded w-full"
             >
               Reset Password

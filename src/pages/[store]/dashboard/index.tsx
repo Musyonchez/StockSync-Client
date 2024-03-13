@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserRequest } from "../../actions/users/fetchUser";
-import { RootState } from "../../store/reducers/reducers";
+import { fetchUserRequest } from "../../../actions/users/fetchUser";
+import { RootState } from "../../../store/reducers/reducers";
 import Link from "next/link";
 
 import { useSession } from "next-auth/react";
