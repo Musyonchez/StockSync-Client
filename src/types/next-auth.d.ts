@@ -17,8 +17,8 @@ declare module "next-auth" {
       firstRecordAction: boolean;
       firstsignin: boolean;
       active: boolean;
-      companyLogo: string
-      imageURL: string
+      companyLogo: string;
+      imageURL: string;
     } & DefaultSession["user"];
   }
 }
@@ -57,7 +57,7 @@ interface TransactionDataState {
   id: string;
   createdAt: string;
   creatorId: string;
-  creatorName: string
+  creatorName: string;
   totalAmount: number;
   details: TransactionDetail[];
 }

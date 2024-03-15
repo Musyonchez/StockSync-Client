@@ -12,19 +12,23 @@ import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 import { User } from "@/types/user";
 
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
+
 const Index = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const company = session?.user?.company;
-  const store = router.query?.store as string;
   const userId = session?.user?.id;
   const [greeting, setGreeting] = useState("");
-
+  const store = "users";
   const dispatch = useDispatch();
 
   const user = useSelector((state: RootState) => state.user.data);
   const loading = useSelector((state: RootState) => state.user.loading);
   const error = useSelector((state: RootState) => state.user.error);
+
+  const [showError, setShowError] = useState(true);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -36,7 +40,7 @@ const Index = () => {
       setGreeting("Good evening");
     }
 
-    if (session?.user && (session.user as User)[store] === true && company) {
+    if (session?.user && company) {
       dispatch(
         fetchUserRequest(userId as string, company as string, store as string)
       );
@@ -52,7 +56,6 @@ const Index = () => {
           <h1 className="text-4xl font-bold mb-6">
             {greeting}, {user?.firstName}
           </h1>
-          
         </div>
         <div className="bg-white dark:bg-gray-950 p-8 border rounded shadow-lg mt-6">
           <h2 className="text-2xl font-semibold mb-4">User Information</h2>
@@ -132,6 +135,13 @@ const Index = () => {
           </div>
         </div>
       </div>
+      {error && showError && (
+        <ErrorMessagePopup
+          message={error}
+          onClose={() => setShowError(false)}
+        />
+      )}
+      {loading && <LoadingMessagePopup />}
     </Layout>
   );
 };

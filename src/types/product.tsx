@@ -16,5 +16,5 @@ export interface Product {
   supplier: string;
   active: boolean;
   quantity: number;
-  firstRecordAction : boolean;
+  firstRecordAction: boolean;
 }

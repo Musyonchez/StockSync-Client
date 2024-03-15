@@ -1,0 +1,38 @@
+.loader {
+  width: 22.4px;
+  height: 22.4px;
+  color: #554cb5;
+  position: relative;
+  background: radial-gradient(5.6px, currentColor 94%, #0000);
+}
+
+.loader:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(5.04px at bottom right, #0000 94%, currentColor) top left,
+    radial-gradient(5.04px at bottom left, #0000 94%, currentColor) top right,
+    radial-gradient(5.04px at top right, #0000 94%, currentColor) bottom left,
+    radial-gradient(5.04px at top left, #0000 94%, currentColor) bottom right;
+  background-size: 11.2px 11.2px;
+  background-repeat: no-repeat;
+  animation: loader 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
+}
+
+@keyframes loader {
+  33% {
+    inset: -5.6px;
+    transform: rotate(0deg);
+  }
+
+  66% {
+    inset: -5.6px;
+    transform: rotate(90deg);
+  }
+
+  100% {
+    inset: 0;
+    transform: rotate(90deg);
+  }
+}

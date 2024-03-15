@@ -16,6 +16,8 @@ import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 import { User } from "@/types/user";
 
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
 interface DynamicRouteParams {
   store: string;
   userID: string;
@@ -54,14 +56,17 @@ const ProductDetail = () => {
 
   const dispatch = useDispatch();
   const initialProduct = useSelector((state: RootState) => state.product.data);
-  const loading = useSelector((state: RootState) => state.product.loading);
-  const error = useSelector((state: RootState) => state.product.error);
+  const productLoading = useSelector((state: RootState) => state.product.loading);
+  const productError = useSelector((state: RootState) => state.product.error);
 
   const editProduct = useSelector((state: RootState) => state.editproduct.data);
   const editLoading = useSelector(
     (state: RootState) => state.editproduct.loading
   );
   const editError = useSelector((state: RootState) => state.editproduct.error);
+
+  const [showProductError, setShowProductError] = useState(true);
+  const [showEditProductError, setShowEditProductError] = useState(true);
 
   const [product, setProduct] = useState<Product | null>(initialProduct);
 
@@ -93,33 +98,7 @@ const ProductDetail = () => {
     }
   }, [editProduct]);
 
-  if (loading || editLoading)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 flex justify-center items-center h-64">
-          <p className="text-gray-500">Loading...</p>
-        </div>
-      </Layout>
-    );
-
-  if (error || editError)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-red-100 border-l-4 border-red-500">
-          <p className="text-red-700">Error</p>
-        </div>
-      </Layout>
-    );
-
-  if (!product) {
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-yellow-100 border-l-4 border-yellow-500">
-          <p className="text-yellow-700">No product could be found</p>
-        </div>
-      </Layout>
-    );
-  }
+  
 
   console.log("product", product);
 
@@ -191,7 +170,7 @@ const ProductDetail = () => {
 
     if (image) {
       const formData = new FormData();
-      const newImageName = product.id;
+      const newImageName = product?.id;
 
       // Append the file with the desired name
       formData.append("file", image, newImageName);
@@ -237,7 +216,7 @@ const ProductDetail = () => {
                 type="text"
                 name="name"
                 id="name"
-                value={product.id}
+                value={product?.id}
                 readOnly
                 placeholder="Enter New Product Name"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
@@ -255,7 +234,7 @@ const ProductDetail = () => {
                 type="text"
                 name="name"
                 id="name"
-                value={product.name}
+                value={product?.name}
                 readOnly
                 placeholder="Enter Product Name"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
@@ -286,7 +265,7 @@ const ProductDetail = () => {
               <textarea
                 name="description"
                 id="description"
-                value={product.description}
+                value={product?.description}
                 readOnly
                 placeholder="Enter Product Description"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
@@ -317,7 +296,7 @@ const ProductDetail = () => {
                 type="text"
                 name="category" // Use lowercase 'category'
                 id="category"
-                value={product.category}
+                value={product?.category}
                 readOnly
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -348,7 +327,7 @@ const ProductDetail = () => {
                 type="reorderLevel"
                 name="reorderLevel"
                 id="reorderLevel"
-                value={product.reorderLevel}
+                value={product?.reorderLevel}
                 readOnly
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -379,7 +358,7 @@ const ProductDetail = () => {
                 type="number"
                 name="unitCost"
                 id="unitCost"
-                value={product.unitCost}
+                value={product?.unitCost}
                 readOnly
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -410,7 +389,7 @@ const ProductDetail = () => {
                 type="number"
                 name="sellingPrice"
                 id="sellingPrice"
-                value={product.sellingPrice}
+                value={product?.sellingPrice}
                 readOnly
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -441,7 +420,7 @@ const ProductDetail = () => {
                 type="number"
                 name="taxInformation"
                 id="taxInformation"
-                value={product.taxInformation}
+                value={product?.taxInformation}
                 readOnly
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -469,7 +448,7 @@ const ProductDetail = () => {
                 Image URL:
               </label>
               <img
-                src={product.imageURL}
+                src={product?.imageURL}
                 alt="Product Image"
                 className="w-24 h-24"
                 onError={(e) => {
@@ -500,7 +479,7 @@ const ProductDetail = () => {
                 type="text"
                 name="supplier"
                 id="supplier"
-                value={product.supplier}
+                value={product?.supplier}
                 readOnly
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -529,6 +508,20 @@ const ProductDetail = () => {
           </form>
         </div>
       </div>
+      {productError && showProductError && (
+        <ErrorMessagePopup
+          message={productError}
+          onClose={() => setShowProductError(false)}
+        />
+      )}
+      {productLoading && <LoadingMessagePopup />}
+      {editError && showEditProductError && (
+        <ErrorMessagePopup
+          message={editError}
+          onClose={() => setShowEditProductError(false)}
+        />
+      )}
+      {editLoading && <LoadingMessagePopup />}
     </Layout>
   );
 };

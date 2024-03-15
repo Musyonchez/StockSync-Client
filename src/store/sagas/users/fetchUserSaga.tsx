@@ -42,7 +42,7 @@ export const fetchUserSaga = {
         yield put(fetchUserFailure("Invalid response or product not found"));
       }
     } catch (error) {
-      console.error("Error in fetchProductSaga:", error);
+      console.error("Error in fetchUserSaga:", error);
       yield put(fetchUserFailure((error as Error).message));
     }
   },

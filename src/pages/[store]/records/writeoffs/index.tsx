@@ -1,5 +1,5 @@
 // Import necessary packages
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/reducers/reducers";
 import { fetchWriteoffsRequest } from "@/actions/records/writeoffs/fetchWriteoffs";
@@ -13,6 +13,9 @@ import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 import { User } from "@/types/user";
 
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
+
 const Writeoffs = () => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -24,6 +27,7 @@ const Writeoffs = () => {
   const loading = useSelector((state: RootState) => state.writeoffs.loading);
   const error = useSelector((state: RootState) => state.writeoffs.error);
 
+  const [showError, setShowError] = useState(true);
   useEffect(() => {
     if (session?.user && (session.user as User)[store] === true && company) {
       dispatch(fetchWriteoffsRequest(company as string, store as string));
@@ -32,33 +36,6 @@ const Writeoffs = () => {
     }
   }, [dispatch, company, store]);
 
-  if (loading)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 flex justify-center items-center h-64">
-          <p className="text-gray-500">Loading...</p>
-        </div>
-      </Layout>
-    );
-
-  if (error)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-red-100 border-l-4 border-red-500">
-          <p className="text-red-700">Error</p>
-        </div>
-      </Layout>
-    );
-
-  if (!writeoffs) {
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-yellow-100 border-l-4 border-yellow-500">
-          <p className="text-yellow-700">No product could be found</p>
-        </div>
-      </Layout>
-    );
-  }
 
   return (
     <Layout>
@@ -101,6 +78,13 @@ const Writeoffs = () => {
           ))}
         </ul>
       </div>
+      {error && showError && (
+        <ErrorMessagePopup
+          message={error}
+          onClose={() => setShowError(false)}
+        />
+      )}
+      {loading && <LoadingMessagePopup />}
     </Layout>
   );
 };

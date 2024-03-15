@@ -14,7 +14,7 @@ body.light {
 }
 
 .bg-contact-image {
-  background-image: url('../../public/contact_image.svg');
+  background-image: url("../../public/contact_image.svg");
   background-size: cover; /* or any other background properties you'd like to set */
 }
 
@@ -40,4 +40,3 @@ body.light {
 .scrollbar::-webkit-scrollbar-button {
   display: none;
 }
-

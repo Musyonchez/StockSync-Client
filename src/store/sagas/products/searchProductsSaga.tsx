@@ -6,13 +6,15 @@ import { SEARCH_PRODUCTS } from '../../../graphql/queries/products/searchproduct
 import { Product } from '../../../types/product';
 
 interface ProductQueryResponse {
-  search: Product[];
+  searchProducts: Product[];
 }
 
 export const searchProductsSaga = {
   saga: function* (action: { type: string, payload: { company: string, type: string, filterArray: { field: string; value: string }[] } }) {
     try {
       const { company, type, filterArray } = action.payload;
+      console.log('company, type, filterArray:', company, type, filterArray);
+
       const response: ApolloQueryResult<ProductQueryResponse> = yield call(
         apolloClient.query,
         {
@@ -23,7 +25,8 @@ export const searchProductsSaga = {
 
       console.log('GraphQL Full Response:', response);
 
-      const products = response.data?.search;
+      const products = response.data?.searchProducts;
+
 
       if (Array.isArray(products) && products.length > 0) {
         for (const product of products) {

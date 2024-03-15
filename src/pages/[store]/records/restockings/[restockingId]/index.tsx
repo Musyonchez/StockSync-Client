@@ -11,14 +11,17 @@ import { RestockingDetail } from "../../../../../types/restocking";
 import RestockingPreview from "@/components/DynamicSaasPages/MainContent/Restocking/RestockingPreview";
 
 import { useSession } from "next-auth/react";
-import { getSession } from 'next-auth/react';
+import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 import { User } from "@/types/user";
+
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
 
 const Restocking = () => {
   const { data: session } = useSession();
   const router = useRouter();
-  const  company  = session?.user?.company;
+  const company = session?.user?.company;
   const store = router.query?.store as string;
   const restockingId = router.query?.restockingId as string; // Ensure company is always a string
 
@@ -26,6 +29,8 @@ const Restocking = () => {
   const restocking = useSelector((state: RootState) => state.restocking.data);
   const loading = useSelector((state: RootState) => state.restocking.loading);
   const error = useSelector((state: RootState) => state.restocking.error);
+
+  const [showError, setShowError] = useState(true);
 
   useEffect(() => {
     if (session?.user && (session.user as User)[store] === true && company) {
@@ -41,50 +46,23 @@ const Restocking = () => {
     }
   }, [dispatch, company, store, restockingId]);
 
-  if (loading)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 flex justify-center items-center h-64">
-          <p className="text-gray-500">Loading...</p>
-        </div>
-      </Layout>
-    );
-
-  if (error)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-red-100 border-l-4 border-red-500">
-          <p className="text-red-700">Error</p>
-        </div>
-      </Layout>
-    );
-
-  if (!restocking) {
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-yellow-100 border-l-4 border-yellow-500">
-          <p className="text-yellow-700">No product could be found</p>
-        </div>
-      </Layout>
-    );
-  }
 
   return (
     <Layout>
       <div className="container min-h-screen dark:bg-black dark:text-white mx-auto p-4">
         <h1 className="text-3xl font-semibold mb-4">Restocking</h1>
         <ul>
-          <li key={restocking.id} className="mb-8">
+          <li key={restocking?.id} className="mb-8">
             <div className="bg-white dark:bg-gray-900 p-6 shadow-md rounded-md">
-              <p className="text-lg font-semibold mb-2">ID: {restocking.id}</p>
-              <p>Created At: {restocking.createdAt}</p>
-              <p>Creator ID: {restocking.creatorId}</p>
-              <p>Creator Name: {restocking.creatorName}</p>
+              <p className="text-lg font-semibold mb-2">ID: {restocking?.id}</p>
+              <p>Created At: {restocking?.createdAt}</p>
+              <p>Creator ID: {restocking?.creatorId}</p>
+              <p>Creator Name: {restocking?.creatorName}</p>
 
               {/* Loop through details array */}
               <ul className="mt-4">
                 <p className="text-lg font-semibold mb-2">Details</p>
-                {restocking.details.map((detail: RestockingDetail) => (
+                {restocking?.details.map((detail: RestockingDetail) => (
                   <li
                     key={detail.id}
                     className="mb-2 dark:bg-gray-800 bg-white p-6 shadow-md rounded-md"
@@ -106,11 +84,11 @@ const Restocking = () => {
         <RestockingPreview
           restockingData={{
             companyLogo: session?.user?.companyLogo ?? "",
-            id: restocking.id,
-            createdAt: restocking.createdAt,
-            creatorId: restocking.creatorId,
-            creatorName: restocking.creatorName,
-            details: restocking.details.map((detail: RestockingDetail) => ({
+            id: restocking?.id ?? "",
+            createdAt: restocking?.createdAt ?? "",
+            creatorId: restocking?.creatorId ?? "",
+            creatorName: restocking?.creatorName ?? "",
+            details: restocking?.details.map((detail: RestockingDetail) => ({
               id: detail.id,
               name: detail.name,
               category: detail.category,
@@ -119,10 +97,17 @@ const Restocking = () => {
               sellingPrice: detail.sellingPrice,
               supplier: detail.supplier,
               quantity: detail.quantity,
-            })),
+            })) ?? [],
           }}
         />
       </div>
+      {error && showError && (
+        <ErrorMessagePopup
+          message={error}
+          onClose={() => setShowError(false)}
+        />
+      )}
+      {loading && <LoadingMessagePopup />}
     </Layout>
   );
 };

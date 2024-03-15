@@ -12,6 +12,8 @@ import { useSession } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
 interface DynamicRouteParams {
   store: string;
   userID: string;
@@ -41,6 +43,8 @@ const AddUser = () => {
   const user = useSelector((state: RootState) => state.adduser.data);
   const loading = useSelector((state: RootState) => state.adduser.loading);
   const error = useSelector((state: RootState) => state.adduser.error);
+
+  const [showError, setShowError] = useState(true);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -303,6 +307,13 @@ const AddUser = () => {
           </form>
         </div>
       </div>
+      {error && showError && (
+        <ErrorMessagePopup
+          message={error}
+          onClose={() => setShowError(false)}
+        />
+      )}
+      {loading && <LoadingMessagePopup />}
     </Layout>
   );
 };

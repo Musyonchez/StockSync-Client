@@ -88,10 +88,9 @@ const RecoverPassword = () => {
           } catch (error) {
             console.error("Error resting password:", error);
           }
-          setTemporaryAccessKey("")
-          setPassword("")
-          setConfirmPassword(""
-          )
+          setTemporaryAccessKey("");
+          setPassword("");
+          setConfirmPassword("");
         }
       } else {
         console.error(`Password or confirm password is empty.`);

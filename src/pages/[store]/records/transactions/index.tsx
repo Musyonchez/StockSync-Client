@@ -1,25 +1,25 @@
 // Import necessary packages
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/reducers/reducers";
 import { fetchTransactionsRequest } from "@/actions/records/transactions/fetchTransactions";
-import {
-  Transaction,
-  TransactionDetail,
-} from "../../../../types/transaction";
+import { Transaction, TransactionDetail } from "../../../../types/transaction";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "@/components/DynamicSaasPages/Layout";
 
 import { useSession } from "next-auth/react";
-import { getSession } from 'next-auth/react';
+import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 import { User } from "@/types/user";
+
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
 
 const Transactions = () => {
   const { data: session } = useSession();
   const router = useRouter();
-  const  company  = session?.user?.company;
+  const company = session?.user?.company;
   const store = router.query?.store as string;
 
   const dispatch = useDispatch();
@@ -29,6 +29,8 @@ const Transactions = () => {
   const loading = useSelector((state: RootState) => state.transactions.loading);
   const error = useSelector((state: RootState) => state.transactions.error);
 
+  const [showError, setShowError] = useState(true);
+
   useEffect(() => {
     if (session?.user && (session.user as User)[store] === true && company) {
       dispatch(fetchTransactionsRequest(company as string, store as string));
@@ -37,33 +39,7 @@ const Transactions = () => {
     }
   }, [dispatch, company, store]);
 
-  if (loading)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 flex justify-center items-center h-64">
-          <p className="text-gray-500">Loading...</p>
-        </div>
-      </Layout>
-    );
 
-  if (error)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-red-100 border-l-4 border-red-500">
-          <p className="text-red-700">Error</p>
-        </div>
-      </Layout>
-    );
-
-  if (!transactions) {
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-yellow-100 border-l-4 border-yellow-500">
-          <p className="text-yellow-700">No product could be found</p>
-        </div>
-      </Layout>
-    );
-  }
 
   return (
     <Layout>
@@ -106,12 +82,18 @@ const Transactions = () => {
           ))}
         </ul>
       </div>
+      {error && showError && (
+        <ErrorMessagePopup
+          message={error}
+          onClose={() => setShowError(false)}
+        />
+      )}
+      {loading && <LoadingMessagePopup />}
     </Layout>
   );
 };
 
 export default Transactions;
-
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;

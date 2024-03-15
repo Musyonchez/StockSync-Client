@@ -39,6 +39,8 @@ const LoginPage: React.FC = () => {
           } else {
             window.location.href = "/";
           }
+        } else {
+          window.location.href = "/login";
         }
       })
       .catch((error) => {

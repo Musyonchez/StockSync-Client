@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductRequest } from "../../../../actions/products/fetchProduct";
 import { RootState } from "../../../../store/reducers/reducers";
@@ -13,6 +13,9 @@ import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 import { User } from "@/types/user";
 
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
+
 const ProductDetail = () => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -24,6 +27,8 @@ const ProductDetail = () => {
   const product = useSelector((state: RootState) => state.product.data);
   const loading = useSelector((state: RootState) => state.product.loading);
   const error = useSelector((state: RootState) => state.product.error);
+
+  const [showError, setShowError] = useState(true);
 
   useEffect(() => {
     if (session?.user && (session.user as User)[store] === true && company) {
@@ -39,33 +44,7 @@ const ProductDetail = () => {
     }
   }, [dispatch, company, store, productId]);
 
-  if (loading)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 flex justify-center items-center h-64">
-          <p className="text-gray-500">Loading...</p>
-        </div>
-      </Layout>
-    );
-
-  if (error)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-red-100 border-l-4 border-red-500">
-          <p className="text-red-700">Error</p>
-        </div>
-      </Layout>
-    );
-
-  if (!product) {
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-yellow-100 border-l-4 border-yellow-500">
-          <p className="text-yellow-700">No product could be found</p>
-        </div>
-      </Layout>
-    );
-  }
+  
 
   return (
     <Layout>
@@ -224,6 +203,13 @@ const ProductDetail = () => {
           </div>
         )}
       </div>
+      {error && showError && (
+        <ErrorMessagePopup
+          message={error}
+          onClose={() => setShowError(false)}
+        />
+      )}
+      {loading && <LoadingMessagePopup />}
     </Layout>
   );
 };

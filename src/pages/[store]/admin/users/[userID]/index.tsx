@@ -16,6 +16,8 @@ import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 import { User } from "@/types/user";
 
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
 interface DynamicRouteParams {
   company: string;
   store: string;
@@ -38,6 +40,8 @@ const UserDetail = () => {
   const loading = useSelector((state: RootState) => state.user.loading);
   const error = useSelector((state: RootState) => state.user.error);
 
+  const [showError, setShowError] = useState(true);
+
   useEffect(() => {
     if (session?.user && (session.user as User)[store] === true && company) {
       dispatch(
@@ -48,33 +52,7 @@ const UserDetail = () => {
     }
   }, [dispatch, company, store, userID]);
 
-  if (loading)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 flex justify-center items-center h-64">
-          <p className="text-gray-500">Loading...</p>
-        </div>
-      </Layout>
-    );
-
-  if (error)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-red-100 border-l-4 border-red-500">
-          <p className="text-red-700">Error</p>
-        </div>
-      </Layout>
-    );
-
-  if (!user) {
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-yellow-100 border-l-4 border-yellow-500">
-          <p className="text-yellow-700">No user could be found</p>
-        </div>
-      </Layout>
-    );
-  }
+  
 
   const handleDeactivate = async () => {
     setIsActiveButtonActive(false);
@@ -104,7 +82,7 @@ const UserDetail = () => {
 
     try {
       if (session?.user && (session.user as User)[store] === true && company) {
-        if (user.firstRecordAction === false) {
+        if (user?.firstRecordAction === false) {
           dispatch(
             deleteUserRequest(
               userID,
@@ -161,17 +139,17 @@ const UserDetail = () => {
               <Link href={`${router.asPath}/edituser`}>Edit</Link>
             </button>
             <button
-              onClick={user.active ? handleDeactivate : handleActivate}
+              onClick={user?.active ? handleDeactivate : handleActivate}
               className={`${
                 isActiveButtonActive
-                  ? user.active
+                  ? user?.active
                     ? "bg-red-500 hover:bg-red-600"
                     : "bg-green-500 hover:bg-green-600"
                   : "bg-gray-400 cursor-not-allowed"
               } text-white px-4 py-2 rounded`}
               disabled={!isActiveButtonActive}
             >
-              {user.active
+              {user?.active
                 ? isActiveButtonActive
                   ? "Deactivate"
                   : "Deactivating..."
@@ -180,7 +158,7 @@ const UserDetail = () => {
                 : "Activating"}
             </button>
 
-            {!user.active && (
+            {!user?.active && (
               <button
                 onClick={handleDelete}
                 className={`${
@@ -207,7 +185,7 @@ const UserDetail = () => {
             <input
               type="text"
               id="userId"
-              value={user.id}
+              value={user?.id}
               readOnly
               className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
             />
@@ -223,7 +201,7 @@ const UserDetail = () => {
             <input
               type="text"
               id="firstName"
-              value={user.firstName}
+              value={user?.firstName}
               readOnly
               className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
             />
@@ -239,7 +217,7 @@ const UserDetail = () => {
             <input
               type="text"
               id="lastName"
-              value={user.lastName}
+              value={user?.lastName}
               readOnly
               className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
             />
@@ -255,7 +233,7 @@ const UserDetail = () => {
             <input
               type="email"
               id="email"
-              value={user.email}
+              value={user?.email}
               readOnly
               className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
             />
@@ -269,7 +247,7 @@ const UserDetail = () => {
                   Profile:
                 </label>
                 <img
-                  src={user.imageURL}
+                  src={user?.imageURL}
                   alt="User Profile"
                   className="w-24 h-24"
                   onError={(e) => {
@@ -287,10 +265,10 @@ const UserDetail = () => {
               Stores:
             </label>
             <div className=" flex flex-col justify-center space-1-2">
-              <span>Store 1: {user.store1 ? "Yes" : "No"}</span>
-              <span>Store 2: {user.store2 ? "Yes" : "No"}</span>
-              <span>Store 3: {user.store3 ? "Yes" : "No"}</span>
-              <span>Store 4: {user.store4 ? "Yes" : "No"}</span>
+              <span>Store 1: {user?.store1 ? "Yes" : "No"}</span>
+              <span>Store 2: {user?.store2 ? "Yes" : "No"}</span>
+              <span>Store 3: {user?.store3 ? "Yes" : "No"}</span>
+              <span>Store 4: {user?.store4 ? "Yes" : "No"}</span>
             </div>
           </div>
 
@@ -304,13 +282,20 @@ const UserDetail = () => {
             <input
               type="text"
               id="role"
-              value={user.role}
+              value={user?.role}
               readOnly
               className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
             />
           </div>
         </div>
       </div>
+      {error && showError && (
+        <ErrorMessagePopup
+          message={error}
+          onClose={() => setShowError(false)}
+        />
+      )}
+      {loading && <LoadingMessagePopup />}
     </Layout>
   );
 };

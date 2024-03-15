@@ -15,6 +15,9 @@ import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 import { User } from "@/types/user";
 
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
+
 const Writeoff = () => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -26,6 +29,8 @@ const Writeoff = () => {
   const writeoff = useSelector((state: RootState) => state.writeoff.data);
   const loading = useSelector((state: RootState) => state.writeoff.loading);
   const error = useSelector((state: RootState) => state.writeoff.error);
+
+  const [showError, setShowError] = useState(true);
 
   useEffect(() => {
     if (session?.user && (session.user as User)[store] === true && company) {
@@ -41,51 +46,25 @@ const Writeoff = () => {
     }
   }, [dispatch, company, store, writeoffId]);
 
-  if (loading)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 flex justify-center items-center h-64">
-          <p className="text-gray-500">Loading...</p>
-        </div>
-      </Layout>
-    );
 
-  if (error)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-red-100 border-l-4 border-red-500">
-          <p className="text-red-700">Error</p>
-        </div>
-      </Layout>
-    );
-
-  if (!writeoff) {
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-yellow-100 border-l-4 border-yellow-500">
-          <p className="text-yellow-700">No product could be found</p>
-        </div>
-      </Layout>
-    );
-  }
 
   return (
     <Layout>
       <div className="container dark:bg-black dark:text-white mx-auto p-4">
         <h1 className="text-3xl font-semibold mb-4">Writeoff</h1>
         <ul>
-          <li key={writeoff.id} className="mb-8">
+          <li key={writeoff?.id} className="mb-8">
             <div className="bg-white dark:bg-gray-900 p-6 shadow-md rounded-md">
-              <p className="text-lg font-semibold mb-2">ID: {writeoff.id}</p>
-              <p>Created At: {writeoff.createdAt}</p>
-              <p>Creator ID: {writeoff.creatorId}</p>
-              <p>Creator Name: {writeoff.creatorName}</p>
-              <p>Total Amount: {writeoff.totalAmount}</p>
+              <p className="text-lg font-semibold mb-2">ID: {writeoff?.id}</p>
+              <p>Created At: {writeoff?.createdAt}</p>
+              <p>Creator ID: {writeoff?.creatorId}</p>
+              <p>Creator Name: {writeoff?.creatorName}</p>
+              <p>Total Amount: {writeoff?.totalAmount}</p>
 
               {/* Loop through details array */}
               <ul className="mt-4">
                 <p className="text-lg font-semibold mb-2">Details</p>
-                {writeoff.details.map((detail: WriteoffDetail) => (
+                {writeoff?.details.map((detail: WriteoffDetail) => (
                   <li
                     key={detail.id}
                     className="mb-2 bg-white dark:bg-gray-800 p-6 shadow-md rounded-md"
@@ -108,12 +87,12 @@ const Writeoff = () => {
         <WriteoffPreview
           writeoffData={{
             companyLogo: session?.user?.companyLogo ?? "",
-            id: writeoff.id,
-            createdAt: writeoff.createdAt,
-            creatorId: writeoff.creatorId,
-            creatorName: writeoff.creatorName,
-            totalAmount: writeoff.totalAmount,
-            details: writeoff.details.map((detail: WriteoffDetail) => ({
+            id: writeoff?.id ?? "",
+            createdAt: writeoff?.createdAt ?? "",
+            creatorId: writeoff?.creatorId ?? "",
+            creatorName: writeoff?.creatorName ?? "",
+            totalAmount: writeoff?.totalAmount ?? 0,
+            details: writeoff?.details.map((detail: WriteoffDetail) => ({
               id: detail.id,
               name: detail.name,
               category: detail.category,
@@ -121,10 +100,17 @@ const Writeoff = () => {
               unitCost: detail.unitCost,
               sellingPrice: detail.sellingPrice,
               quantity: detail.quantity,
-            })),
+            })) ?? [],
           }}
         />
       </div>
+      {error && showError && (
+        <ErrorMessagePopup
+          message={error}
+          onClose={() => setShowError(false)}
+        />
+      )}
+      {loading && <LoadingMessagePopup />}
     </Layout>
   );
 };

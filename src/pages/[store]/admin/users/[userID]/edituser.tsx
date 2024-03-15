@@ -15,6 +15,8 @@ import { useSession } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
 interface DynamicRouteParams {
   store: string;
   userID: string;
@@ -52,8 +54,15 @@ const EditUser = () => {
 
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.data);
-  const loading = useSelector((state: RootState) => state.user.loading);
-  const error = useSelector((state: RootState) => state.user.error);
+  const userLoading = useSelector((state: RootState) => state.user.loading);
+  const userError = useSelector((state: RootState) => state.user.error);
+
+  const editUser = useSelector((state: RootState) => state.edituser.data);
+  const editLoading = useSelector((state: RootState) => state.edituser.loading);
+  const editError = useSelector((state: RootState) => state.edituser.error);
+
+  const [showUserError, setShowUserError] = useState(true);
+  const [showEditUserError, setShowEditUserError] = useState(true);
 
   useEffect(() => {
     if (session?.user && (session.user as User)[store] === true && company) {
@@ -65,33 +74,7 @@ const EditUser = () => {
     }
   }, [dispatch, company, store, userID]);
 
-  if (loading)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 flex justify-center items-center h-64">
-          <p className="text-gray-500">Loading...</p>
-        </div>
-      </Layout>
-    );
 
-  if (error)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-red-100 border-l-4 border-red-500">
-          <p className="text-red-700">Error</p>
-        </div>
-      </Layout>
-    );
-
-  if (!user) {
-    return (
-      <Layout>
-        <div className="container mx-auto p-4 bg-yellow-100 border-l-4 border-yellow-500">
-          <p className="text-yellow-700">No user could be found</p>
-        </div>
-      </Layout>
-    );
-  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -133,7 +116,7 @@ const EditUser = () => {
       }
       dispatch(
         editUserRequest(
-          user.id as string,
+          user?.id as string,
           company as string,
           store as string,
           filterArray
@@ -155,7 +138,7 @@ const EditUser = () => {
 
     if (profile) {
       const formData = new FormData();
-      const newImageName = user.id;
+      const newImageName = user?.id;
 
       // Append the file with the desired name
       formData.append("file", profile, newImageName);
@@ -196,7 +179,7 @@ const EditUser = () => {
                 type="text"
                 name="id"
                 id="id"
-                value={user.id}
+                value={user?.id}
                 readOnly
                 placeholder="Enter New User ID"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
@@ -214,7 +197,7 @@ const EditUser = () => {
                 type="text"
                 name="firstName"
                 id="firstName"
-                value={user.firstName}
+                value={user?.firstName}
                 readOnly
                 placeholder="Enter First Name"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
@@ -246,7 +229,7 @@ const EditUser = () => {
                 type="text"
                 name="lastName"
                 id="lastName"
-                value={user.lastName}
+                value={user?.lastName}
                 readOnly
                 placeholder="Enter Last Name"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
@@ -278,7 +261,7 @@ const EditUser = () => {
                 type="text"
                 name="email"
                 id="email"
-                value={user.email}
+                value={user?.email}
                 readOnly
                 placeholder="Enter Email"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
@@ -293,7 +276,7 @@ const EditUser = () => {
                 Image URL:
               </label>
               <img
-                src={user.imageURL}
+                src={user?.imageURL}
                 alt="Product Image"
                 className="w-24 h-24"
                 onError={(e) => {
@@ -393,7 +376,7 @@ const EditUser = () => {
                 type="text"
                 name="role"
                 id="role"
-                value={user.role}
+                value={user?.role}
                 readOnly
                 placeholder="Enter Role"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
@@ -424,6 +407,20 @@ const EditUser = () => {
           </form>
         </div>
       </div>
+      {userError && showUserError && (
+        <ErrorMessagePopup
+          message={userError}
+          onClose={() => setShowUserError(false)}
+        />
+      )}
+      {userLoading && <LoadingMessagePopup />}
+      {editError && showEditUserError && (
+        <ErrorMessagePopup
+          message={editError}
+          onClose={() => setShowEditUserError(false)}
+        />
+      )}
+      {editLoading && <LoadingMessagePopup />}
     </Layout>
   );
 };

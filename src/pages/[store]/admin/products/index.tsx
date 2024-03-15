@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsRequest } from "@/actions/products/fetchProducts";
 import { RootState } from "@/store/reducers/reducers";
@@ -13,6 +13,8 @@ import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 import { User } from "@/types/user";
 
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
 interface DynamicRouteParams {
   store: string;
   userID: string;
@@ -29,6 +31,8 @@ function ProductList() {
   const loading = useSelector((state: RootState) => state.products.loading);
   const error = useSelector((state: RootState) => state.products.error);
 
+  const [showError, setShowError] = useState(true);
+
   useEffect(() => {
     if (session?.user && (session.user as User)[store] === true && company) {
       dispatch(fetchProductsRequest(company as string, store as string));
@@ -37,63 +41,7 @@ function ProductList() {
     }
   }, [dispatch, company, store]);
 
-  if (loading)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Products List</h2>
-            <div>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                <Link href={`${router.asPath}/addproduct`}>Add Product</Link>
-              </button>
-            </div>
-          </div>
-          <div className="flex justify-center items-center h-64">
-            <p className="text-gray-500">Loading...</p>
-          </div>
-        </div>
-      </Layout>
-    );
-
-  if (error)
-    return (
-      <Layout>
-        <div className="container mx-auto p-4">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Products List</h2>
-            <div>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                <Link href={`${router.asPath}/addproduct`}>Add Product</Link>
-              </button>
-            </div>
-          </div>
-          <div className="bg-red-100 p-4 border-l-4 border-red-500">
-            <p className="text-red-700">No products could be found</p>
-          </div>
-        </div>
-      </Layout>
-    );
-
-  if (!products) {
-    return (
-      <Layout>
-        <div className="container mx-auto p-4">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Products List</h2>
-            <div>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                <Link href={`${router.asPath}/addproduct`}>Add Product</Link>
-              </button>
-            </div>
-          </div>
-          <div className="bg-yellow-100 p-4 border-l-4 border-yellow-500">
-            <p className="text-yellow-700">No products could be found</p>
-          </div>
-        </div>
-      </Layout>
-    );
-  }
+  
 
   return (
     <Layout>
@@ -235,6 +183,13 @@ function ProductList() {
           </>
         )}
       </div>
+      {error && showError && (
+        <ErrorMessagePopup
+          message={error}
+          onClose={() => setShowError(false)}
+        />
+      )}
+      {loading && <LoadingMessagePopup />}
     </Layout>
   );
 }

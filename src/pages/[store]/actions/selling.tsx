@@ -15,6 +15,9 @@ import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 import { User } from "@/types/user";
 
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
+
 const selling = () => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -28,14 +31,26 @@ const selling = () => {
 
   const dispatch = useDispatch();
   const products = useSelector((state: RootState) => state.searchproducts.data);
-  const loading = useSelector(
+  const productsLoading = useSelector(
     (state: RootState) => state.searchproducts.loading
   );
-  const error = useSelector((state: RootState) => state.searchproducts.error);
+  const productsError = useSelector(
+    (state: RootState) => state.searchproducts.error
+  );
 
   const sellProductResponse = useSelector(
     (state: RootState) => state.sellproducts.data
   );
+  const sellLoading = useSelector(
+    (state: RootState) => state.sellproducts.loading
+  );
+  const sellError = useSelector(
+    (state: RootState) => state.sellproducts.error
+  );
+
+  const [showProductsError, setShowProductError] = useState(true);
+  const [showSellError, setShowSellError] = useState(true);
+
   const [isSellButtonActive, setIsSelleButtonActive] = useState(true);
 
   const handleSearch = (): void => {
@@ -344,7 +359,7 @@ const selling = () => {
               </button>
             </div>
             <div>
-              {loading ? (
+              {productsLoading ? (
                 <p className="text-lg text-center dark:text-white text-black">
                   Loading...
                 </p>
@@ -382,6 +397,20 @@ const selling = () => {
           </div>
         </div>
       </div>
+      {productsError && showProductsError && (
+        <ErrorMessagePopup
+          message={productsError}
+          onClose={() => setShowProductError(false)}
+        />
+      )}
+      {productsLoading && <LoadingMessagePopup />}
+      {sellError && showSellError && (
+        <ErrorMessagePopup
+          message={sellError}
+          onClose={() => setShowSellError(false)}
+        />
+      )}
+      {sellLoading && <LoadingMessagePopup />}
     </Layout>
   );
 };

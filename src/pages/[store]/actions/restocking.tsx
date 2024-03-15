@@ -15,6 +15,9 @@ import { getSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 import { User } from "@/types/user";
 
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
+
 const restocking = () => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -28,14 +31,26 @@ const restocking = () => {
 
   const dispatch = useDispatch();
   const products = useSelector((state: RootState) => state.searchproducts.data);
-  const loading = useSelector(
+  const productsLoading = useSelector(
     (state: RootState) => state.searchproducts.loading
   );
-  const error = useSelector((state: RootState) => state.searchproducts.error);
+  const productsError = useSelector(
+    (state: RootState) => state.searchproducts.error
+  );
 
   const restockingProductResponse = useSelector(
     (state: RootState) => state.restockingproducts.data
   );
+  const restockingLoading = useSelector(
+    (state: RootState) => state.restockingproducts.loading
+  );
+  const restockingError = useSelector(
+    (state: RootState) => state.restockingproducts.error
+  );
+
+  const [showProductsError, setShowProductError] = useState(true);
+  const [showRestockingError, setShowRestockingError] = useState(true);
+
   const [isRestockingButtonActive, setIsRestockingButtonActive] =
     useState(true);
 
@@ -333,7 +348,7 @@ const restocking = () => {
               </button>
             </div>
             <div>
-              {loading ? (
+              {productsLoading ? (
                 <p className="text-lg text-center dark:text-white text-black">
                   Loading...
                 </p>
@@ -371,6 +386,20 @@ const restocking = () => {
           </div>
         </div>
       </div>
+      {productsError && showProductsError && (
+        <ErrorMessagePopup
+          message={productsError}
+          onClose={() => setShowProductError(false)}
+        />
+      )}
+      {productsLoading && <LoadingMessagePopup />}
+      {restockingError && showRestockingError && (
+        <ErrorMessagePopup
+          message={restockingError}
+          onClose={() => setShowRestockingError(false)}
+        />
+      )}
+      {restockingLoading && <LoadingMessagePopup />}
     </Layout>
   );
 };
