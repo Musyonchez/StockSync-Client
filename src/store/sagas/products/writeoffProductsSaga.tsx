@@ -34,7 +34,6 @@ export const writeoffProductsSaga = {
     try {
       const { id, name, company, type, total, reason, filterArray } = action.payload;
 
-      console.log("wriiteoff saga", id, name, company, type, total, reason, filterArray)
       const response: ApolloQueryResult<ProductMutationResponse> = yield call(
         apolloClient.mutate,
         {
@@ -43,7 +42,6 @@ export const writeoffProductsSaga = {
         }
       );
 
-      console.log("GraphQL Full Response:", response);
 
       const writeoffProductResponse = response.data?.writeoffProduct;
 

@@ -68,7 +68,6 @@ const restocking = () => {
 
   const handleRestocking = () => {
     // Implement the logic for handling the restocking action here
-    console.log("Restocking action triggered");
 
     setIsRestockingButtonActive(false);
 
@@ -124,9 +123,7 @@ const restocking = () => {
   };
 
   useEffect(() => {
-    console.log("up", restockingProductResponse);
     if (restockingProductResponse) {
-      console.log("down", restockingProductResponse);
 
       // Once product data is available, proceed with image upload
       handleRestockingButton();
@@ -410,7 +407,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
   const session = await getSession({ req });
 
-  console.log("Server-side session:", session); // Add this line for debugging
 
   if (!session?.user) {
     return {

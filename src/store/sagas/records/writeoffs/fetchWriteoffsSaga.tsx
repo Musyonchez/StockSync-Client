@@ -20,7 +20,6 @@ export const fetchWriteoffsSaga = {
       const { company, type } = action.payload;
 
 
-      console.log("wriiteoff saga", company, type)
 
 
       const response: ApolloQueryResult<WriteoffQueryResponse> = yield call(
@@ -31,7 +30,6 @@ export const fetchWriteoffsSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
 
       const writeoffs = response.data?.getWriteoffs;
 

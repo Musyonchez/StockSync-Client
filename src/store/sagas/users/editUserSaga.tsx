@@ -32,7 +32,6 @@ export const editUserSaga = {
     try {
       const { id, company, type, filterArray } = action.payload;
 
-      console.log("edit user payload", id, company, type, filterArray)
 
       const response: ApolloQueryResult<UserMutationResponse> = yield call(
         apolloClient.mutate,
@@ -42,7 +41,6 @@ export const editUserSaga = {
         }
       );
 
-      console.log("GraphQL Full Response:", response);
 
       const user = response.data?.editUser;
 
@@ -52,7 +50,6 @@ export const editUserSaga = {
         yield put(editUserFailure("Invalid response or user not edited"));
       }
     } catch (error) {
-      console.error("Error in editUserSaga:", error);
       yield put(editUserFailure((error as Error).message));
     }
   },

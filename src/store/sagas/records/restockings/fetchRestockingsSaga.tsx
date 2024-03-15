@@ -19,7 +19,6 @@ export const fetchRestockingsSaga = {
     try {
       const { company, type } = action.payload;
 
-      console.log('fetch restocking Saga starting:', company);
 
 
 
@@ -31,7 +30,6 @@ export const fetchRestockingsSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
 
       const restockings = response.data?.getRestockings;
 

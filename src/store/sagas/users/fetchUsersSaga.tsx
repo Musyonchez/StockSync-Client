@@ -26,7 +26,6 @@ export const fetchUsersSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
 
       const users = response.data?.users || [];
 

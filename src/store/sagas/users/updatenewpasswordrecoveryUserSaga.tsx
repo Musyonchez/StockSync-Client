@@ -27,14 +27,6 @@ export const updateNewPasswordRecoveryUserSaga = {
     try {
       const { email, temporaryAccessKey, password, company } = action.payload;
 
-      console.log(
-        "updateNewPasswordRecoveryuser user Saga starting:",
-        email,
-        temporaryAccessKey,
-        password,
-        company,
-      );
-
       const response: ApolloQueryResult<UserMutationResponse> = yield call(
         apolloClient.mutate,
         {
@@ -48,19 +40,18 @@ export const updateNewPasswordRecoveryUserSaga = {
         }
       );
 
-      console.log("GraphQL Full Response:", response);
-
       const user = response.data?.updateNewPasswordRecoveryUser;
 
       if (user) {
         yield put(updateNewPasswordRecoveryUserSuccess(user));
       } else {
         yield put(
-          updateNewPasswordRecoveryUserFailure("Invalid response or user not deactivated")
+          updateNewPasswordRecoveryUserFailure(
+            "Invalid response or user not deactivated"
+          )
         );
       }
     } catch (error) {
-      console.error("Error in updateNewPasswordRecoveryUserSaga:", error);
       yield put(updateNewPasswordRecoveryUserFailure((error as Error).message));
     }
   },

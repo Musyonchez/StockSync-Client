@@ -60,7 +60,6 @@ export const addUserSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
 
       const user = response.data?.addUser;
 
@@ -70,7 +69,6 @@ export const addUserSaga = {
         yield put(addUserFailure('Invalid response or user not added'));
       }
     } catch (error) {
-      console.error('Error in addUserSaga:', error);
       yield put(addUserFailure((error as Error).message));
     }
   },

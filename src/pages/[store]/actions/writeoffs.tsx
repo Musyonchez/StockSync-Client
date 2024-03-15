@@ -68,7 +68,6 @@ const writeoff = () => {
 
   const handleWriteoff = () => {
     // Implement the logic for handling the writeoff action here
-    console.log("Writeoff action triggered");
 
     setIsWriteoffButtonActive(false);
 
@@ -123,13 +122,10 @@ const writeoff = () => {
     } else {
       console.error(`User does not have access to ${store}.`);
     }
-    console.log("reason from writeoff.tsx", reason);
   };
 
   useEffect(() => {
-    console.log("up", writeoffProductResponse);
     if (writeoffProductResponse) {
-      console.log("down", writeoffProductResponse);
 
       // Once product data is available, proceed with image upload
       handleWriteoffButton();
@@ -422,7 +418,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
   const session = await getSession({ req });
 
-  console.log("Server-side session:", session); // Add this line for debugging
 
   if (!session?.user) {
     return {

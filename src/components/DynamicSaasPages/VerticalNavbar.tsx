@@ -9,6 +9,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import emptyUser from "../../../public/emptyUser.jpeg";
 
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import SuccessMessagePopup from "@/components/EventHandling/SuccessMessagePopup";
+
 const VerticalNavbar = () => {
   const { data: session } = useSession();
   const company = session?.user?.company;
@@ -19,6 +22,16 @@ const VerticalNavbar = () => {
   const [logo, setLogo] = useState<File | null>(null);
   const [changeProfile, setChangeProfile] = useState(false);
   const [profile, setProfile] = useState<File | null>(null);
+
+  const [showLogoError, setShowLogoError] = useState(false);
+  const [showProfileError, setShowProfileError] = useState(false);
+  const [showLogoSuccess, setShowLogoSuccess] = useState(false);
+  const [showProfileSuccess, setShowProfileSuccess] = useState(false);
+
+  const [logoMessage, setLogoMessage] = useState("");
+  const [profileMessage, setProfileMessage] = useState("");
+  const [successProfileMessage, setSuccessProfileMessage] = useState("");
+  const [successLogoMessage, setSuccessLogoMessage] = useState("");
 
   const router = useRouter();
   const { store } = router.query;
@@ -46,22 +59,30 @@ const VerticalNavbar = () => {
           } else {
             // Handle the case where company is undefined
             // For example, you might want to skip appending it or provide a default value
-            console.error("Company is undefined, skipping append operation");
+            setLogoMessage("Company is undefined, skipping append operation");
+            setShowLogoError(true);
           }
 
-          console.log("file from fileupload rest api", logo, company);
-
-          // Send a POST request to your REST API endpoint
-          await fetch("http://localhost:5000/upload", {
+          const response = await fetch("http://localhost:5000/upload", {
             method: "POST",
             body: formData,
           });
+          if (!response.ok) {
+            const errorMessage = await response.text();
+            setLogoMessage(errorMessage);
+            setShowLogoError(true);
+          } else {
+            setSuccessLogoMessage("Upload successful");
+            setShowLogoError(true);
+          }
         }
       } else {
-        console.log("You dont have the authority");
+        setLogoMessage("You dont have the authority");
+        setShowLogoError(true);
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
+      setLogoMessage("Error uploading image: " + (error as Error).message);
+      setShowLogoError(true);
     }
   };
 
@@ -79,19 +100,26 @@ const VerticalNavbar = () => {
         } else {
           // Handle the case where company is undefined
           // For example, you might want to skip appending it or provide a default value
-          console.error("Company is undefined, skipping append operation");
+          setProfileMessage("Company is undefined, skipping append operation");
+          setShowProfileError(true);
         }
 
-        console.log("file from fileupload rest api", profile, company);
-
-        // Send a POST request to your REST API endpoint
-        await fetch("http://localhost:5000/upload", {
+        const response = await fetch("http://localhost:5000/upload", {
           method: "POST",
           body: formData,
         });
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          setProfileMessage(errorMessage);
+          setShowProfileError(true);
+        } else {
+          setSuccessProfileMessage("Upload successful");
+          setShowProfileError(true);
+        }
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
+      setProfileMessage("Error uploading image:" + (error as Error).message);
+      setShowProfileError(true);
     }
   };
 
@@ -356,7 +384,7 @@ const VerticalNavbar = () => {
             </Link>
             <Link href={`/${store}/records/restockings`}>
               <li className="flex space-x-3">
-              <svg
+                <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 640 512"
                   className="h-6 w-6"
@@ -461,44 +489,58 @@ const VerticalNavbar = () => {
           </div>
         )}
 
-        <div className="mb-4 relative">
-          <hr className="mb-5" />
-          <div className="flex w-full justify-between items-center">
-            <img
-              src={session?.user?.imageURL}
-              alt="Product Image"
-              className="w-24 h-24"
-              onError={(e) => {
-                (e.target as HTMLImageElement).onerror = null;
-                (e.target as HTMLImageElement).src = emptyUser.src;
-              }}
-            />
+        {mounted && (
+          <div className="mb-4 relative">
+            <hr className="mb-5" />
+            <div className="flex w-full justify-between items-center">
+              <img
+                src={session?.user?.imageURL}
+                alt="Product Image"
+                className="w-24 h-24"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).onerror = null;
+                  (e.target as HTMLImageElement).src = emptyUser.src;
+                }}
+              />
+              <div>
+                <button onClick={() => setChangeProfile(true)} className="p-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
             <div>
-              <button onClick={() => setChangeProfile(true)} className="p-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
-                  />
-                </svg>
-              </button>
+              <p className="">
+                {session?.user?.firstName} {session?.user?.lastName}
+              </p>
+              <p>{session?.user?.role}</p>
             </div>
           </div>
-          <div>
-            <p className="">
-              {session?.user?.firstName} {session?.user?.lastName}
-            </p>
-            <p>{session?.user?.role}</p>
-          </div>
-        </div>
+        )}
+        {showLogoError && (
+          <ErrorMessagePopup
+            message={logoMessage}
+            onClose={() => setShowLogoError(false)}
+          />
+        )}
+        {showProfileError && (
+          <ErrorMessagePopup
+            message={profileMessage}
+            onClose={() => setShowProfileError(false)}
+          />
+        )}
       </div>
       {changeProfile && (
         <div
@@ -947,18 +989,38 @@ const VerticalNavbar = () => {
             </ul>
           </div>
         )}
-        <div className="mb-4">
-          <hr className="mb-5" />
-          <div className="flex w-full justify-center">
-            <img
-              src={session?.user?.imageURL}
-              alt="Product Image"
-              className="w-24 h-24"
-              onError={(e) => {
-                (e.target as HTMLImageElement).onerror = null; // Prevent infinite loop
-                (e.target as HTMLImageElement).src = emptyUser.src; // Corrected line
-              }}
-            />
+       {mounted && (
+          <div className="mb-4 relative">
+            <hr className="mb-5" />
+            <div className="flex w-full justify-between items-center">
+              <img
+                src={session?.user?.imageURL}
+                alt="Product Image"
+                className="w-24 h-24"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).onerror = null;
+                  (e.target as HTMLImageElement).src = emptyUser.src;
+                }}
+              />
+              <div>
+                <button onClick={() => setChangeProfile(true)} className="p-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
             <div>
               <p className="">
                 {session?.user?.firstName} {session?.user?.lastName}
@@ -966,8 +1028,70 @@ const VerticalNavbar = () => {
               <p>{session?.user?.role}</p>
             </div>
           </div>
-        </div>
+        )}
+        {showLogoError && (
+          <ErrorMessagePopup
+            message={logoMessage}
+            onClose={() => setShowLogoError(false)}
+          />
+        )}
+        {showProfileError && (
+          <ErrorMessagePopup
+            message={profileMessage}
+            onClose={() => setShowProfileError(false)}
+          />
+        )}
       </div>
+      {changeProfile && (
+        <div
+          className=" absolute bottom-0 left-0 py-10 bg-slate-100 dark:bg-black p-2"
+          style={{ width: "295px" }}
+        >
+          <div className=" flex justify-between items-center">
+            <h1 className=" text-xl font-bold">Profile Change</h1>
+            <button onClick={() => setChangeProfile(false)}>
+              <svg
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="image"
+              className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
+            ></label>
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png,.gif"
+              name="profile"
+              id="profile"
+              onChange={(e) => setProfile(e.target.files?.[0] || null)}
+              placeholder="Enter New profile"
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+            />
+          </div>
+          <div>
+            <button
+              onClick={handleProfileUpload}
+              className=" bg-green-500 w-full py-2 rounded-md text-xl font-bold text-slate-100 "
+            >
+              Change profile
+            </button>
+          </div>
+        </div>
+      )}
+      
 
       <button className="sm:hidden absolute top-1 right-2" onClick={toggleMenu}>
         {isSideMenuVisible ? (

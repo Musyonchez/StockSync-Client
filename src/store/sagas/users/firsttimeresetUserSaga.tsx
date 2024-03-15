@@ -27,13 +27,7 @@ export const firstTimeResetUserSaga = {
     try {
       const { id, password, company, type } = action.payload;
 
-      console.log(
-        "firsttimeresetuser user Sag starting:",
-        id,
-        password,
-        company,
-        type
-      );
+
 
       const response: ApolloQueryResult<UserMutationResponse> = yield call(
         apolloClient.mutate,
@@ -48,7 +42,6 @@ export const firstTimeResetUserSaga = {
         }
       );
 
-      console.log("GraphQL Full Response:", response);
 
       const user = response.data?.firstTimeResetUser;
 
@@ -60,7 +53,6 @@ export const firstTimeResetUserSaga = {
         );
       }
     } catch (error) {
-      console.error("Error in firstTimeResetUserSaga:", error);
       yield put(firstTimeResetUserFailure((error as Error).message));
     }
   },

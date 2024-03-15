@@ -26,7 +26,6 @@ export const fetchProductsSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
 
       const products = response.data?.products;
 

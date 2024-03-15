@@ -41,13 +41,7 @@ const RecoverPassword = () => {
   );
 
   const handleSendPasswordRecoveryEmail = async () => {
-    console.log("Sending  email...");
     try {
-      console.log(
-        "sendPasswordRecoveryEmailUserRequest passed",
-        email,
-        company
-      );
       if (email) {
         dispatch(sendPasswordRecoveryEmailUserRequest(email, company));
       } else {
@@ -59,7 +53,6 @@ const RecoverPassword = () => {
   };
 
   const handleResetPassword = async () => {
-    console.log("Resetting password...");
 
     if (password !== confirmPassword) {
       console.error("Passwords do not match");
@@ -70,13 +63,6 @@ const RecoverPassword = () => {
       if (password.trim() && confirmPassword.trim()) {
         if (email) {
           try {
-            console.log(
-              "updateNewPasswordRecoveryUserRequest passed",
-              email,
-              company,
-              temporaryAccessKey,
-              password
-            );
             dispatch(
               updateNewPasswordRecoveryUserRequest(
                 email,

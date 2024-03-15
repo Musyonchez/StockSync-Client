@@ -25,11 +25,7 @@ export const sendPasswordRecoveryEmailUserSaga = {
     try {
       const { email, company } = action.payload;
 
-      console.log(
-        "sendPasswordRecoveryEmailuser user Saga starting:",
-        email,
-        company
-      );
+    
 
       const response: ApolloQueryResult<UserMutationResponse> = yield call(
         apolloClient.mutate,
@@ -42,7 +38,6 @@ export const sendPasswordRecoveryEmailUserSaga = {
         }
       );
 
-      console.log("GraphQL Full Response:", response);
 
       const user = response.data?.sendPasswordRecoveryEmailUser;
 
@@ -56,7 +51,6 @@ export const sendPasswordRecoveryEmailUserSaga = {
         );
       }
     } catch (error) {
-      console.error("Error in sendPasswordRecoveryEmailUserSaga:", error);
       yield put(sendPasswordRecoveryEmailUserFailure((error as Error).message));
     }
   },

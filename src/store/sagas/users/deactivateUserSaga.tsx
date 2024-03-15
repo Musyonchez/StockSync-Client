@@ -22,7 +22,6 @@ export const deactivateUserSaga = {
       
       const { id, company, type } = action.payload;
       
-      console.log('Deactivae user Sag starting:', id);
 
       const response: ApolloQueryResult<UserMutationResponse> = yield call(
         apolloClient.mutate,
@@ -36,7 +35,6 @@ export const deactivateUserSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
 
       const user = response.data?.deactivateUser;
 
@@ -46,7 +44,6 @@ export const deactivateUserSaga = {
         yield put(deactivateUserFailure('Invalid response or user not deactivated'));
       }
     } catch (error) {
-      console.error('Error in deactivateUserSaga:', error);
       yield put(deactivateUserFailure((error as Error).message));
     }
   },

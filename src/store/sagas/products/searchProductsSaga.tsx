@@ -13,7 +13,6 @@ export const searchProductsSaga = {
   saga: function* (action: { type: string, payload: { company: string, type: string, filterArray: { field: string; value: string }[] } }) {
     try {
       const { company, type, filterArray } = action.payload;
-      console.log('company, type, filterArray:', company, type, filterArray);
 
       const response: ApolloQueryResult<ProductQueryResponse> = yield call(
         apolloClient.query,
@@ -23,7 +22,6 @@ export const searchProductsSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
 
       const products = response.data?.searchProducts;
 
@@ -32,10 +30,8 @@ export const searchProductsSaga = {
         for (const product of products) {
           yield put(searchProductsSuccess(product));
         }
-        console.log("the if route was taken in search saga")
       } else {
         yield put(searchProductsFailure('No products found'));
-        console.log("the else route was taken in search saga")
       }
     } catch (error) {
       yield put(searchProductsFailure((error as Error).message));

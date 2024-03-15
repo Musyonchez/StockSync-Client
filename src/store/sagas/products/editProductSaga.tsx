@@ -32,7 +32,6 @@ export const editProductSaga = {
     try {
       const { id, company, type, filterArray } = action.payload;
 
-      console.log("edit user payload", id, company, type, filterArray)
 
       const response: ApolloQueryResult<ProductMutationResponse> = yield call(
         apolloClient.mutate,
@@ -42,7 +41,6 @@ export const editProductSaga = {
         }
       );
 
-      console.log("GraphQL Full Response:", response);
 
       const product = response.data?.editProduct;
 
@@ -52,7 +50,6 @@ export const editProductSaga = {
         yield put(editProductFailure("Invalid response or product not edited"));
       }
     } catch (error) {
-      console.error("Error in editProductSaga:", error);
       yield put(editProductFailure((error as Error).message));
     }
   },

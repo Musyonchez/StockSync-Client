@@ -32,7 +32,6 @@ export const deleteProductSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
 
       const product = response.data?.deleteProduct;
 
@@ -42,7 +41,6 @@ export const deleteProductSaga = {
         yield put(deleteProductFailure('Invalid response or product not deleted'));
       }
     } catch (error) {
-      console.error('Error in deleteProductSaga:', error);
       yield put(deleteProductFailure((error as Error).message));
     }
   },

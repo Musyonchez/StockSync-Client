@@ -67,7 +67,6 @@ const selling = () => {
 
   const handleSell = () => {
     // Implement the logic for handling the sell action here
-    console.log("Sell action triggered");
 
     setIsSelleButtonActive(false);
 
@@ -124,9 +123,7 @@ const selling = () => {
   };
 
   useEffect(() => {
-    console.log("up", sellProductResponse);
     if (sellProductResponse) {
-      console.log("down", sellProductResponse);
 
       // Once product data is available, proceed with image upload
       handleSellButton();
@@ -145,7 +142,6 @@ const selling = () => {
 
   const handleMpesa = () => {
     // Implement the logic for handling the Mpesa action here
-    console.log("Mpesa action triggered");
   };
 
   useEffect(() => {
@@ -421,7 +417,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
   const session = await getSession({ req });
 
-  console.log("Server-side session:", session); // Add this line for debugging
 
   if (!session?.user) {
     return {

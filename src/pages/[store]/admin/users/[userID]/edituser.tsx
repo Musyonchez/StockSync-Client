@@ -78,9 +78,7 @@ const EditUser = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("firstname", data.firstName);
-    console.log("Initial Data:", initialData);
-    console.log("Current Data:", data);
+
 
     const filterArray: { field: string; value: string }[] = [];
 
@@ -108,7 +106,6 @@ const EditUser = () => {
       }
     });
 
-    console.log("Form submitted with changes:", filterArray);
 
     if (session?.user && (session.user as User)[store] === true && company) {
       if (userId === userID) {
@@ -150,7 +147,6 @@ const EditUser = () => {
         console.error("Company is undefined, skipping append operation");
       }
 
-      console.log("file from fileupload rest api", profile, newImageName, user);
 
       // Send a POST request to your REST API endpoint
       await fetch("http://localhost:5000/upload", {
@@ -431,7 +427,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req, params } = context;
   const session = await getSession({ req });
 
-  console.log("Server-side session:", session); // Add this line for debugging
 
   if (!session?.user) {
     return {
@@ -444,7 +439,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const { store, userID } = params as unknown as DynamicRouteParams;
 
-  if (session.user.id !== "ADMIN") {
+  if (session.user.role !== "ADMIN") {
     return {
       redirect: {
         destination: `/${store}/dashboard`,

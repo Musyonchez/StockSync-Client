@@ -26,7 +26,6 @@ export const fetchRestockingSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
 
       const restocking = response.data?.getRestocking;
 

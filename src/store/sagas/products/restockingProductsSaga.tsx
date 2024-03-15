@@ -39,7 +39,6 @@ export const restockingProductsSaga = {
         }
       );
 
-      console.log("GraphQL Full Response:", response);
 
       const restockingProductResponse = response.data?.restockingProduct;
 

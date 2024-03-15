@@ -26,7 +26,6 @@ export const fetchTransactionsSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
 
       const transactions = response.data?.getTransactions;
 

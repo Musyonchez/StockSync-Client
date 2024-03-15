@@ -29,7 +29,6 @@ const FirstTimeReset = () => {
   );
 
   const handleResetPassword = async () => {
-    console.log("Resetting password...");
 
     if (password !== confirmPassword) {
       console.error("Passwords do not match");
@@ -58,7 +57,6 @@ const FirstTimeReset = () => {
     }
   };
 
-  console.log("firsttimeresetuser reset page", firsttimeresetuser);
 
   return (
     <div className="flex flex-col h-screen">

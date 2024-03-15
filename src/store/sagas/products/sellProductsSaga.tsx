@@ -40,7 +40,6 @@ export const sellProductsSaga = {
         }
       );
 
-      console.log("GraphQL Full Response:", response);
 
       const sellProductResponse = response.data?.sellProduct;
 

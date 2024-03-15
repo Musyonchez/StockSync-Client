@@ -26,7 +26,6 @@ export const fetchProductSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
 
       const product = response.data?.product;
 
@@ -36,7 +35,6 @@ export const fetchProductSaga = {
         yield put(fetchProductFailure('Invalid response or product not found'));
       }
     } catch (error) {
-      console.error('Error in fetchProductSaga:', error);
       yield put(fetchProductFailure((error as Error).message));
     }
   },

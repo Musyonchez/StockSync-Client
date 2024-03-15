@@ -152,7 +152,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
   const session = await getSession({ req });
 
-  console.log("Server-side session:", session); // Add this line for debugging
 
   if (!session?.user) {
     return {

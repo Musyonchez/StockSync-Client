@@ -200,7 +200,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req, params } = context;
   const session = await getSession({ req });
 
-  console.log("Server-side session:", session); // Add this line for debugging
 
   if (!session?.user) {
     return {
@@ -211,10 +210,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
+  console.log(session.user)
+
   const { store } = params as unknown as DynamicRouteParams;
 
 
-  if (session.user.id !== "ADMIN") {
+  if (session.user.role !== "ADMIN") {
     return {
       redirect: {
         destination: `/${store}/dashboard`,

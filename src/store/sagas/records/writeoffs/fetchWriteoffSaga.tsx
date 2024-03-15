@@ -26,7 +26,6 @@ export const fetchWriteoffSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
 
       const writeoff = response.data?.getWriteoff;
 

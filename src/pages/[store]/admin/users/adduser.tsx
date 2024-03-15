@@ -35,6 +35,10 @@ const AddUser = () => {
   const [store4, setStore4] = useState(false);
   const [role, setRole] = useState<UserRole>("USER"); // Use UserRole type here
 
+  const [showImageError, setShowImageError] = useState(false);
+  const [imageMessage, setImageMessage] = useState("");
+  const [successImageMessage, setSuccessImageMessage] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
 
   const [profile, setProfile] = useState<File | null>(null);
@@ -103,24 +107,26 @@ const AddUser = () => {
         } else {
           // Handle the case where company is undefined
           // For example, you might want to skip appending it or provide a default value
-          console.error("Company is undefined, skipping append operation");
+          setImageMessage("Company is undefined, skipping append operation");
+          setShowImageError(true);
         }
 
-        console.log(
-          "file from fileupload rest api",
-          profile,
-          newImageName,
-          user
-        );
-
-        // Send a POST request to your REST API endpoint
-        await fetch("http://localhost:5000/upload", {
+        const response = await fetch("http://localhost:5000/upload", {
           method: "POST",
           body: formData,
         });
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          setImageMessage(errorMessage);
+          setShowImageError(true);
+        } else {
+          setSuccessImageMessage("Upload successful");
+          setShowImageError(true);
+        }
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
+      setImageMessage("Error uploading image: " + (error as Error).message);
+      setShowImageError(true);
     }
   };
 
@@ -314,18 +320,21 @@ const AddUser = () => {
         />
       )}
       {loading && <LoadingMessagePopup />}
+      {showImageError && (
+        <ErrorMessagePopup
+          message={imageMessage}
+          onClose={() => setShowImageError(false)}
+        />
+      )}
     </Layout>
   );
 };
 
 export default AddUser;
 
-
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req, params } = context;
   const session = await getSession({ req });
-
-  console.log("Server-side session:", session); 
 
   if (!session?.user) {
     return {
@@ -338,8 +347,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const { store } = params as unknown as DynamicRouteParams;
 
-
-  if (session.user.id !== "ADMIN") {
+  if (session.user.role !== "ADMIN") {
     return {
       redirect: {
         destination: `/${store}/dashboard`,

@@ -28,7 +28,6 @@ export const deleteUserSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
 
       const user = response.data?.deleteUser;
 
@@ -38,7 +37,6 @@ export const deleteUserSaga = {
         yield put(deleteUserFailure('Invalid response or user not deleted'));
       }
     } catch (error) {
-      console.error('Error in deleteUserSaga:', error);
       yield put(deleteUserFailure((error as Error).message));
     }
   },

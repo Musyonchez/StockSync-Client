@@ -29,7 +29,6 @@ export const addProductSaga = {
   }) {
     try {
       const { name, description, category, company, type } = action.payload;
-      console.log("Variables in addproduct saga:", name, description, category, company, type);
 
       const response: ApolloQueryResult<ProductMutationResponse> = yield call(
         apolloClient.mutate,
@@ -45,7 +44,6 @@ export const addProductSaga = {
         }
       );
 
-      console.log("GraphQL Full Response:", response);
 
 
       if (response.data && response.data.addProduct) {
@@ -55,7 +53,6 @@ export const addProductSaga = {
         yield put(addProductFailure("Invalid response or product not added"));
       }
     } catch (error) {
-      console.error("Error in addProductSaga:", error);
       yield put(addProductFailure((error as Error).message));
     }
   },

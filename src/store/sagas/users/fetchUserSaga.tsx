@@ -32,7 +32,6 @@ export const fetchUserSaga = {
         }
       );
 
-      console.log("GraphQL Full Response:", response);
 
       const user = response.data?.user;
 
@@ -42,7 +41,6 @@ export const fetchUserSaga = {
         yield put(fetchUserFailure("Invalid response or product not found"));
       }
     } catch (error) {
-      console.error("Error in fetchUserSaga:", error);
       yield put(fetchUserFailure((error as Error).message));
     }
   },

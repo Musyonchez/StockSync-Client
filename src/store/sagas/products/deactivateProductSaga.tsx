@@ -32,7 +32,6 @@ export const deactivateProductSaga = {
         }
       );
 
-      console.log('GraphQL Full Response:', response);
 
       const product = response.data?.deactivateProduct;
 
@@ -42,7 +41,6 @@ export const deactivateProductSaga = {
         yield put(deactivateProductFailure('Invalid response or product not deactivated'));
       }
     } catch (error) {
-      console.error('Error in deactivateProductSaga:', error);
       yield put(deactivateProductFailure((error as Error).message));
     }
   },

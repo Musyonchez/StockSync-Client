@@ -39,7 +39,6 @@ export default NextAuth({
       },
       async authorize(credentials: AuthCredentials | undefined, req: any) {
         if (!credentials) {
-          console.error("Credentials are undefined");
           return null;
         }
 
@@ -85,7 +84,6 @@ export default NextAuth({
             return null;
           }
         } catch (error) {
-          console.error("Authentication error:", error);
           return null;
         }
       },
