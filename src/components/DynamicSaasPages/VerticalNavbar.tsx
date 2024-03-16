@@ -65,7 +65,7 @@ const VerticalNavbar = () => {
             setShowLogoError(true);
           }
 
-          const response = await fetch(process.env.SERVER_PUBLIC_URL_UPLOAD || "http://localhost:5000/upload", {
+          const response = await fetch("https://stocksync-server.onrender.com/upload", {
             method: "POST",
             body: formData,
           });
@@ -106,7 +106,7 @@ const VerticalNavbar = () => {
           setShowProfileError(true);
         }
 
-        const response = await fetch(process.env.SERVER_PUBLIC_URL_UPLOAD || "http://localhost:5000/upload", {
+        const response = await fetch("https://stocksync-server.onrender.com/upload", {
           method: "POST",
           body: formData,
         });

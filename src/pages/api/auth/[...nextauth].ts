@@ -6,7 +6,8 @@ import { JWT } from "next-auth/jwt";
 
 // Initialize Apollo Client
 const client = new ApolloClient({
-  uri: process.env.SERVER_PUBLIC_URL || "http://localhost:5000/graphql",
+  // uri: process.env.SERVER_PUBLIC_URL || "http://localhost:5000/graphql",
+  uri: 'https://stocksync-server.onrender.com/graphql',
   cache: new InMemoryCache(),
 });
 
