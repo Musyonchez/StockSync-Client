@@ -20,13 +20,13 @@ const LoginPage: React.FC = () => {
 
   const isClient = typeof window !== "undefined";
 
-  // useEffect(() => {
-  //   if (isClient) {
-  //     if (session && session.user) {
-  //       window.location.href = "/";
-  //     }
-  //   }
-  // }, [session, isClient, router]);
+  useEffect(() => {
+    if (isClient) {
+      if (session && session.user) {
+        window.location.href = "/";
+      }
+    }
+  }, [session, isClient, router]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,6 +51,7 @@ const LoginPage: React.FC = () => {
       // })
       .catch((error) => {
         // Handle the error and stay on the login page
+        // console.log("login error", (error as Error).message)
         setLoginMessage("Login failed:" + (error as Error).message);
         setShowLoginError(true);
         // Optionally, display an error message to the user
