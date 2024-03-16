@@ -11,7 +11,7 @@ const SuccessMessagePopup: React.FC<SuccessMessagePopupProps> = ({
   onClose,
 }) => {
   return (
-    <div className="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-md shadow-md">
+    <div className="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-md shadow-md flex items-center">
       <p className="mr-2">{message}</p>
       <button onClick={onClose} className="text-white">
         <svg
