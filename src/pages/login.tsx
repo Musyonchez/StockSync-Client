@@ -20,13 +20,13 @@ const LoginPage: React.FC = () => {
 
   const isClient = typeof window !== "undefined";
 
-  useEffect(() => {
-    if (isClient) {
-      if (session && session.user) {
-        window.location.href = "/";
-      }
-    }
-  }, [session, isClient, router]);
+  // useEffect(() => {
+  //   if (isClient) {
+  //     if (session && session.user) {
+  //       window.location.href = "/";
+  //     }
+  //   }
+  // }, [session, isClient, router]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,19 +36,19 @@ const LoginPage: React.FC = () => {
       password,
       company,
     })
-      .then(() => {
-        if (isClient) {
-          // Redirect to the previous page or home if no previous page is stored
-          const previousPage = sessionStorage.getItem("previousPage");
-          if (previousPage) {
-            window.location.href = previousPage;
-          } else {
-            window.location.href = "/";
-          }
-        } else {
-          window.location.href = "/login";
-        }
-      })
+      // .then(() => {
+      //   if (isClient) {
+      //     // Redirect to the previous page or home if no previous page is stored
+      //     const previousPage = sessionStorage.getItem("previousPage");
+      //     if (previousPage) {
+      //       window.location.href = previousPage;
+      //     } else {
+      //       window.location.href = "/";
+      //     }
+      //   } else {
+      //     window.location.href = "/login";
+      //   }
+      // })
       .catch((error) => {
         // Handle the error and stay on the login page
         setLoginMessage("Login failed:" + (error as Error).message);
