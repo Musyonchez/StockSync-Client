@@ -18,7 +18,7 @@ import { User } from "@/types/user";
 import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
 import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
 
-const restocking = () => {
+const Restocking = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const company = session?.user?.company;
@@ -425,7 +425,7 @@ const restocking = () => {
   );
 };
 
-export default restocking;
+export default Restocking;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;

@@ -61,7 +61,70 @@ const PricingTabs = () => {
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:flex lg:flex-row justify-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 xl:flex xl:flex-row justify-center">
+        <div className=" bg-blue-300 dark:bg-blue-900 space-y-5 p-5 mx-5 mb-10">
+          <p className=" font-bold">Beta Plan</p>
+          <p> Essential Inventory Control</p>
+          <p>
+            Starting at <span className=" font-bold text-3xl">FREE</span>
+            {getPeriod()}
+          </p>
+          <hr />
+          <p>Features</p>
+          <p className=" flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                fillRule="evenodd"
+                d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span className=" ml-2"></span>Effortlessly manage stock levels
+          </p>
+          <p className=" flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                fillRule="evenodd"
+                d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span className=" ml-2"></span>Streamline order processes
+          </p>
+          <p className=" flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                fillRule="evenodd"
+                d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span className=" ml-2"></span>Basic reporting features
+          </p>
+          <div className=" flex flex-col items-center">
+            <button className=" bg-black w-full text-red-500 px-4 py-2">
+              Limited Time Offer
+            </button>
+            <Link href="/contact">
+              <button className=" px-4 w-full py-2">Contact Sale</button>
+            </Link>
+          </div>
+        </div>
         <div className=" bg-slate-100 dark:bg-gray-900 space-y-5 p-5 mx-5 mb-10">
           <p className=" font-bold">Basic Plan</p>
           <p> Essential Inventory Control</p>
@@ -119,7 +182,7 @@ const PricingTabs = () => {
           </p>
           <div className=" flex flex-col items-center">
             <button className=" bg-black w-full text-white px-4 py-2">
-              Upgrade
+              <Link href="/contact">Upgrade</Link>
             </button>
             <Link href="/contact">
               <button className=" px-4 w-full py-2">Contact Sale</button>
@@ -183,7 +246,7 @@ const PricingTabs = () => {
           </p>
           <div className=" flex flex-col items-center">
             <button className=" bg-black w-full text-white px-4 py-2">
-              Upgrade
+              <Link href="/contact">Upgrade</Link>
             </button>
             <Link href="/contact">
               <button className=" px-4 w-full py-2">Contact Sale</button>
@@ -247,7 +310,7 @@ const PricingTabs = () => {
           </p>
           <div className=" flex flex-col items-center">
             <button className=" bg-black w-full text-white px-4 py-2">
-              Upgrade
+              <Link href="/contact">Upgrade</Link>
             </button>
             <Link href="/contact">
               <button className=" px-4 w-full py-2">Contact Sale</button>

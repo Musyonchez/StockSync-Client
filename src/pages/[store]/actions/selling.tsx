@@ -18,7 +18,7 @@ import { User } from "@/types/user";
 import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
 import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
 
-const selling = () => {
+const Selling = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const company = session?.user?.company;
@@ -427,7 +427,7 @@ const selling = () => {
   );
 };
 
-export default selling;
+export default Selling;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;

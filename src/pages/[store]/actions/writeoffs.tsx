@@ -18,7 +18,7 @@ import { User } from "@/types/user";
 import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
 import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
 
-const writeoff = () => {
+const Writeoff = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const company = session?.user?.company;
@@ -431,7 +431,7 @@ const writeoff = () => {
   );
 };
 
-export default writeoff;
+export default Writeoff;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
