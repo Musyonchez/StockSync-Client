@@ -27,15 +27,18 @@ const Writeoffs = () => {
   const loading = useSelector((state: RootState) => state.writeoffs.loading);
   const error = useSelector((state: RootState) => state.writeoffs.error);
 
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
+
   const [showError, setShowError] = useState(true);
   useEffect(() => {
     if (session?.user && (session.user as User)[store] === true && company) {
       dispatch(fetchWriteoffsRequest(company as string, store as string));
     } else {
-      console.error(`User does not have access to ${store}.`);
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);
     }
   }, [dispatch, company, store]);
-
 
   return (
     <Layout>
@@ -85,6 +88,12 @@ const Writeoffs = () => {
         />
       )}
       {loading && <LoadingMessagePopup />}
+      {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
+        />
+      )}
     </Layout>
   );
 };
@@ -94,7 +103,6 @@ export default Writeoffs;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
   const session = await getSession({ req });
-
 
   if (!session?.user) {
     return {

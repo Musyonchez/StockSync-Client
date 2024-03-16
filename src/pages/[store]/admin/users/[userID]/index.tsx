@@ -40,6 +40,8 @@ const UserDetail = () => {
   const loading = useSelector((state: RootState) => state.user.loading);
   const error = useSelector((state: RootState) => state.user.error);
 
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
   const [showError, setShowError] = useState(true);
 
   useEffect(() => {
@@ -48,11 +50,10 @@ const UserDetail = () => {
         fetchUserRequest(userID as string, company as string, store as string)
       );
     } else {
-      console.error(`User does not have access to ${store}.`);
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);
     }
   }, [dispatch, company, store, userID]);
-
-  
 
   const handleDeactivate = async () => {
     setIsActiveButtonActive(false);
@@ -72,7 +73,8 @@ const UserDetail = () => {
           window.location.reload();
         });
       } else {
-        console.error(`User does not have access to ${store}.`);
+        setStoreMessage(`User does not have access to ${store}.`);
+        setShowStoreError(true);
       }
     } catch (error) {}
   };
@@ -99,7 +101,8 @@ const UserDetail = () => {
           throw new Error("User has a transaction hence can't delete");
         }
       } else {
-        console.error(`User does not have access to ${store}.`);
+        setStoreMessage(`User does not have access to ${store}.`);
+        setShowStoreError(true);
       }
     } catch (error) {
       console.error("Error deleting User:", error);
@@ -124,7 +127,8 @@ const UserDetail = () => {
           window.location.reload();
         });
       } else {
-        console.error(`User does not have access to ${store}.`);
+        setStoreMessage(`User does not have access to ${store}.`);
+        setShowStoreError(true);
       }
     } catch (error) {}
   };
@@ -240,22 +244,22 @@ const UserDetail = () => {
           </div>
 
           <div className="mb-4">
-                <label
-                  htmlFor="profile"
-                  className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
-                >
-                  Profile:
-                </label>
-                <img
-                  src={user?.imageURL}
-                  alt="User Profile"
-                  className="w-24 h-24"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).onerror = null; // Prevent infinite loop
-                    (e.target as HTMLImageElement).src = emptyUser.src; // Corrected line
-                  }}
-                />
-              </div>
+            <label
+              htmlFor="profile"
+              className="block text-sm font-semibold dark:text-white text-gray-600 mb-1"
+            >
+              Profile:
+            </label>
+            <img
+              src={user?.imageURL}
+              alt="User Profile"
+              className="w-24 h-24"
+              onError={(e) => {
+                (e.target as HTMLImageElement).onerror = null; // Prevent infinite loop
+                (e.target as HTMLImageElement).src = emptyUser.src; // Corrected line
+              }}
+            />
+          </div>
 
           <div className="mb-4">
             <label
@@ -296,6 +300,12 @@ const UserDetail = () => {
         />
       )}
       {loading && <LoadingMessagePopup />}
+      {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
+        />
+      )}
     </Layout>
   );
 };
@@ -305,7 +315,6 @@ export default UserDetail;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req, params } = context;
   const session = await getSession({ req });
-
 
   if (!session?.user) {
     return {

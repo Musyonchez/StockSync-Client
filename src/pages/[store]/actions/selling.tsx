@@ -44,9 +44,10 @@ const selling = () => {
   const sellLoading = useSelector(
     (state: RootState) => state.sellproducts.loading
   );
-  const sellError = useSelector(
-    (state: RootState) => state.sellproducts.error
-  );
+  const sellError = useSelector((state: RootState) => state.sellproducts.error);
+
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
 
   const [showProductsError, setShowProductError] = useState(true);
   const [showSellError, setShowSellError] = useState(true);
@@ -61,7 +62,8 @@ const selling = () => {
         searchProductsRequest(company as string, store as string, filterArray)
       );
     } else {
-      console.error(`User does not have access to ${store}.`);
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);
     }
   };
 
@@ -118,13 +120,13 @@ const selling = () => {
         )
       );
     } else {
-      console.error(`User does not have access to ${store}.`);
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);
     }
   };
 
   useEffect(() => {
     if (sellProductResponse) {
-
       // Once product data is available, proceed with image upload
       handleSellButton();
     }
@@ -406,7 +408,12 @@ const selling = () => {
           onClose={() => setShowSellError(false)}
         />
       )}
-      {sellLoading && <LoadingMessagePopup />}
+      {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
+        />
+      )}
     </Layout>
   );
 };
@@ -416,7 +423,6 @@ export default selling;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
   const session = await getSession({ req });
-
 
   if (!session?.user) {
     return {

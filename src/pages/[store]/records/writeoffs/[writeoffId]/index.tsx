@@ -25,6 +25,9 @@ const Writeoff = () => {
   const store = router.query?.store as string;
   const writeoffId = router.query?.writeoffId as string; // Ensure company is always a string
 
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
+
   const dispatch = useDispatch();
   const writeoff = useSelector((state: RootState) => state.writeoff.data);
   const loading = useSelector((state: RootState) => state.writeoff.loading);
@@ -42,11 +45,10 @@ const Writeoff = () => {
         )
       );
     } else {
-      console.error(`User does not have access to ${store}.`);
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);
     }
   }, [dispatch, company, store, writeoffId]);
-
-
 
   return (
     <Layout>
@@ -92,15 +94,16 @@ const Writeoff = () => {
             creatorId: writeoff?.creatorId ?? "",
             creatorName: writeoff?.creatorName ?? "",
             totalAmount: writeoff?.totalAmount ?? 0,
-            details: writeoff?.details.map((detail: WriteoffDetail) => ({
-              id: detail.id,
-              name: detail.name,
-              category: detail.category,
-              current: detail.current,
-              unitCost: detail.unitCost,
-              sellingPrice: detail.sellingPrice,
-              quantity: detail.quantity,
-            })) ?? [],
+            details:
+              writeoff?.details.map((detail: WriteoffDetail) => ({
+                id: detail.id,
+                name: detail.name,
+                category: detail.category,
+                current: detail.current,
+                unitCost: detail.unitCost,
+                sellingPrice: detail.sellingPrice,
+                quantity: detail.quantity,
+              })) ?? [],
           }}
         />
       </div>
@@ -111,6 +114,12 @@ const Writeoff = () => {
         />
       )}
       {loading && <LoadingMessagePopup />}
+      {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
+        />
+      )}
     </Layout>
   );
 };
@@ -120,7 +129,6 @@ export default Writeoff;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
   const session = await getSession({ req });
-
 
   if (!session?.user) {
     return {

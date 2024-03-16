@@ -39,6 +39,9 @@ const ProductDetail = () => {
   const loading = useSelector((state: RootState) => state.product.loading);
   const error = useSelector((state: RootState) => state.product.error);
 
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
+
   const [showError, setShowError] = useState(true);
 
   useEffect(() => {
@@ -51,12 +54,10 @@ const ProductDetail = () => {
         )
       );
     } else {
-      console.error(`User does not have access to ${store}.`);
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);
     }
   }, [dispatch, company, store, productId]);
-
-
- 
 
   const handleDeactivate = async () => {
     setIsActiveButtonActive(false);
@@ -71,8 +72,8 @@ const ProductDetail = () => {
           )
         );
       } else {
-        console.error(`User does not have access to ${store}.`);
-      }
+        setStoreMessage(`User does not have access to ${store}.`);
+        setShowStoreError(true);      }
       // Use router.push to navigate to the new URL structure
       router.push(`/${store}/admin/products/`).then(() => {
         window.location.reload();
@@ -104,8 +105,8 @@ const ProductDetail = () => {
           throw new Error("Product has a transaction hence can't delete");
         }
       } else {
-        console.error(`User does not have access to ${store}.`);
-      }
+        setStoreMessage(`User does not have access to ${store}.`);
+        setShowStoreError(true);      }
     } catch (error) {
       console.error("Error deleting product:", error);
       // Handle the error as needed
@@ -131,8 +132,8 @@ const ProductDetail = () => {
           window.location.reload();
         });
       } else {
-        console.error(`User does not have access to ${store}.`);
-      }
+        setStoreMessage(`User does not have access to ${store}.`);
+        setShowStoreError(true);      }
     } catch (error) {}
   };
 
@@ -360,6 +361,12 @@ const ProductDetail = () => {
         />
       )}
       {loading && <LoadingMessagePopup />}
+      {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
+        />
+      )}
     </Layout>
   );
 };
@@ -369,7 +376,6 @@ export default ProductDetail;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req, params } = context;
   const session = await getSession({ req });
-
 
   if (!session?.user) {
     return {
@@ -381,7 +387,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   const { store } = params as unknown as DynamicRouteParams;
-
 
   if (session.user.role !== "ADMIN") {
     return {

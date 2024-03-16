@@ -49,6 +49,9 @@ const writeoff = () => {
     (state: RootState) => state.writeoffproducts.error
   );
 
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
+
   const [showProductsError, setShowProductError] = useState(true);
   const [showSellError, setShowSellError] = useState(true);
 
@@ -62,7 +65,8 @@ const writeoff = () => {
         searchProductsRequest(company as string, store as string, filterArray)
       );
     } else {
-      console.error(`User does not have access to ${store}.`);
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);
     }
   };
 
@@ -120,13 +124,12 @@ const writeoff = () => {
         )
       );
     } else {
-      console.error(`User does not have access to ${store}.`);
-    }
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);    }
   };
 
   useEffect(() => {
     if (writeoffProductResponse) {
-
       // Once product data is available, proceed with image upload
       handleWriteoffButton();
     }
@@ -394,7 +397,7 @@ const writeoff = () => {
           </div>
         </div>
       </div>
-       {productsError && showProductsError && (
+      {productsError && showProductsError && (
         <ErrorMessagePopup
           message={productsError}
           onClose={() => setShowProductError(false)}
@@ -408,6 +411,12 @@ const writeoff = () => {
         />
       )}
       {sellLoading && <LoadingMessagePopup />}
+      {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
+        />
+      )}
     </Layout>
   );
 };
@@ -417,7 +426,6 @@ export default writeoff;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
   const session = await getSession({ req });
-
 
   if (!session?.user) {
     return {

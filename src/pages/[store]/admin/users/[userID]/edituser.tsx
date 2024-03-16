@@ -61,6 +61,9 @@ const EditUser = () => {
   const editLoading = useSelector((state: RootState) => state.edituser.loading);
   const editError = useSelector((state: RootState) => state.edituser.error);
 
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
+
   const [showUserError, setShowUserError] = useState(true);
   const [showEditUserError, setShowEditUserError] = useState(true);
 
@@ -70,8 +73,8 @@ const EditUser = () => {
         fetchUserRequest(userID as string, company as string, store as string)
       );
     } else {
-      console.error(`User does not have access to ${store}.`);
-    }
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);    }
   }, [dispatch, company, store, userID]);
 
 
@@ -130,8 +133,8 @@ const EditUser = () => {
         role: "USER",
       });
     } else {
-      console.error(`User does not have access to ${store}.`);
-    }
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);    }
 
     if (profile) {
       const formData = new FormData();
@@ -417,6 +420,12 @@ const EditUser = () => {
         />
       )}
       {editLoading && <LoadingMessagePopup />}
+      {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
+        />
+      )}
     </Layout>
   );
 };

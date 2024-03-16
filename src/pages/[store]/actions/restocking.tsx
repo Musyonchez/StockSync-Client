@@ -48,6 +48,9 @@ const restocking = () => {
     (state: RootState) => state.restockingproducts.error
   );
 
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
+
   const [showProductsError, setShowProductError] = useState(true);
   const [showRestockingError, setShowRestockingError] = useState(true);
 
@@ -62,7 +65,8 @@ const restocking = () => {
         searchProductsRequest(company as string, store as string, filterArray)
       );
     } else {
-      console.error(`User does not have access to ${store}.`);
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);
     }
   };
 
@@ -118,13 +122,13 @@ const restocking = () => {
         )
       );
     } else {
-      console.error(`User does not have access to ${store}.`);
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);
     }
   };
 
   useEffect(() => {
     if (restockingProductResponse) {
-
       // Once product data is available, proceed with image upload
       handleRestockingButton();
     }
@@ -397,6 +401,12 @@ const restocking = () => {
         />
       )}
       {restockingLoading && <LoadingMessagePopup />}
+      {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
+        />
+      )}
     </Layout>
   );
 };
@@ -406,7 +416,6 @@ export default restocking;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
   const session = await getSession({ req });
-
 
   if (!session?.user) {
     return {

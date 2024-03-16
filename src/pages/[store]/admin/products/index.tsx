@@ -31,17 +31,19 @@ function ProductList() {
   const loading = useSelector((state: RootState) => state.products.loading);
   const error = useSelector((state: RootState) => state.products.error);
 
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
+
   const [showError, setShowError] = useState(true);
 
   useEffect(() => {
     if (session?.user && (session.user as User)[store] === true && company) {
       dispatch(fetchProductsRequest(company as string, store as string));
     } else {
-      console.error(`User does not have access to ${store}.`);
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);
     }
   }, [dispatch, company, store]);
-
-  
 
   return (
     <Layout>
@@ -190,6 +192,12 @@ function ProductList() {
         />
       )}
       {loading && <LoadingMessagePopup />}
+      {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
+        />
+      )}
     </Layout>
   );
 }
@@ -200,7 +208,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req, params } = context;
   const session = await getSession({ req });
 
-
   if (!session?.user) {
     return {
       redirect: {
@@ -210,10 +217,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  console.log(session.user)
+  console.log(session.user);
 
   const { store } = params as unknown as DynamicRouteParams;
-
 
   if (session.user.role !== "ADMIN") {
     return {

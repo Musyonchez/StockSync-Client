@@ -1,46 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import { jsPDF } from "jspdf";
 import { RestockingDataState } from "@/types/next-auth";
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
 
 interface RestockingPreviewProps {
-    restockingData: RestockingDataState;
+  restockingData: RestockingDataState;
 }
 
-const TransactionPreview: React.FC<RestockingPreviewProps> = ({ restockingData }) => {
-  const { companyLogo, id, createdAt, creatorId, creatorName, details } = restockingData;
-    const downloadPdf = async () => {
-        const doc = new jsPDF({
-          orientation: "landscape", 
-        });
+const TransactionPreview: React.FC<RestockingPreviewProps> = ({
+  restockingData,
+}) => {
+  const { companyLogo, id, createdAt, creatorId, creatorName, details } =
+    restockingData;
+    const [showImageError, setShowImageError] = useState(false);
+    const [imageMessage, setImageMessage] = useState("");
+    
+  const downloadPdf = async () => {
+    const doc = new jsPDF({
+      orientation: "landscape",
+    });
 
     const pageSize = doc.internal.pageSize;
     const pageWidth = pageSize.width;
     const pageHeight = pageSize.height;
-    
+
     doc.setFontSize(15);
 
     doc.text("Restocking Report", 120, 15);
 
     doc.setFontSize(10);
 
-    const fetch = require('node-fetch');
+    const fetch = require("node-fetch");
 
     async function isImageValid(url: string) {
-     try {
+      try {
         const response = await fetch(url);
-        const contentType = response.headers.get('content-type');
-        return contentType && contentType.startsWith('image/');
-     } catch (error) {
-        console.error('Failed to fetch image:', error);
+        const contentType = response.headers.get("content-type");
+        return contentType && contentType.startsWith("image/");
+      } catch (error) {
+        setImageMessage("Failed to fetch image:" + (error as Error).message);
+        setShowImageError(true);
         return false;
-     }
+      }
     }
-    
+
     // Example usage
-    const fallbackUrl = 'https://i.ibb.co/GnmS8Wj/Logo-tower-black.png';
-    
+    const fallbackUrl = "https://i.ibb.co/GnmS8Wj/Logo-tower-black.png";
+
     const valid = await isImageValid(companyLogo);
-    
+
     const logoUrl = valid ? companyLogo : fallbackUrl;
 
     const logoxCoordinate = 15;
@@ -97,15 +105,14 @@ const TransactionPreview: React.FC<RestockingPreviewProps> = ({ restockingData }
       doc.text(detail.category, 105, yPosition, { maxWidth: 29 });
       doc.text(detail.supplier.toString(), 135, yPosition, { maxWidth: 29 });
       doc.text(detail.unitCost.toString(), 165, yPosition, { maxWidth: 29 });
-      doc.text(detail.sellingPrice.toString(), 195, yPosition, { maxWidth: 29 });
+      doc.text(detail.sellingPrice.toString(), 195, yPosition, {
+        maxWidth: 29,
+      });
       doc.text(detail.current.toString(), 225, yPosition, { maxWidth: 29 });
       doc.text(detail.quantity.toString(), 255, yPosition, { maxWidth: 29 });
 
       yPosition += 10;
     });
-
-
-
 
     doc.save("transaction.pdf");
   };
@@ -118,6 +125,12 @@ const TransactionPreview: React.FC<RestockingPreviewProps> = ({ restockingData }
       >
         Download PDF
       </button>
+      {showImageError && (
+        <ErrorMessagePopup
+          message={imageMessage}
+          onClose={() => setShowImageError(false)}
+        />
+      )}
     </div>
   );
 };

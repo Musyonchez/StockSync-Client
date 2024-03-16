@@ -22,6 +22,9 @@ const Transactions = () => {
   const company = session?.user?.company;
   const store = router.query?.store as string;
 
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
+
   const dispatch = useDispatch();
   const transactions = useSelector(
     (state: RootState) => state.transactions.data
@@ -35,11 +38,10 @@ const Transactions = () => {
     if (session?.user && (session.user as User)[store] === true && company) {
       dispatch(fetchTransactionsRequest(company as string, store as string));
     } else {
-      console.error(`User does not have access to ${store}.`);
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);
     }
   }, [dispatch, company, store]);
-
-
 
   return (
     <Layout>
@@ -89,6 +91,12 @@ const Transactions = () => {
         />
       )}
       {loading && <LoadingMessagePopup />}
+      {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
+        />
+      )}
     </Layout>
   );
 };
@@ -98,7 +106,6 @@ export default Transactions;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
   const session = await getSession({ req });
-
 
   if (!session?.user) {
     return {

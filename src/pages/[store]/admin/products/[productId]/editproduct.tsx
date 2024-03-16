@@ -65,6 +65,9 @@ const ProductDetail = () => {
   );
   const editError = useSelector((state: RootState) => state.editproduct.error);
 
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
+
   const [showProductError, setShowProductError] = useState(true);
   const [showEditProductError, setShowEditProductError] = useState(true);
 
@@ -80,8 +83,8 @@ const ProductDetail = () => {
         )
       );
     } else {
-      console.error(`User does not have access to ${store}.`);
-    }
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);    }
   }, [dispatch, company, store, productId]);
 
   useEffect(() => {
@@ -161,8 +164,8 @@ const ProductDetail = () => {
         supplier: "",
       });
     } else {
-      console.error(`User does not have access to ${store}.`);
-    }
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);    }
 
     if (image) {
       const formData = new FormData();
@@ -513,6 +516,12 @@ const ProductDetail = () => {
         />
       )}
       {editLoading && <LoadingMessagePopup />}
+      {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
+        />
+      )}
     </Layout>
   );
 };

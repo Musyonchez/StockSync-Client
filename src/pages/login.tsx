@@ -3,6 +3,8 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import HorizontalNavbar from "@/components/HorizontalNavbar";
 import Link from "next/link";
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+
 
 const LoginPage: React.FC = () => {
   const { data: session } = useSession();
@@ -11,6 +13,10 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [company, setCompany] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  
+  const [showLoginError, setShowLoginError] = useState(false);
+  const [loginMessage, setLoginMessage] = useState("");
 
   const isClient = typeof window !== "undefined";
 
@@ -45,7 +51,8 @@ const LoginPage: React.FC = () => {
       })
       .catch((error) => {
         // Handle the error and stay on the login page
-        console.error("Login failed:", error);
+        setLoginMessage("Login failed:" + (error as Error).message);
+        setShowLoginError(true);
         // Optionally, display an error message to the user
       });
   };
@@ -118,6 +125,12 @@ const LoginPage: React.FC = () => {
           </button>
         </form>
       </div>
+      {showLoginError && (
+        <ErrorMessagePopup
+          message={loginMessage}
+          onClose={() => setShowLoginError(false)}
+        />
+      )}
     </div>
   );
 };

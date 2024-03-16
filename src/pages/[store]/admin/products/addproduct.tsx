@@ -36,6 +36,9 @@ const AddProduct = () => {
   const loading = useSelector((state: RootState) => state.addproduct.loading);
   const error = useSelector((state: RootState) => state.addproduct.error);
 
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
+
   const [showImageError, setShowImageError] = useState(false);
   const [imageMessage, setImageMessage] = useState("");
   const [successImageMessage, setSuccessImageMessage] = useState("");
@@ -60,11 +63,12 @@ const AddProduct = () => {
         setDescription("");
         setCategory("");
       } else {
-        console.error(`User does not have access to ${store}.`);
+        setStoreMessage(`User does not have access to ${store}.`);
+        setShowStoreError(true);
       }
       // Handle success if needed
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error("Error adding a product:", error);
     }
   };
 
@@ -90,10 +94,8 @@ const AddProduct = () => {
           // Handle the case where company is undefined
           // For example, you might want to skip appending it or provide a default value
           setImageMessage("Company is undefined, skipping append operation");
-          setShowImageError(true)
+          setShowImageError(true);
         }
-
-       
 
         const response = await fetch("http://localhost:5000/upload", {
           method: "POST",
@@ -102,15 +104,15 @@ const AddProduct = () => {
         if (!response.ok) {
           const errorMessage = await response.text();
           setImageMessage(errorMessage);
-          setShowImageError(true)
+          setShowImageError(true);
         } else {
           setSuccessImageMessage("Upload successful");
-          setShowImageError(true)
+          setShowImageError(true);
         }
       }
     } catch (error) {
       setImageMessage("Error uploading image: " + (error as Error).message);
-      setShowImageError(true)
+      setShowImageError(true);
     }
   };
 
@@ -216,18 +218,21 @@ const AddProduct = () => {
           onClose={() => setShowImageError(false)}
         />
       )}
+        {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
+        />
+      )}
     </Layout>
   );
 };
 
 export default AddProduct;
 
-
-
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req, params } = context;
   const session = await getSession({ req });
-
 
   if (!session?.user) {
     return {
@@ -239,7 +244,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   const { store } = params as unknown as DynamicRouteParams;
-
 
   if (session.user.role !== "ADMIN") {
     return {

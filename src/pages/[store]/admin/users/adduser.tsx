@@ -48,6 +48,9 @@ const AddUser = () => {
   const loading = useSelector((state: RootState) => state.adduser.loading);
   const error = useSelector((state: RootState) => state.adduser.error);
 
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
+
   const [showError, setShowError] = useState(true);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -81,7 +84,8 @@ const AddUser = () => {
         setStore4(false);
         setRole("USER");
       } else {
-        console.error(`User does not have access to ${store}.`);
+        setStoreMessage(`User does not have access to ${store}.`);
+        setShowStoreError(true);
       }
     } catch (error) {}
   };
@@ -324,6 +328,12 @@ const AddUser = () => {
         <ErrorMessagePopup
           message={imageMessage}
           onClose={() => setShowImageError(false)}
+        />
+      )}
+        {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
         />
       )}
     </Layout>

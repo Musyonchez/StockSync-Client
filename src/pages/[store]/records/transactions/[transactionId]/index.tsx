@@ -30,6 +30,8 @@ const Transaction = () => {
   const loading = useSelector((state: RootState) => state.transaction.loading);
   const error = useSelector((state: RootState) => state.transaction.error);
 
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
   const [showError, setShowError] = useState(true);
 
   useEffect(() => {
@@ -42,10 +44,10 @@ const Transaction = () => {
         )
       );
     } else {
-      console.error(`User does not have access to ${store}.`);
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);
     }
   }, [dispatch, company, store, transactionId]);
-
 
   return (
     <Layout>
@@ -54,7 +56,9 @@ const Transaction = () => {
         <ul>
           <li key={transaction?.id} className="mb-8">
             <div className="bg-white dark:bg-gray-900 p-6 shadow-md rounded-md">
-              <p className="text-lg font-semibold mb-2">ID: {transaction?.id}</p>
+              <p className="text-lg font-semibold mb-2">
+                ID: {transaction?.id}
+              </p>
               <p>Created At: {transaction?.createdAt}</p>
               <p>Creator ID: {transaction?.creatorId}</p>
               <p>Creator Name: {transaction?.creatorName}</p>
@@ -91,17 +95,18 @@ const Transaction = () => {
             creatorId: transaction?.creatorId ?? "",
             creatorName: transaction?.creatorName ?? "",
             totalAmount: transaction?.totalAmount ?? 0,
-            details: transaction?.details.map((detail: TransactionDetail) => ({
-              id: detail.id,
-              name: detail.name,
-              category: detail.category,
-              current: detail.current,
-              unitCost: detail.unitCost,
-              sellingPrice: detail.sellingPrice,
-              taxInformation: detail.taxInformation,
-              supplier: detail.supplier,
-              quantity: detail.quantity,
-            })) ?? [],
+            details:
+              transaction?.details.map((detail: TransactionDetail) => ({
+                id: detail.id,
+                name: detail.name,
+                category: detail.category,
+                current: detail.current,
+                unitCost: detail.unitCost,
+                sellingPrice: detail.sellingPrice,
+                taxInformation: detail.taxInformation,
+                supplier: detail.supplier,
+                quantity: detail.quantity,
+              })) ?? [],
           }}
         />
       </div>
@@ -112,6 +117,12 @@ const Transaction = () => {
         />
       )}
       {loading && <LoadingMessagePopup />}
+      {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
+        />
+      )}
     </Layout>
   );
 };
@@ -121,7 +132,6 @@ export default Transaction;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
   const session = await getSession({ req });
-
 
   if (!session?.user) {
     return {

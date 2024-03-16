@@ -30,6 +30,9 @@ const Restocking = () => {
   const loading = useSelector((state: RootState) => state.restocking.loading);
   const error = useSelector((state: RootState) => state.restocking.error);
 
+  const [showStoreError, setShowStoreError] = useState(false);
+  const [storeMessage, setStoreMessage] = useState("");
+
   const [showError, setShowError] = useState(true);
 
   useEffect(() => {
@@ -42,10 +45,10 @@ const Restocking = () => {
         )
       );
     } else {
-      console.error(`User does not have access to ${store}.`);
+      setStoreMessage(`User does not have access to ${store}.`);
+      setShowStoreError(true);
     }
   }, [dispatch, company, store, restockingId]);
-
 
   return (
     <Layout>
@@ -88,16 +91,17 @@ const Restocking = () => {
             createdAt: restocking?.createdAt ?? "",
             creatorId: restocking?.creatorId ?? "",
             creatorName: restocking?.creatorName ?? "",
-            details: restocking?.details.map((detail: RestockingDetail) => ({
-              id: detail.id,
-              name: detail.name,
-              category: detail.category,
-              current: detail.current,
-              unitCost: detail.unitCost,
-              sellingPrice: detail.sellingPrice,
-              supplier: detail.supplier,
-              quantity: detail.quantity,
-            })) ?? [],
+            details:
+              restocking?.details.map((detail: RestockingDetail) => ({
+                id: detail.id,
+                name: detail.name,
+                category: detail.category,
+                current: detail.current,
+                unitCost: detail.unitCost,
+                sellingPrice: detail.sellingPrice,
+                supplier: detail.supplier,
+                quantity: detail.quantity,
+              })) ?? [],
           }}
         />
       </div>
@@ -108,6 +112,12 @@ const Restocking = () => {
         />
       )}
       {loading && <LoadingMessagePopup />}
+      {showStoreError && (
+        <ErrorMessagePopup
+          message={storeMessage}
+          onClose={() => setShowStoreError(false)}
+        />
+      )}
     </Layout>
   );
 };
@@ -117,7 +127,6 @@ export default Restocking;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req } = context;
   const session = await getSession({ req });
-
 
   if (!session?.user) {
     return {

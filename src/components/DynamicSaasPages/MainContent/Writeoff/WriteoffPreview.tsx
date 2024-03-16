@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { jsPDF } from "jspdf";
 import { WriteoffDataState } from "@/types/next-auth";
+
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
 
 interface WriteoffPreviewProps {
   writeoffData: WriteoffDataState;
@@ -9,7 +11,19 @@ interface WriteoffPreviewProps {
 const TransactionPreview: React.FC<WriteoffPreviewProps> = ({
   writeoffData,
 }) => {
-  const { companyLogo, id, createdAt, creatorId, creatorName, totalAmount, details } = writeoffData;
+  const {
+    companyLogo,
+    id,
+    createdAt,
+    creatorId,
+    creatorName,
+    totalAmount,
+    details,
+  } = writeoffData;
+
+  const [showImageError, setShowImageError] = useState(false);
+  const [imageMessage, setImageMessage] = useState("");
+
   const downloadPdf = async () => {
     const doc = new jsPDF({
       orientation: "landscape",
@@ -25,22 +39,23 @@ const TransactionPreview: React.FC<WriteoffPreviewProps> = ({
 
     doc.setFontSize(10);
 
-    const fetch = require('node-fetch');
+    const fetch = require("node-fetch");
 
     async function isImageValid(url: string) {
-     try {
+      try {
         const response = await fetch(url);
-        const contentType = response.headers.get('content-type');
-        return contentType && contentType.startsWith('image/');
-     } catch (error) {
-        console.error('Failed to fetch image:', error);
+        const contentType = response.headers.get("content-type");
+        return contentType && contentType.startsWith("image/");
+      } catch (error) {
+        setImageMessage("Failed to fetch image:" + (error as Error).message);
+        setShowImageError(true);
         return false;
-     }
+      }
     }
-    
+
     // Example usage
-    const fallbackUrl = 'https://i.ibb.co/GnmS8Wj/Logo-tower-black.png';
-    
+    const fallbackUrl = "https://i.ibb.co/GnmS8Wj/Logo-tower-black.png";
+
     const valid = await isImageValid(companyLogo);
 
     const logoUrl = valid ? companyLogo : fallbackUrl;
@@ -117,6 +132,12 @@ const TransactionPreview: React.FC<WriteoffPreviewProps> = ({
       >
         Download PDF
       </button>
+      {showImageError && (
+        <ErrorMessagePopup
+          message={imageMessage}
+          onClose={() => setShowImageError(false)}
+        />
+      )}
     </div>
   );
 };

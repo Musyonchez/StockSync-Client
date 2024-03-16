@@ -1,47 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import { jsPDF } from "jspdf";
 import { TransactionDataState } from "@/types/next-auth";
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+
 
 interface TransactionPreviewProps {
   transactionData: TransactionDataState;
 }
 
-const TransactionPreview: React.FC<TransactionPreviewProps> = ({ transactionData }) => {
-    const { companyLogo, id, createdAt, creatorId, creatorName, totalAmount, details } = transactionData;
-    const downloadPdf = async () => {
-        const doc = new jsPDF({
-          orientation: "landscape", 
-        });
+const TransactionPreview: React.FC<TransactionPreviewProps> = ({
+  transactionData,
+}) => {
+  const {
+    companyLogo,
+    id,
+    createdAt,
+    creatorId,
+    creatorName,
+    totalAmount,
+    details,
+  } = transactionData;
+  
+  const [showImageError, setShowImageError] = useState(false);
+  const [imageMessage, setImageMessage] = useState("");
+
+  const downloadPdf = async () => {
+    const doc = new jsPDF({
+      orientation: "landscape",
+    });
 
     const pageSize = doc.internal.pageSize;
     const pageWidth = pageSize.width;
     const pageHeight = pageSize.height;
-    
+
     doc.setFontSize(15);
 
     doc.text("Transactions Report", 120, 15);
 
     doc.setFontSize(10);
 
-    const fetch = require('node-fetch');
+    const fetch = require("node-fetch");
 
     async function isImageValid(url: string) {
-     try {
+      try {
         const response = await fetch(url);
-        const contentType = response.headers.get('content-type');
-        return contentType && contentType.startsWith('image/');
-     } catch (error) {
-        console.error('Failed to fetch image:', error);
+        const contentType = response.headers.get("content-type");
+        return contentType && contentType.startsWith("image/");
+      } catch (error) {
+        setImageMessage("Failed to fetch image:" + (error as Error).message);
+        setShowImageError(true);
         return false;
-     }
+      }
     }
-    
+
     // Example usage
-    const fallbackUrl = 'https://i.ibb.co/GnmS8Wj/Logo-tower-black.png';
-    
+    const fallbackUrl = "https://i.ibb.co/GnmS8Wj/Logo-tower-black.png";
+
     const valid = await isImageValid(companyLogo);
     const logoUrl = valid ? companyLogo : fallbackUrl;
-    
+
     const logoxCoordinate = 15;
     const logoyCoordinate = 15;
 
@@ -62,7 +79,6 @@ const TransactionPreview: React.FC<TransactionPreviewProps> = ({ transactionData
     doc.text(`Creator Id: ${creatorId}`, 150, 35, { maxWidth: 90 });
     doc.text(`Creator Name: ${creatorName}`, 150, 40, { maxWidth: 90 });
     doc.text(`Total Amount: ${totalAmount}`, 150, 45, { maxWidth: 90 });
-
 
     doc.text("Id", 15, 55);
     doc.text("Name", 65, 55);
@@ -100,16 +116,17 @@ const TransactionPreview: React.FC<TransactionPreviewProps> = ({ transactionData
       doc.text(detail.category, 105, yPosition, { maxWidth: 24 });
       doc.text(detail.supplier.toString(), 130, yPosition, { maxWidth: 29 });
       doc.text(detail.unitCost.toString(), 160, yPosition, { maxWidth: 24 });
-      doc.text(detail.sellingPrice.toString(), 185, yPosition, { maxWidth: 24 });
-      doc.text(detail.taxInformation.toString(), 210, yPosition, { maxWidth: 24 });
+      doc.text(detail.sellingPrice.toString(), 185, yPosition, {
+        maxWidth: 24,
+      });
+      doc.text(detail.taxInformation.toString(), 210, yPosition, {
+        maxWidth: 24,
+      });
       doc.text(detail.current.toString(), 235, yPosition, { maxWidth: 24 });
       doc.text(detail.quantity.toString(), 260, yPosition, { maxWidth: 34 });
 
       yPosition += 10;
     });
-
-
-
 
     doc.save("transaction.pdf");
   };
@@ -122,6 +139,12 @@ const TransactionPreview: React.FC<TransactionPreviewProps> = ({ transactionData
       >
         Download PDF
       </button>
+      {showImageError && (
+        <ErrorMessagePopup
+          message={imageMessage}
+          onClose={() => setShowImageError(false)}
+        />
+      )}
     </div>
   );
 };
