@@ -20,13 +20,13 @@ const LoginPage: React.FC = () => {
 
   const isClient = typeof window !== "undefined";
 
-  useEffect(() => {
-    if (isClient) {
-      if (session && session.user) {
-        window.location.href = "/";
-      }
-    }
-  }, [session, isClient, router]);
+  // useEffect(() => {
+  //   if (isClient) {
+  //     if (session && session.user) {
+  //       window.location.href = "/";
+  //     }
+  //   }
+  // }, [session, isClient, router]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
