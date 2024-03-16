@@ -6,7 +6,7 @@ import { JWT } from "next-auth/jwt";
 
 // Initialize Apollo Client
 const client = new ApolloClient({
-  uri: process.env.GRAPHQL_URI || "http://localhost:5000/graphql/",
+  uri: process.env.SERVER_PUBLIC_URL || "http://localhost:5000/graphql",
   cache: new InMemoryCache(),
 });
 

@@ -10,7 +10,7 @@ import store from '../store'; // Adjust the path accordingly
 import type { AppProps } from "next/app";
 
 const apolloClient = new ApolloClient({
-  uri: 'http://localhost:5000/graphql/',
+  uri: process.env.SERVER_PUBLIC_URL || "http://localhost:5000/graphql",
   // uri: 'https://stocksync-server.onrender.com',
   cache: new InMemoryCache(),
 });

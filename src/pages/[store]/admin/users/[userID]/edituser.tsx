@@ -159,7 +159,7 @@ const EditUser = () => {
           setCompanyMessage("Company is undefined, skipping append operation");
           setShowCompanyError(true);
         }
-        const response = await fetch("http://localhost:5000/upload", {
+        const response = await fetch(process.env.SERVER_PUBLIC_URL_UPLOAD || "http://localhost:5000/upload", {
           method: "POST",
           body: formData,
         });
