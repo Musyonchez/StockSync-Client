@@ -171,7 +171,7 @@ const Restocking = () => {
         (product) => product.id === productId
       );
 
-      if (selectedProduct && selectedProduct.current !== 0) {
+      if (selectedProduct) {
         // Add the 'quantity' property with a default value of 1
         const productWithQuantity = { ...selectedProduct, quantity: 1 };
 
@@ -181,7 +181,7 @@ const Restocking = () => {
         ]);
       } else {
         setSelectedProductMessage(
-          `Product with id ${productId} not found Or has 0 quantity.`
+          `Product with id ${productId} is not selected.` //this is because removing the if statement will cause an error i dont know how to fix
         );
         setShowSelectedProductError(true);
       }
@@ -415,7 +415,7 @@ const Restocking = () => {
           onClose={() => setShowStoreError(false)}
         />
       )}
-        {showSelectedProductError && (
+      {showSelectedProductError && (
         <ErrorMessagePopup
           message={selectedProductMessage}
           onClose={() => setShowSelectedProductError(false)}
