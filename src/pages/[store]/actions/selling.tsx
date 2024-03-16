@@ -49,7 +49,8 @@ const Selling = () => {
   const [showStoreError, setShowStoreError] = useState(false);
   const [storeMessage, setStoreMessage] = useState("");
 
-  const [showSelectedProductError, setShowSelectedProductError] = useState(false);
+  const [showSelectedProductError, setShowSelectedProductError] =
+    useState(false);
   const [selectedProductMessage, setSelectedProductMessage] = useState("");
 
   const [showProductsError, setShowProductError] = useState(true);
@@ -93,8 +94,10 @@ const Selling = () => {
     selectedProducts.forEach((selectedProduct) => {
       // Check if the selected product has a valid quantity
       if (selectedProduct.quantity <= 0) {
-        setSelectedProductMessage(`Invalid quantity for product ${selectedProduct.name}.`);
-      setShowSelectedProductError(true);
+        setSelectedProductMessage(
+          `Invalid quantity for product ${selectedProduct.name}.`
+        );
+        setShowSelectedProductError(true);
         return;
       }
 
@@ -179,7 +182,9 @@ const Selling = () => {
           productWithQuantity,
         ]);
       } else {
-        setSelectedProductMessage(`Product with id ${productId} not found Or has 0 quantity.`);
+        setSelectedProductMessage(
+          `Product with id ${productId} not found Or has 0 quantity.`
+        );
         setShowSelectedProductError(true);
       }
     }
@@ -411,13 +416,14 @@ const Selling = () => {
           onClose={() => setShowSellError(false)}
         />
       )}
+      {sellLoading && <LoadingMessagePopup />}
       {showStoreError && (
         <ErrorMessagePopup
           message={storeMessage}
           onClose={() => setShowStoreError(false)}
         />
       )}
-        {showSelectedProductError && (
+      {showSelectedProductError && (
         <ErrorMessagePopup
           message={selectedProductMessage}
           onClose={() => setShowSelectedProductError(false)}

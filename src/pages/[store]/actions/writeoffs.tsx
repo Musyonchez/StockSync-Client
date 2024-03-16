@@ -42,10 +42,10 @@ const Writeoff = () => {
   const writeoffProductResponse = useSelector(
     (state: RootState) => state.writeoffproducts.data
   );
-  const sellLoading = useSelector(
+  const writeoffLoading = useSelector(
     (state: RootState) => state.writeoffproducts.loading
   );
-  const sellError = useSelector(
+  const writeoffError = useSelector(
     (state: RootState) => state.writeoffproducts.error
   );
 
@@ -408,13 +408,13 @@ const Writeoff = () => {
         />
       )}
       {productsLoading && <LoadingMessagePopup />}
-      {sellError && showSellError && (
+      {writeoffError && showSellError && (
         <ErrorMessagePopup
-          message={sellError}
+          message={writeoffError}
           onClose={() => setShowSellError(false)}
         />
       )}
-      {sellLoading && <LoadingMessagePopup />}
+      {writeoffLoading && <LoadingMessagePopup />}
       {showStoreError && (
         <ErrorMessagePopup
           message={storeMessage}
