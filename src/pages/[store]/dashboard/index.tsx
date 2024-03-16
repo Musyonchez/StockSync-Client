@@ -164,14 +164,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   console.log("user session", session)
 
-  if (!session?.user) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
+  // if (!session?.user) {
+  //   return {
+  //     redirect: {
+  //       destination: "/login",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
   return {
     props: { session },
   };
