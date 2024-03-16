@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { sendPasswordRecoveryEmailUserRequest } from "@/actions/users/sendPasswordRecoveryEmailUser";
 import { updateNewPasswordRecoveryUserRequest } from "@/actions/users/updateNewPasswordRecoveryUser";
 import { RootState } from "@/store/reducers/reducers";
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
 
 const RecoverPassword = () => {
   const [password, setPassword] = useState("");
@@ -18,6 +20,21 @@ const RecoverPassword = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [resetMessage, setResetMessage] = useState("");
+  const [showResetError, setShowResetError] = useState(false);
+
+  const [sendRecoveryMessage, setSendRecoveryMessage] = useState("");
+  const [showSendRecoveryError, setShowSendRecoveryError] = useState(false);
+
+  const [
+    showSendpasswordrecoveryemailuserError,
+    setShowSendpasswordrecoveryemailuserError,
+  ] = useState(true);
+  const [
+    showUpdatenewpasswordrecoveryuserError,
+    setShowUpdatenewpasswordrecoveryuserError,
+  ] = useState(true);
 
   const dispatch = useDispatch();
   const sendpasswordrecoveryemailuser = useSelector(
@@ -45,17 +62,19 @@ const RecoverPassword = () => {
       if (email) {
         dispatch(sendPasswordRecoveryEmailUserRequest(email, company));
       } else {
-        console.error(`session ID or Session Email is empty.`);
+        setSendRecoveryMessage(`session ID or Session Email is empty.`);
+        setShowSendRecoveryError(true);
       }
     } catch (error) {
-      console.error("Error sending Email:", error);
+      setSendRecoveryMessage("Error sending Email:" + (error as Error).message);
+      setShowSendRecoveryError(true);
     }
   };
 
   const handleResetPassword = async () => {
-
     if (password !== confirmPassword) {
-      console.error("Passwords do not match");
+      setResetMessage("Passwords do not match");
+      setShowResetError(true);
       return;
     }
     try {
@@ -72,18 +91,23 @@ const RecoverPassword = () => {
               )
             );
           } catch (error) {
-            console.error("Error resting password:", error);
+            setResetMessage(
+              "Error resting password:" + (error as Error).message
+            );
+            setShowResetError(true);
           }
           setTemporaryAccessKey("");
           setPassword("");
           setConfirmPassword("");
         }
       } else {
-        console.error(`Password or confirm password is empty.`);
+        setResetMessage(`Password or confirm password is empty.`);
+        setShowResetError(true);
       }
       // await signOut({ callbackUrl: "/" }); // Redirects to the homepage after signing out
     } catch (error) {
-      console.error("Error resetting password:", error);
+      setResetMessage("Error resetting password:" + (error as Error).message);
+      setShowResetError(true);
     }
   };
 
@@ -105,7 +129,6 @@ const RecoverPassword = () => {
   return (
     <div className="flex flex-col h-screen">
       <HorizontalNavbar />
-
       <div className="flex items-center justify-center h-full">
         <div className="bg-white p-8 rounded shadow-md w-96">
           <h2 className="text-2xl font-semibold text-center mb-4">
@@ -256,6 +279,32 @@ const RecoverPassword = () => {
           </div>
         </div>
       </div>
+      {erroremail && showSendpasswordrecoveryemailuserError && (
+        <ErrorMessagePopup
+          message={erroremail}
+          onClose={() => setShowSendpasswordrecoveryemailuserError(false)}
+        />
+      )}
+      {loadingemail && <LoadingMessagePopup />}
+      {errorpassword && showUpdatenewpasswordrecoveryuserError && (
+        <ErrorMessagePopup
+          message={errorpassword}
+          onClose={() => setShowUpdatenewpasswordrecoveryuserError(false)}
+        />
+      )}
+      {loadingpassword && <LoadingMessagePopup />}
+      {showResetError && (
+        <ErrorMessagePopup
+          message={resetMessage}
+          onClose={() => setShowResetError(false)}
+        />
+      )}{" "}
+      {showSendRecoveryError && (
+        <ErrorMessagePopup
+          message={sendRecoveryMessage}
+          onClose={() => setShowSendRecoveryError(false)}
+        />
+      )}
     </div>
   );
 };

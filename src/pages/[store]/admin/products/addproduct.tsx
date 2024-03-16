@@ -15,6 +15,7 @@ import { User } from "@/types/user";
 
 import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
 import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
+import SuccessMessagePopup from "@/components/EventHandling/SuccessMessagePopup";
 interface DynamicRouteParams {
   store: string;
   userID: string;
@@ -36,12 +37,17 @@ const AddProduct = () => {
   const loading = useSelector((state: RootState) => state.addproduct.loading);
   const error = useSelector((state: RootState) => state.addproduct.error);
 
+  const [productMessage, setProductMessage] = useState("");
+  const [showProductError, setShowProductError] = useState(false);
+
   const [showStoreError, setShowStoreError] = useState(false);
   const [storeMessage, setStoreMessage] = useState("");
 
   const [showImageError, setShowImageError] = useState(false);
   const [imageMessage, setImageMessage] = useState("");
+
   const [successImageMessage, setSuccessImageMessage] = useState("");
+  const [showImageSuccess, setShowImageSuccess] = useState(false);
 
   const [showError, setShowError] = useState(true);
 
@@ -66,10 +72,10 @@ const AddProduct = () => {
         setStoreMessage(`User does not have access to ${store}.`);
         setShowStoreError(true);
       }
-      // Handle success if needed
     } catch (error) {
-      console.error("Error adding a product:", error);
-    }
+      setProductMessage("Error adding a product: " + (error as Error).message);
+      setShowProductError(true);
+        }
   };
 
   useEffect(() => {
@@ -107,7 +113,7 @@ const AddProduct = () => {
           setShowImageError(true);
         } else {
           setSuccessImageMessage("Upload successful");
-          setShowImageError(true);
+          setShowImageSuccess(true);
         }
       }
     } catch (error) {
@@ -224,6 +230,18 @@ const AddProduct = () => {
           onClose={() => setShowStoreError(false)}
         />
       )}
+         {showProductError && (
+        <ErrorMessagePopup
+          message={productMessage}
+          onClose={() => setShowProductError(false)}
+        />
+      )}
+         {showImageSuccess && (
+          <SuccessMessagePopup
+            message={successImageMessage}
+            onClose={() => setShowImageSuccess(false)}
+          />
+        )}
     </Layout>
   );
 };

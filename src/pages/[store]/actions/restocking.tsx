@@ -48,6 +48,10 @@ const restocking = () => {
     (state: RootState) => state.restockingproducts.error
   );
 
+  const [showSelectedProductError, setShowSelectedProductError] =
+    useState(false);
+  const [selectedProductMessage, setSelectedProductMessage] = useState("");
+
   const [showStoreError, setShowStoreError] = useState(false);
   const [storeMessage, setStoreMessage] = useState("");
 
@@ -77,7 +81,8 @@ const restocking = () => {
 
     // Check if there are selected products
     if (selectedProducts.length === 0) {
-      console.error("No products selected for Restocking.");
+      setSelectedProductMessage("No products selected for selling.");
+      setShowSelectedProductError(true);
       return;
     }
 
@@ -92,7 +97,10 @@ const restocking = () => {
     selectedProducts.forEach((selectedProduct) => {
       // Check if the selected product has a valid quantity
       if (selectedProduct.quantity <= 0) {
-        console.error(`Invalid quantity for product ${selectedProduct.name}.`);
+        setSelectedProductMessage(
+          `Invalid quantity for product ${selectedProduct.name}.`
+        );
+        setShowSelectedProductError(true);
         return;
       }
 
@@ -172,10 +180,10 @@ const restocking = () => {
           productWithQuantity,
         ]);
       } else {
-        // Optionally, handle the case where no product is found
-        console.error(
+        setSelectedProductMessage(
           `Product with id ${productId} not found Or has 0 quantity.`
         );
+        setShowSelectedProductError(true);
       }
     }
   };
@@ -405,6 +413,12 @@ const restocking = () => {
         <ErrorMessagePopup
           message={storeMessage}
           onClose={() => setShowStoreError(false)}
+        />
+      )}
+        {showSelectedProductError && (
+        <ErrorMessagePopup
+          message={selectedProductMessage}
+          onClose={() => setShowSelectedProductError(false)}
         />
       )}
     </Layout>

@@ -18,6 +18,7 @@ import { User } from "@/types/user";
 
 import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
 import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
+import SuccessMessagePopup from "@/components/EventHandling/SuccessMessagePopup";
 interface DynamicRouteParams {
   store: string;
   userID: string;
@@ -56,7 +57,9 @@ const ProductDetail = () => {
 
   const dispatch = useDispatch();
   const initialProduct = useSelector((state: RootState) => state.product.data);
-  const productLoading = useSelector((state: RootState) => state.product.loading);
+  const productLoading = useSelector(
+    (state: RootState) => state.product.loading
+  );
   const productError = useSelector((state: RootState) => state.product.error);
 
   const editProduct = useSelector((state: RootState) => state.editproduct.data);
@@ -65,11 +68,20 @@ const ProductDetail = () => {
   );
   const editError = useSelector((state: RootState) => state.editproduct.error);
 
+  const [showCompanyError, setShowCompanyError] = useState(false);
+  const [companyMessage, setCompanyMessage] = useState("");
+
   const [showStoreError, setShowStoreError] = useState(false);
   const [storeMessage, setStoreMessage] = useState("");
 
   const [showProductError, setShowProductError] = useState(true);
   const [showEditProductError, setShowEditProductError] = useState(true);
+
+  const [showImageError, setShowImageError] = useState(false);
+  const [imageMessage, setImageMessage] = useState("");
+
+  const [successImageMessage, setSuccessImageMessage] = useState("");
+  const [showImageSuccess, setShowImageSuccess] = useState(false);
 
   const [product, setProduct] = useState<Product | null>(initialProduct);
 
@@ -84,7 +96,8 @@ const ProductDetail = () => {
       );
     } else {
       setStoreMessage(`User does not have access to ${store}.`);
-      setShowStoreError(true);    }
+      setShowStoreError(true);
+    }
   }, [dispatch, company, store, productId]);
 
   useEffect(() => {
@@ -101,13 +114,8 @@ const ProductDetail = () => {
     }
   }, [editProduct]);
 
-  
-
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-
 
     const filterArray: { field: string; value: string }[] = [];
 
@@ -142,7 +150,6 @@ const ProductDetail = () => {
       }
     });
 
-
     if (session?.user && (session.user as User)[store] === true && company) {
       dispatch(
         editProductRequest(
@@ -165,29 +172,40 @@ const ProductDetail = () => {
       });
     } else {
       setStoreMessage(`User does not have access to ${store}.`);
-      setShowStoreError(true);    }
+      setShowStoreError(true);
+    }
+    try {
+      if (image) {
+        const formData = new FormData();
+        const newImageName = product?.id;
 
-    if (image) {
-      const formData = new FormData();
-      const newImageName = product?.id;
+        // Append the file with the desired name
+        formData.append("file", image, newImageName);
+        if (company) {
+          formData.append("company", company);
+        } else {
+          // Handle the case where company is undefined
+          // For example, you might want to skip appending it or provide a default value
+          setCompanyMessage("Company is undefined, skipping append operation");
+          setShowCompanyError(true);
+        }
 
-      // Append the file with the desired name
-      formData.append("file", image, newImageName);
-      if (company) {
-        formData.append("company", company);
-      } else {
-        // Handle the case where company is undefined
-        // For example, you might want to skip appending it or provide a default value
-        console.error("Company is undefined, skipping append operation");
+        const response = await fetch("http://localhost:5000/upload", {
+          method: "POST",
+          body: formData,
+        });
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          setImageMessage(errorMessage);
+          setShowImageError(true);
+        } else {
+          setSuccessImageMessage("Upload successful");
+          setShowImageSuccess(true);
+        }
       }
-
-  
-
-      // Send a POST request to your REST API endpoint
-      await fetch("http://localhost:5000/upload", {
-        method: "POST",
-        body: formData,
-      });
+    } catch (error) {
+      setImageMessage("Error uploading image: " + (error as Error).message);
+      setShowImageError(true);
     }
   };
 
@@ -195,7 +213,9 @@ const ProductDetail = () => {
     <Layout>
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold dark:text-white">Edit Product</h2>
+          <h2 className="text-2xl font-semibold dark:text-white">
+            Edit Product
+          </h2>
         </div>
         <div className="bg-white dark:bg-gray-800 p-4 border rounded">
           <form onSubmit={handleSubmit}>
@@ -522,6 +542,24 @@ const ProductDetail = () => {
           onClose={() => setShowStoreError(false)}
         />
       )}
+      {showCompanyError && (
+        <ErrorMessagePopup
+          message={companyMessage}
+          onClose={() => setShowCompanyError(false)}
+        />
+      )}
+      {showImageError && (
+        <ErrorMessagePopup
+          message={imageMessage}
+          onClose={() => setShowImageError(false)}
+        />
+      )}
+      {showImageSuccess && (
+        <SuccessMessagePopup
+          message={successImageMessage}
+          onClose={() => setShowImageSuccess(false)}
+        />
+      )}
     </Layout>
   );
 };
@@ -531,7 +569,6 @@ export default ProductDetail;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { req, params } = context;
   const session = await getSession({ req });
-
 
   if (!session?.user) {
     return {
@@ -543,7 +580,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   const { store } = params as unknown as DynamicRouteParams;
-
 
   if (session.user.role !== "ADMIN") {
     return {

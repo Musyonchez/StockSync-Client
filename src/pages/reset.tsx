@@ -28,10 +28,13 @@ const FirstTimeReset = () => {
     (state: RootState) => state.firsttimeresetuser.error
   );
 
-  const handleResetPassword = async () => {
+  const [resetMessage, setResetMessage] = useState("");
+  const [showResetError, setShowResetError] = useState(false);
 
+  const handleResetPassword = async () => {
     if (password !== confirmPassword) {
-      console.error("Passwords do not match");
+      setResetMessage("Passwords do not match");
+      setShowResetError(true);
       return;
     }
     try {
@@ -49,14 +52,15 @@ const FirstTimeReset = () => {
           );
         }
       } else {
-        console.error(`Password or confirm password is empty.`);
+        setResetMessage(`Password or confirm password is empty.`);
+        setShowResetError(true);
       }
       await signOut({ callbackUrl: "/" }); // Redirects to the homepage after signing out
     } catch (error) {
-      console.error("Error resetting password:", error);
+      setResetMessage("Error resetting password:" + (error as Error).message);
+      setShowResetError(true);
     }
   };
-
 
   return (
     <div className="flex flex-col h-screen">

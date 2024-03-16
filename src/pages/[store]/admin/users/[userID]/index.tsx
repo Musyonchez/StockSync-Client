@@ -40,6 +40,9 @@ const UserDetail = () => {
   const loading = useSelector((state: RootState) => state.user.loading);
   const error = useSelector((state: RootState) => state.user.error);
 
+  const [showUserError, setShowUserError] = useState(false);
+  const [userMessage, setUserMessage] = useState("");
+
   const [showStoreError, setShowStoreError] = useState(false);
   const [storeMessage, setStoreMessage] = useState("");
   const [showError, setShowError] = useState(true);
@@ -98,14 +101,17 @@ const UserDetail = () => {
             window.location.reload();
           });
         } else {
-          throw new Error("User has a transaction hence can't delete");
+          setUserMessage("User has a transaction hence can't delete");
+          setShowUserError(true);
         }
       } else {
         setStoreMessage(`User does not have access to ${store}.`);
         setShowStoreError(true);
       }
     } catch (error) {
-      console.error("Error deleting User:", error);
+      setUserMessage("Error deleting User:" + (error as Error).message);
+      setShowUserError(true);
+
       // Handle the error as needed
     }
   };
@@ -304,6 +310,12 @@ const UserDetail = () => {
         <ErrorMessagePopup
           message={storeMessage}
           onClose={() => setShowStoreError(false)}
+        />
+      )}
+        {showUserError && (
+        <ErrorMessagePopup
+          message={userMessage}
+          onClose={() => setShowUserError(false)}
         />
       )}
     </Layout>

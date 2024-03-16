@@ -39,6 +39,9 @@ const ProductDetail = () => {
   const loading = useSelector((state: RootState) => state.product.loading);
   const error = useSelector((state: RootState) => state.product.error);
 
+  const [productMessage, setProductMessage] = useState("");
+  const [showProductError, setShowProductError] = useState(false);
+
   const [showStoreError, setShowStoreError] = useState(false);
   const [storeMessage, setStoreMessage] = useState("");
 
@@ -73,7 +76,8 @@ const ProductDetail = () => {
         );
       } else {
         setStoreMessage(`User does not have access to ${store}.`);
-        setShowStoreError(true);      }
+        setShowStoreError(true);
+      }
       // Use router.push to navigate to the new URL structure
       router.push(`/${store}/admin/products/`).then(() => {
         window.location.reload();
@@ -102,14 +106,16 @@ const ProductDetail = () => {
             window.location.reload();
           });
         } else {
-          throw new Error("Product has a transaction hence can't delete");
+          setProductMessage("Product has a transaction hence can't delete");
+          setShowProductError(true);
         }
       } else {
         setStoreMessage(`User does not have access to ${store}.`);
-        setShowStoreError(true);      }
+        setShowStoreError(true);
+      }
     } catch (error) {
-      console.error("Error deleting product:", error);
-      // Handle the error as needed
+      setProductMessage("Error deleting product: " + (error as Error).message);
+      setShowProductError(true);
     }
   };
 
@@ -133,7 +139,8 @@ const ProductDetail = () => {
         });
       } else {
         setStoreMessage(`User does not have access to ${store}.`);
-        setShowStoreError(true);      }
+        setShowStoreError(true);
+      }
     } catch (error) {}
   };
 
@@ -365,6 +372,12 @@ const ProductDetail = () => {
         <ErrorMessagePopup
           message={storeMessage}
           onClose={() => setShowStoreError(false)}
+        />
+      )}
+       {showProductError && (
+        <ErrorMessagePopup
+          message={productMessage}
+          onClose={() => setShowProductError(false)}
         />
       )}
     </Layout>

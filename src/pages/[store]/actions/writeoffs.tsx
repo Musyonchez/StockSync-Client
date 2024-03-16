@@ -49,6 +49,9 @@ const writeoff = () => {
     (state: RootState) => state.writeoffproducts.error
   );
 
+  const [showSelectedProductError, setShowSelectedProductError] = useState(false);
+  const [selectedProductMessage, setSelectedProductMessage] = useState("");
+
   const [showStoreError, setShowStoreError] = useState(false);
   const [storeMessage, setStoreMessage] = useState("");
 
@@ -77,7 +80,8 @@ const writeoff = () => {
 
     // Check if there are selected products
     if (selectedProducts.length === 0) {
-      console.error("No products selected for writeoffing.");
+      setSelectedProductMessage("No products selected for writeoffing.");
+      setShowSelectedProductError(true);
       return;
     }
 
@@ -92,8 +96,9 @@ const writeoff = () => {
     selectedProducts.forEach((selectedProduct) => {
       // Check if the selected product has a valid quantity
       if (selectedProduct.quantity <= 0) {
-        console.error(`Invalid quantity for product ${selectedProduct.name}.`);
-        return;
+        setSelectedProductMessage(`Invalid quantity for product ${selectedProduct.name}.`);
+        setShowSelectedProductError(true);
+                return;
       }
 
       // Add product ID and quantity to the filterArray
@@ -173,10 +178,9 @@ const writeoff = () => {
           productWithQuantity,
         ]);
       } else {
-        // Optionally, handle the case where no product is found
-        console.error(
-          `Product with id ${productId} not found Or has 0 quantity.`
-        );
+       
+        setSelectedProductMessage(`Product with id ${productId} not found Or has 0 quantity.`);
+        setShowSelectedProductError(true);
       }
     }
   };
@@ -415,6 +419,12 @@ const writeoff = () => {
         <ErrorMessagePopup
           message={storeMessage}
           onClose={() => setShowStoreError(false)}
+        />
+      )}
+        {showSelectedProductError && (
+        <ErrorMessagePopup
+          message={selectedProductMessage}
+          onClose={() => setShowSelectedProductError(false)}
         />
       )}
     </Layout>

@@ -23,15 +23,17 @@ const VerticalNavbar = () => {
   const [changeProfile, setChangeProfile] = useState(false);
   const [profile, setProfile] = useState<File | null>(null);
 
-  const [showLogoError, setShowLogoError] = useState(false);
-  const [showProfileError, setShowProfileError] = useState(false);
-  const [showLogoSuccess, setShowLogoSuccess] = useState(false);
-  const [showProfileSuccess, setShowProfileSuccess] = useState(false);
-
   const [logoMessage, setLogoMessage] = useState("");
+  const [showLogoError, setShowLogoError] = useState(false);
+
   const [profileMessage, setProfileMessage] = useState("");
-  const [successProfileMessage, setSuccessProfileMessage] = useState("");
+  const [showProfileError, setShowProfileError] = useState(false);
+
   const [successLogoMessage, setSuccessLogoMessage] = useState("");
+  const [showLogoSuccess, setShowLogoSuccess] = useState(false);
+
+  const [successProfileMessage, setSuccessProfileMessage] = useState("");
+  const [showProfileSuccess, setShowProfileSuccess] = useState(false);
 
   const router = useRouter();
   const { store } = router.query;
@@ -73,7 +75,7 @@ const VerticalNavbar = () => {
             setShowLogoError(true);
           } else {
             setSuccessLogoMessage("Upload successful");
-            setShowLogoError(true);
+            setShowLogoSuccess(true);
           }
         }
       } else {
@@ -114,7 +116,7 @@ const VerticalNavbar = () => {
           setShowProfileError(true);
         } else {
           setSuccessProfileMessage("Upload successful");
-          setShowProfileError(true);
+          setShowProfileSuccess(true);
         }
       }
     } catch (error) {
@@ -539,6 +541,18 @@ const VerticalNavbar = () => {
           <ErrorMessagePopup
             message={profileMessage}
             onClose={() => setShowProfileError(false)}
+          />
+        )}
+        {showLogoSuccess && (
+          <SuccessMessagePopup
+            message={successLogoMessage}
+            onClose={() => setShowLogoSuccess(false)}
+          />
+        )}
+        {showProfileSuccess && (
+          <SuccessMessagePopup
+            message={successProfileMessage}
+            onClose={() => setShowProfileSuccess(false)}
           />
         )}
       </div>
@@ -989,7 +1003,7 @@ const VerticalNavbar = () => {
             </ul>
           </div>
         )}
-       {mounted && (
+        {mounted && (
           <div className="mb-4 relative">
             <hr className="mb-5" />
             <div className="flex w-full justify-between items-center">
@@ -1039,6 +1053,18 @@ const VerticalNavbar = () => {
           <ErrorMessagePopup
             message={profileMessage}
             onClose={() => setShowProfileError(false)}
+          />
+        )}
+        {showLogoSuccess && (
+          <SuccessMessagePopup
+            message={successLogoMessage}
+            onClose={() => setShowLogoSuccess(false)}
+          />
+        )}
+        {showProfileSuccess && (
+          <SuccessMessagePopup
+            message={successProfileMessage}
+            onClose={() => setShowProfileSuccess(false)}
           />
         )}
       </div>
@@ -1091,7 +1117,6 @@ const VerticalNavbar = () => {
           </div>
         </div>
       )}
-      
 
       <button className="sm:hidden absolute top-1 right-2" onClick={toggleMenu}>
         {isSideMenuVisible ? (

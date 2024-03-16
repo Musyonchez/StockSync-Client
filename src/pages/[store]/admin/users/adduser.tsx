@@ -14,6 +14,7 @@ import { GetServerSidePropsContext } from "next";
 
 import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
 import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
+import SuccessMessagePopup from "@/components/EventHandling/SuccessMessagePopup";
 interface DynamicRouteParams {
   store: string;
   userID: string;
@@ -37,7 +38,9 @@ const AddUser = () => {
 
   const [showImageError, setShowImageError] = useState(false);
   const [imageMessage, setImageMessage] = useState("");
+  
   const [successImageMessage, setSuccessImageMessage] = useState("");
+  const [showImageSuccess, setShowImageSuccess] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -125,7 +128,7 @@ const AddUser = () => {
           setShowImageError(true);
         } else {
           setSuccessImageMessage("Upload successful");
-          setShowImageError(true);
+          setShowImageSuccess(true);
         }
       }
     } catch (error) {
@@ -336,6 +339,12 @@ const AddUser = () => {
           onClose={() => setShowStoreError(false)}
         />
       )}
+         {showImageSuccess && (
+          <SuccessMessagePopup
+            message={successImageMessage}
+            onClose={() => setShowImageSuccess(false)}
+          />
+        )}
     </Layout>
   );
 };
