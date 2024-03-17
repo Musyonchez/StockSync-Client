@@ -131,8 +131,7 @@ const Writeoff = () => {
           writeofffilterArray
         )
       );
-      setTotal(0);
-      setSelectedProducts([]);
+   
     } else {
       setStoreMessage(`User does not have access to ${store}.`);
       setShowStoreError(true);
@@ -150,6 +149,8 @@ const Writeoff = () => {
     if (writeoffProductResponse) {
       if (writeoffProductResponse) {
         setIsWriteoffButtonActive(true);
+        setTotal(0);
+        setSelectedProducts([]);
       } else {
         alert("Failed to run the writeoff");
       }

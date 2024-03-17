@@ -130,8 +130,7 @@ const Restocking = () => {
           restockingfilterArray
         )
       );
-      setTotal(0);
-      setSelectedProducts([])
+     
     } else {
       setStoreMessage(`User does not have access to ${store}.`);
       setShowStoreError(true);
@@ -149,6 +148,8 @@ const Restocking = () => {
     if (restockingProductResponse) {
       if (restockingProductResponse) {
         setIsRestockingButtonActive(true);
+        setTotal(0);
+        setSelectedProducts([]);
       } else {
         alert("Failed to run the restocking");
       }

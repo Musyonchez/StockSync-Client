@@ -127,8 +127,7 @@ const Selling = () => {
           sellfilterArray
         )
       );
-      setTotal(0);
-      setSelectedProducts([]);
+     
     } else {
       setStoreMessage(`User does not have access to ${store}.`);
       setShowStoreError(true);
@@ -146,6 +145,8 @@ const Selling = () => {
     if (sellProductResponse) {
       if (sellProductResponse) {
         setIsSelleButtonActive(true);
+        setTotal(0);
+        setSelectedProducts([]);
       } else {
         alert("Failed to run the sell");
       }
