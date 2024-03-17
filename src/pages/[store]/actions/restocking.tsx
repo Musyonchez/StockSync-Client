@@ -268,11 +268,8 @@ const Restocking = () => {
                                         ...product,
                                         quantity: Math.max(
                                           1,
-                                          Math.min(
-                                            parseInt(e.target.value, 10),
-                                            product.current
-                                          )
-                                        ),
+                                          parseInt(e.target.value, 10)
+                                        ), 
                                       }
                                     : product
                               );
@@ -292,10 +289,7 @@ const Restocking = () => {
                                         ...product,
                                         quantity: Math.max(
                                           1,
-                                          Math.min(
-                                            product.quantity + 1,
-                                            product.current
-                                          )
+                                          product.quantity + 1
                                         ),
                                       }
                                     : product
