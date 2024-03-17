@@ -3,6 +3,7 @@ export const restockingProductsRequest = (
     name: string,
     company: string,
     type: string,
+    total: number,
     filterArray: {
       productId: string;
       toAdd: number;
@@ -10,7 +11,7 @@ export const restockingProductsRequest = (
     }[]
   ) => ({
     type: "RESTOCKING_PRODUCTS_REQUEST",
-    payload: { id, name, company, type, filterArray },
+    payload: { id, name, company, type, total, filterArray },
   });
   
   export const restockingProductsSuccess = (success: boolean) => ({

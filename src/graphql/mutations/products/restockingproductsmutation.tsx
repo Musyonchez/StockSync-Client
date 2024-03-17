@@ -6,6 +6,7 @@ export const RESTOCKING_PRODUCTS = gql`
     $name: String!
     $company: String!
     $type: String!
+    $total: Float!
     $filterArray: [RestockingFilterInput!]!
   ) {
     restockingProduct(

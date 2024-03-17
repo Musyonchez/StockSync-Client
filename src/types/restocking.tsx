@@ -4,6 +4,7 @@ export interface Restocking {
   createdAt: string;
   creatorId: string;
   creatorName: string;
+  totalAmount: number;
 }
 
 export interface RestockingDetail {

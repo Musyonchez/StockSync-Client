@@ -126,6 +126,7 @@ const Restocking = () => {
           name as string,
           company as string,
           store as string,
+          total as number,
           restockingfilterArray
         )
       );

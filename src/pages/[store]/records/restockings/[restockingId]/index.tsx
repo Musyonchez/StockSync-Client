@@ -61,6 +61,7 @@ const Restocking = () => {
               <p>Created At: {restocking?.createdAt}</p>
               <p>Creator ID: {restocking?.creatorId}</p>
               <p>Creator Name: {restocking?.creatorName}</p>
+              <p>Total Amount: {restocking?.totalAmount}</p>
 
               {/* Loop through details array */}
               <ul className="mt-4">
@@ -91,6 +92,7 @@ const Restocking = () => {
             createdAt: restocking?.createdAt ?? "",
             creatorId: restocking?.creatorId ?? "",
             creatorName: restocking?.creatorName ?? "",
+            totalAmount: restocking?.totalAmount ?? 0,
             details:
               restocking?.details.map((detail: RestockingDetail) => ({
                 id: detail.id,

@@ -56,6 +56,7 @@ const Restockings = () => {
                   <p>Created At: {restocking.createdAt}</p>
                   <p>Creator ID: {restocking.creatorId}</p>
                   <p>Creator Name: {restocking.creatorName}</p>
+                  <p>Total Amount: {restocking.totalAmount}</p>
                   <ul className="mt-4">
                     <p className="text-lg font-semibold mb-2">Details</p>
                     {restocking.details.map((detail: RestockingDetail) => (

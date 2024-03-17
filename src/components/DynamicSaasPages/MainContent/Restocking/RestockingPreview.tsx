@@ -10,11 +10,18 @@ interface RestockingPreviewProps {
 const TransactionPreview: React.FC<RestockingPreviewProps> = ({
   restockingData,
 }) => {
-  const { companyLogo, id, createdAt, creatorId, creatorName, details } =
-    restockingData;
-    const [showImageError, setShowImageError] = useState(false);
-    const [imageMessage, setImageMessage] = useState("");
-    
+  const {
+    companyLogo,
+    id,
+    createdAt,
+    creatorId,
+    creatorName,
+    totalAmount,
+    details,
+  } = restockingData;
+  const [showImageError, setShowImageError] = useState(false);
+  const [imageMessage, setImageMessage] = useState("");
+
   const downloadPdf = async () => {
     const doc = new jsPDF({
       orientation: "landscape",
@@ -70,6 +77,7 @@ const TransactionPreview: React.FC<RestockingPreviewProps> = ({
     doc.text(`Created At: ${createdAt}`, 150, 30, { maxWidth: 90 });
     doc.text(`Creator Id: ${creatorId}`, 150, 35, { maxWidth: 90 });
     doc.text(`Creator Name: ${creatorName}`, 150, 40, { maxWidth: 90 });
+    doc.text(`Total Amount: ${totalAmount}`, 150, 45, { maxWidth: 90 });
 
     doc.text("Id", 15, 55);
     doc.text("Name", 65, 55);

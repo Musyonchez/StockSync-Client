@@ -99,5 +99,6 @@ interface RestockingDataState {
   createdAt: string;
   creatorId: string;
   creatorName: string;
+  totalAmount: number;
   details: RestockingDetail[];
 }

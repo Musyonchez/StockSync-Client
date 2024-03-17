@@ -26,16 +26,17 @@ export const restockingProductsSaga = {
       name: string;
       company: string;
       type: string;
+      total: number;
       filterArray: RestockingFilterInput[];
     };
   }) {
     try {
-      const { id, name, company, type, filterArray } = action.payload;
+      const { id, name, company, type, total, filterArray } = action.payload;
       const response: ApolloQueryResult<ProductMutationResponse> = yield call(
         apolloClient.mutate,
         {
           mutation: RESTOCKING_PRODUCTS,
-          variables: { id, name, company, type, filterArray },
+          variables: { id, name, company, type, total, filterArray },
         }
       );
 
