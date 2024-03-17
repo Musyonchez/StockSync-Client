@@ -14,6 +14,7 @@ export const RESTOCKING_PRODUCTS = gql`
       name: $name
       company: $company
       type: $type
+      total: $total
       filterArray: $filterArray
     )
   }

@@ -18,6 +18,7 @@ interface RestockingProductsRequestAction extends Action {
   payload: {
     company: string;
     type: string;
+    total: number;
     filterArray: { productId: string; toAdd: number; quantity: number }[];
   };
 }
