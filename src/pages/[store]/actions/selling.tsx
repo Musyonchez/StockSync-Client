@@ -127,6 +127,8 @@ const Selling = () => {
           sellfilterArray
         )
       );
+      setTotal(0);
+      setSelectedProducts([]);
     } else {
       setStoreMessage(`User does not have access to ${store}.`);
       setShowStoreError(true);

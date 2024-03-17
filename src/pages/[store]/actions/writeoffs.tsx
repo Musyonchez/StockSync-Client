@@ -49,7 +49,8 @@ const Writeoff = () => {
     (state: RootState) => state.writeoffproducts.error
   );
 
-  const [showSelectedProductError, setShowSelectedProductError] = useState(false);
+  const [showSelectedProductError, setShowSelectedProductError] =
+    useState(false);
   const [selectedProductMessage, setSelectedProductMessage] = useState("");
 
   const [showStoreError, setShowStoreError] = useState(false);
@@ -96,9 +97,11 @@ const Writeoff = () => {
     selectedProducts.forEach((selectedProduct) => {
       // Check if the selected product has a valid quantity
       if (selectedProduct.quantity <= 0) {
-        setSelectedProductMessage(`Invalid quantity for product ${selectedProduct.name}.`);
+        setSelectedProductMessage(
+          `Invalid quantity for product ${selectedProduct.name}.`
+        );
         setShowSelectedProductError(true);
-                return;
+        return;
       }
 
       // Add product ID and quantity to the filterArray
@@ -128,9 +131,12 @@ const Writeoff = () => {
           writeofffilterArray
         )
       );
+      setTotal(0);
+      setSelectedProducts([]);
     } else {
       setStoreMessage(`User does not have access to ${store}.`);
-      setShowStoreError(true);    }
+      setShowStoreError(true);
+    }
   };
 
   useEffect(() => {
@@ -178,8 +184,9 @@ const Writeoff = () => {
           productWithQuantity,
         ]);
       } else {
-       
-        setSelectedProductMessage(`Product with id ${productId} not found Or has 0 quantity.`);
+        setSelectedProductMessage(
+          `Product with id ${productId} not found Or has 0 quantity.`
+        );
         setShowSelectedProductError(true);
       }
     }
@@ -421,7 +428,7 @@ const Writeoff = () => {
           onClose={() => setShowStoreError(false)}
         />
       )}
-        {showSelectedProductError && (
+      {showSelectedProductError && (
         <ErrorMessagePopup
           message={selectedProductMessage}
           onClose={() => setShowSelectedProductError(false)}
