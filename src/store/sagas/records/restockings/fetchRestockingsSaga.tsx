@@ -33,6 +33,8 @@ export const fetchRestockingsSaga = {
 
       const restockings = response.data?.getRestockings;
 
+      
+
       if (Array.isArray(restockings)) {
         for (const restocking of restockings) {
           yield put(fetchRestockingsSuccess(restocking));

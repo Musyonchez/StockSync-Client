@@ -5,6 +5,8 @@ import { signOut, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import { firstTimeResetUserRequest } from "@/actions/users/firstTimeResetUser";
 import { RootState } from "@/store/reducers/reducers";
+import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
+import LoadingMessagePopup from "@/components/EventHandling/LoadingMessagePopup";
 
 const FirstTimeReset = () => {
   const { data: session } = useSession();
@@ -30,6 +32,8 @@ const FirstTimeReset = () => {
 
   const [resetMessage, setResetMessage] = useState("");
   const [showResetError, setShowResetError] = useState(false);
+  const [showError, setShowError] = useState(true);
+
 
   const handleResetPassword = async () => {
     if (password !== confirmPassword) {
@@ -150,6 +154,19 @@ const FirstTimeReset = () => {
           </button>
         </div>
       </div>
+      {error && showError && (
+        <ErrorMessagePopup
+          message={error}
+          onClose={() => setShowError(false)}
+        />
+      )}
+      {loading && <LoadingMessagePopup />}
+      {showResetError && (
+        <ErrorMessagePopup
+          message={resetMessage}
+          onClose={() => setShowResetError(false)}
+        />
+      )} 
     </div>
   );
 };

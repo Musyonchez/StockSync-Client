@@ -7,6 +7,7 @@ export const GET_RESTOCKINGS = gql`
       createdAt
       creatorId
       creatorName
+      totalAmount
       details {
         id
         name

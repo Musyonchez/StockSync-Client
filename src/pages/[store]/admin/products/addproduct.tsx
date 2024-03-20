@@ -75,7 +75,7 @@ const AddProduct = () => {
     } catch (error) {
       setProductMessage("Error adding a product: " + (error as Error).message);
       setShowProductError(true);
-        }
+    }
   };
 
   useEffect(() => {
@@ -103,10 +103,13 @@ const AddProduct = () => {
           setShowImageError(true);
         }
 
-        const response = await fetch("https://stocksync-server.onrender.com/upload", {
-          method: "POST",
-          body: formData,
-        });
+        const response = await fetch(
+          "https://stocksync-server.onrender.com/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
         if (!response.ok) {
           const errorMessage = await response.text();
           setImageMessage(errorMessage);
@@ -224,24 +227,24 @@ const AddProduct = () => {
           onClose={() => setShowImageError(false)}
         />
       )}
-        {showStoreError && (
+      {showStoreError && (
         <ErrorMessagePopup
           message={storeMessage}
           onClose={() => setShowStoreError(false)}
         />
       )}
-         {showProductError && (
+      {showProductError && (
         <ErrorMessagePopup
           message={productMessage}
           onClose={() => setShowProductError(false)}
         />
       )}
-         {showImageSuccess && (
-          <SuccessMessagePopup
-            message={successImageMessage}
-            onClose={() => setShowImageSuccess(false)}
-          />
-        )}
+      {showImageSuccess && (
+        <SuccessMessagePopup
+          message={successImageMessage}
+          onClose={() => setShowImageSuccess(false)}
+        />
+      )}
     </Layout>
   );
 };

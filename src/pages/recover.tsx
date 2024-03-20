@@ -27,15 +27,6 @@ const RecoverPassword = () => {
   const [sendRecoveryMessage, setSendRecoveryMessage] = useState("");
   const [showSendRecoveryError, setShowSendRecoveryError] = useState(false);
 
-  const [
-    showSendpasswordrecoveryemailuserError,
-    setShowSendpasswordrecoveryemailuserError,
-  ] = useState(true);
-  const [
-    showUpdatenewpasswordrecoveryuserError,
-    setShowUpdatenewpasswordrecoveryuserError,
-  ] = useState(true);
-
   const dispatch = useDispatch();
   const sendpasswordrecoveryemailuser = useSelector(
     (state: RootState) => state.sendpasswordrecoveryemailuser.data
@@ -43,7 +34,7 @@ const RecoverPassword = () => {
   const loadingemail = useSelector(
     (state: RootState) => state.sendpasswordrecoveryemailuser.loading
   );
-  const erroremail = useSelector(
+  const errorEmail = useSelector(
     (state: RootState) => state.sendpasswordrecoveryemailuser.error
   );
 
@@ -53,9 +44,13 @@ const RecoverPassword = () => {
   const loadingpassword = useSelector(
     (state: RootState) => state.updatenewpasswordrecoveryuser.loading
   );
-  const errorpassword = useSelector(
+  const errorPassword = useSelector(
     (state: RootState) => state.updatenewpasswordrecoveryuser.error
   );
+
+  const [showErrorEmail, setShowErrorEmail] = useState(true);
+  const [showErrorPassword, setShowErrorPassword] = useState(true);
+
 
   const handleSendPasswordRecoveryEmail = async () => {
     try {
@@ -279,17 +274,17 @@ const RecoverPassword = () => {
           </div>
         </div>
       </div>
-      {erroremail && showSendpasswordrecoveryemailuserError && (
+      {errorEmail && showErrorEmail && (
         <ErrorMessagePopup
-          message={erroremail}
-          onClose={() => setShowSendpasswordrecoveryemailuserError(false)}
+          message={errorEmail}
+          onClose={() => setShowErrorEmail(false)}
         />
       )}
       {loadingemail && <LoadingMessagePopup />}
-      {errorpassword && showUpdatenewpasswordrecoveryuserError && (
+      {errorPassword && showErrorPassword && (
         <ErrorMessagePopup
-          message={errorpassword}
-          onClose={() => setShowUpdatenewpasswordrecoveryuserError(false)}
+          message={errorPassword}
+          onClose={() => setShowErrorPassword(false)}
         />
       )}
       {loadingpassword && <LoadingMessagePopup />}
