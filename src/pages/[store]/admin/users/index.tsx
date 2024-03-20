@@ -25,8 +25,7 @@ const UserList: React.FC = () => {
   const company = session?.user?.company;
   const store = router.query?.store as string;
   const take = 2; // Number of items to take
-  const skip = 0; // Number of items to skip
-
+  const [skip, setSkip] = useState(0);
   const dispatch = useDispatch();
   const users = useSelector((state: RootState) => state.users.data);
   const loading = useSelector((state: RootState) => state.users.loading);

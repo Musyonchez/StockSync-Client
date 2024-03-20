@@ -21,9 +21,8 @@ const Restockings = () => {
   const router = useRouter();
   const company = session?.user?.company;
   const store = router.query?.store as string;
-  const take = 2; // Number of items to take
-  const skip = 0; // Number of items to skip
-
+  const [take, setTake] = useState(10);
+  const [skip, setSkip] = useState(0);
   const dispatch = useDispatch();
   const restockings = useSelector((state: RootState) => state.restockings.data);
   const loading = useSelector((state: RootState) => state.restockings.loading);

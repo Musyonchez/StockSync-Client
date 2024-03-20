@@ -25,8 +25,8 @@ function ProductList() {
   const router = useRouter();
   const company = session?.user?.company;
   const store = router.query?.store as string;
-  const take = 1; // Number of items to take
-  const skip = 0; // Number of items to skip
+  const [take, setTake] = useState(10);
+  const [skip, setSkip] = useState(0);
 
   const dispatch = useDispatch();
   const products = useSelector((state: RootState) => state.products.data);
