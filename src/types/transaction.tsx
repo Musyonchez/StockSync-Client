@@ -5,6 +5,7 @@ export interface Transaction {
   creatorId: string;
   creatorName: string;
   totalAmount: number;
+  totalProducts: number;
 }
 
 export interface TransactionDetail {

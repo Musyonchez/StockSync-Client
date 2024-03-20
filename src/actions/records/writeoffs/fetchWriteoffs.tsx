@@ -1,9 +1,9 @@
 // actions/writeoffActions.ts
 import { Writeoff } from '../../../types/writeoff'; // Assuming you have a writeoff type
 
-export const fetchWriteoffsRequest = (company: string, type: string) => ({
+export const fetchWriteoffsRequest = (company: string, type: string, take: number, skip: number) => ({
   type: 'FETCH_WRITEOFFS_REQUEST',
-  payload: { company, type }
+  payload: { company, type, take, skip }
 });
 
 export const fetchWriteoffsSuccess = (writeoffs: Writeoff) => ({

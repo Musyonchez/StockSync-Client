@@ -3,8 +3,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_ALL_USERS = gql`
-  query GetUsers($company: String!, $type: String!) {
-    users(company: $company, type: $type) {
+  query GetUsers($company: String!, $type: String!, $take: Int, $skip: Int) {
+    users(company: $company, type: $type, take: $take, skip: $skip) {
       id
       firstName
       lastName

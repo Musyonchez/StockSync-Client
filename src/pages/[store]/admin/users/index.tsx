@@ -24,6 +24,8 @@ const UserList: React.FC = () => {
   const router = useRouter();
   const company = session?.user?.company;
   const store = router.query?.store as string;
+  const take = 2; // Number of items to take
+  const skip = 0; // Number of items to skip
 
   const dispatch = useDispatch();
   const users = useSelector((state: RootState) => state.users.data);
@@ -37,7 +39,14 @@ const UserList: React.FC = () => {
 
   useEffect(() => {
     if (session?.user && (session.user as User)[store] === true && company) {
-      dispatch(fetchUsersRequest(company as string, store as string));
+      dispatch(
+        fetchUsersRequest(
+          company as string,
+          store as string,
+          take as number,
+          skip as number
+        )
+      );
     } else {
       setStoreMessage(`User does not have access to ${store}.`);
       setShowStoreError(true);

@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_TRANSACTIONS = gql`
-  query GetTransactions($company: String!, $type: String!) {
-    getTransactions(company: $company, type: $type) {
+  query GetTransactions($company: String!, $type: String!, $take: Int, $skip: Int) {
+    getTransactions(company: $company, type: $type, take: $take, skip: $skip) {
       id
       createdAt
       creatorId

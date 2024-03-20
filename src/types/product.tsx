@@ -17,4 +17,5 @@ export interface Product {
   active: boolean;
   quantity: number;
   firstRecordAction: boolean;
+  totalProducts: number;
 }

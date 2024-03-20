@@ -1,9 +1,9 @@
 // actions/transactionActions.ts
 import { Transaction } from '../../../types/transaction'; // Assuming you have a transaction type
 
-export const fetchTransactionsRequest = (company: string, type: string) => ({
+export const fetchTransactionsRequest = (company: string, type: string, take: number, skip: number) => ({
   type: 'FETCH_TRANSACTIONS_REQUEST',
-  payload: { company, type }
+  payload: { company, type, take, skip }
 });
 
 export const fetchTransactionsSuccess = (transactions: Transaction) => ({

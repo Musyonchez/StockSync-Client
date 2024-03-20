@@ -5,6 +5,7 @@ export interface Restocking {
   creatorId: string;
   creatorName: string;
   totalAmount: number;
+  totalProducts: number;
 }
 
 export interface RestockingDetail {

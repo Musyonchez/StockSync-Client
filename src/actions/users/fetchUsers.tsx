@@ -3,9 +3,9 @@ import { Product } from '../../types/product';
 
 
 
-export const fetchUsersRequest = (company: string, type: string) => ({ 
+export const fetchUsersRequest = (company: string, type: string, take: number, skip: number) => ({ 
   type: 'FETCH_USERS_REQUEST', 
-  payload: { company, type }
+  payload: { company, type, take, skip }
 });
 
 export const fetchUsersSuccess = (products: Product) => ({ 

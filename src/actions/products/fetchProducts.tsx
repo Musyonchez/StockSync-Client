@@ -1,9 +1,9 @@
 // actions/productActions.tsx
 import { Product } from "../../types/product";
 
-export const fetchProductsRequest = (company: string, type: string) => ({
+export const fetchProductsRequest = (company: string, type: string, take: number, skip: number) => ({
   type: "FETCH_PRODUCTS_REQUEST",
-  payload: { company, type },
+  payload: { company, type, take, skip },
 });
 
 export const fetchProductsSuccess = (products: Product) => ({

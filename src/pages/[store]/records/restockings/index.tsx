@@ -21,6 +21,8 @@ const Restockings = () => {
   const router = useRouter();
   const company = session?.user?.company;
   const store = router.query?.store as string;
+  const take = 2; // Number of items to take
+  const skip = 0; // Number of items to skip
 
   const dispatch = useDispatch();
   const restockings = useSelector((state: RootState) => state.restockings.data);
@@ -34,7 +36,14 @@ const Restockings = () => {
 
   useEffect(() => {
     if (session?.user && (session.user as User)[store] === true && company) {
-      dispatch(fetchRestockingsRequest(company as string, store as string));
+      dispatch(
+        fetchRestockingsRequest(
+          company as string,
+          store as string,
+          take as number,
+          skip as number
+        )
+      );
     } else {
       setStoreMessage(`User does not have access to ${store}.`);
       setShowStoreError(true);

@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_PRODUCTS = gql`
-  query GetProducts($company: String!, $type: String!) {
-    products(company: $company, type: $type) {
+  query GetProducts($company: String!, $type: String!, $take: Int, $skip: Int) {
+    products(company: $company, type: $type, take: $take, skip: $skip) {
       id
       name
       description
@@ -15,6 +15,7 @@ export const GET_ALL_PRODUCTS = gql`
       imageURL
       supplier
       active
+      totalProducts
     }
   }
 `;

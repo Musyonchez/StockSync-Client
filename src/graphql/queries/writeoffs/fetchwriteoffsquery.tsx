@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_WRITEOFFS = gql`
-  query GetWriteoffs($company: String!, $type: String!) {
-    getWriteoffs(company: $company, type: $type) {
+  query GetWriteoffs($company: String!, $type: String!, $take: Int, $skip: Int) {
+    getWriteoffs(company: $company, type: $type, take: $take, skip: $skip) {
       id
       createdAt
       creatorId

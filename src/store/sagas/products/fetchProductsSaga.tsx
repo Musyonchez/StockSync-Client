@@ -15,14 +15,14 @@ interface ProductQueryResponse {
 }
 
 export const fetchProductsSaga = {
-  saga: function* (action: { type: string, payload: { company: string, type: string } }) {
+  saga: function* (action: { type: string, payload: { company: string, type: string, take: number, skip: number } }) {
     try {
-      const { company, type } = action.payload;
+      const { company, type, take, skip } = action.payload;
       const response: ApolloQueryResult<ProductQueryResponse> = yield call(
         apolloClient.query,
         {
           query: GET_ALL_PRODUCTS,
-          variables: { company, type },
+          variables: { company, type, take, skip },
         }
       );
 

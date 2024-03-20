@@ -6,6 +6,7 @@ export interface Writeoff {
   creatorName: string;
   totalAmount: number;
   reson: string;
+  totalProducts: number;
 }
 
 export interface WriteoffDetail {

@@ -2,19 +2,24 @@
 import { gql } from "@apollo/client";
 
 export const SEARCH_PRODUCTS = gql`
-query SearchProducts($company: String!, $type: String!, $filterArray: [SearchFilterInput]!) {
- searchProducts(company: $company, type: $type, filterArray: $filterArray) {
-    id
-    name
-    description
-    category
-    current
-    reorderLevel
-    unitCost
-    sellingPrice
-    taxInformation
-    imageURL
-    supplier
-    active
- }
-}`;
+  query SearchProducts(
+    $company: String!
+    $type: String!
+    $filterArray: [SearchFilterInput]!
+  ) {
+    searchProducts(company: $company, type: $type, filterArray: $filterArray) {
+      id
+      name
+      description
+      category
+      current
+      reorderLevel
+      unitCost
+      sellingPrice
+      taxInformation
+      imageURL
+      supplier
+      active
+    }
+  }
+`;

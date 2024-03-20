@@ -33,6 +33,7 @@ export interface Users {
   store4: boolean;
   role: UserRole;
   active: boolean;
+  totalUsers: number;
 }
 
 export interface UserState {
@@ -48,4 +49,5 @@ export interface UserState {
   firstsignin: boolean;
   companyLogo: string;
   imageURL: string;
+  totalUsers: number;
 }
