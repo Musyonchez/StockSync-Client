@@ -42,7 +42,8 @@ const UserList: React.FC = () => {
     ? state.users.data[0].totalProducts
     : 0
 );
-const totalPages = Math.ceil(totalProducts / take);
+const totalPages = Math.ceil(totalProducts as number / take);
+
 const [currentPage, setCurrentPage] = useState(1);
 const pagesToShow = 10; // Number of page buttons to show at a time
 
