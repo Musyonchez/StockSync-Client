@@ -8,6 +8,7 @@ export const GET_WRITEOFF = gql`
       creatorId
       creatorName
       totalAmount
+      reason
       details {
         id
         name

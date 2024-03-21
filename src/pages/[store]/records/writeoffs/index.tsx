@@ -91,6 +91,7 @@ const Writeoffs = () => {
                   <p>Creator ID: {writeoff.creatorId}</p>
                   <p>Creator Name: {writeoff.creatorName}</p>
                   <p>Total Amount: {writeoff.totalAmount}</p>
+                  <p>Reason: {writeoff.reason}</p>
                   <ul className="mt-4">
                     <p className="text-lg font-semibold mb-2">Details</p>
                     {writeoff.details.map((detail: WriteoffDetail) => (

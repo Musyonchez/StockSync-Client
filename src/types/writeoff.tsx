@@ -5,7 +5,7 @@ export interface Writeoff {
   creatorId: string;
   creatorName: string;
   totalAmount: number;
-  reson: string;
+  reason: string;
   totalProducts: number;
 }
 

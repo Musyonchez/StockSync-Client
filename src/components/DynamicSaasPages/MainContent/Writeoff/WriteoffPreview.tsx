@@ -18,6 +18,7 @@ const TransactionPreview: React.FC<WriteoffPreviewProps> = ({
     creatorId,
     creatorName,
     totalAmount,
+    reason,
     details,
   } = writeoffData;
 
@@ -79,6 +80,7 @@ const TransactionPreview: React.FC<WriteoffPreviewProps> = ({
     doc.text(`Created At: ${createdAt}`, 150, 30, { maxWidth: 90 });
     doc.text(`Creator Id: ${creatorId}`, 150, 35, { maxWidth: 90 });
     doc.text(`Creator Name: ${creatorName}`, 150, 40, { maxWidth: 90 });
+    doc.text(`Reason: ${reason}`, 150, 40, { maxWidth: 90 });
     doc.text(`Total Amount: ${totalAmount}`, 150, 45, { maxWidth: 90 });
 
     doc.text("Id", 15, 55);

@@ -79,6 +79,7 @@ interface WriteoffDataState {
   creatorId: string;
   creatorName: string;
   totalAmount: number;
+  reason: string;
   details: WriteoffDetail[];
 }
 

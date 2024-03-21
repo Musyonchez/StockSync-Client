@@ -62,6 +62,7 @@ const Writeoff = () => {
               <p>Creator ID: {writeoff?.creatorId}</p>
               <p>Creator Name: {writeoff?.creatorName}</p>
               <p>Total Amount: {writeoff?.totalAmount}</p>
+              <p>Reason: {writeoff?.reason}</p>
 
               {/* Loop through details array */}
               <ul className="mt-4">
@@ -94,6 +95,7 @@ const Writeoff = () => {
             creatorId: writeoff?.creatorId ?? "",
             creatorName: writeoff?.creatorName ?? "",
             totalAmount: writeoff?.totalAmount ?? 0,
+            reason: writeoff?.reason ?? "",
             details:
               writeoff?.details.map((detail: WriteoffDetail) => ({
                 id: detail.id,
