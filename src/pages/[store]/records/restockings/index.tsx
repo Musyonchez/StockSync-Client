@@ -21,8 +21,9 @@ const Restockings = () => {
   const router = useRouter();
   const company = session?.user?.company;
   const store = router.query?.store as string;
-  const [take, setTake] = useState(10);
-  const [skip, setSkip] = useState(0);
+
+  const take = 2;
+
   const dispatch = useDispatch();
   const restockings = useSelector((state: RootState) => state.restockings.data);
   const loading = useSelector((state: RootState) => state.restockings.loading);
@@ -33,25 +34,51 @@ const Restockings = () => {
 
   const [showError, setShowError] = useState(true);
 
+  const totalProducts = useSelector((state: RootState) =>
+    state.restockings.data.length > 0
+      ? state.restockings.data[0].totalProducts
+      : 0
+  );
+  const totalPages = Math.ceil(totalProducts / take);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pagesToShow = 10; // Number of page buttons to show at a time
+
+  const startPage = Math.max(1, currentPage - Math.floor(pagesToShow / 2));
+  const endPage = Math.min(totalPages, startPage + pagesToShow - 1);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
   useEffect(() => {
+    const newSkip = (currentPage - 1) * take;
     if (session?.user && (session.user as User)[store] === true && company) {
       dispatch(
         fetchRestockingsRequest(
           company as string,
           store as string,
           take as number,
-          skip as number
+          newSkip
         )
       );
     } else {
       setStoreMessage(`User does not have access to ${store}.`);
       setShowStoreError(true);
     }
-  }, [dispatch, company, store]);
+  }, [dispatch, company, store, take, currentPage]);
+
 
   return (
     <Layout>
-      <div className="container dark:bg-black dark:text-white mx-auto p-4">
+      <div className="container dark:bg-black dark:text-white mx-auto p-4 pt-2 pb-7">
         <h1 className="text-3xl font-semibold mb-4">Restockings</h1>
         <ul>
           {restockings.map((restocking: Restocking) => (
@@ -88,6 +115,51 @@ const Restockings = () => {
             </li>
           ))}
         </ul>
+      </div>
+      <div className="fixed bottom-3 flex justify-center items-center ml-2">
+        <button onClick={handlePrevPage} disabled={currentPage === 1}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5"
+            />
+          </svg>
+        </button>
+        {Array.from({ length: endPage - startPage + 1 }, (_, index) => (
+          <button
+            key={startPage + index}
+            onClick={() => setCurrentPage(startPage + index)}
+            className={`mx-2 ${
+              currentPage === startPage + index ? "bg-blue-500 text-white" : ""
+            }`}
+          >
+            {startPage + index}
+          </button>
+        ))}
+        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5"
+            />
+          </svg>
+        </button>
       </div>
       {error && showError && (
         <ErrorMessagePopup

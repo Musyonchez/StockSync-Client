@@ -21,8 +21,9 @@ function ProductList() {
   const router = useRouter();
   const company = session?.user?.company;
   const store = router.query?.store as string;
-  const take = 1;
-  const skip = 0;
+  
+  const take = 10;
+
   const dispatch = useDispatch();
   const products = useSelector((state: RootState) => state.activeproducts.data);
   const loading = useSelector(

@@ -8,6 +8,7 @@ export const GET_TRANSACTIONS = gql`
       creatorId
       creatorName
       totalAmount
+      totalProducts
       details {
         id
         name

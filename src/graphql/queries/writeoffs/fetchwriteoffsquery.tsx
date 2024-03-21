@@ -9,6 +9,7 @@ export const GET_WRITEOFFS = gql`
       creatorName
       totalAmount
       reason
+      totalProducts
       details {
         id
         name

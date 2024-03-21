@@ -18,9 +18,6 @@ export const fetchactiveProductsSaga = {
   saga: function* (action: { type: string, payload: { company: string, type: string, take: number, skip: number } }) {
     try {
       const { company, type, take, skip } = action.payload;
-      console.log("company, type, take, skip", company, type, take, skip)
-
-      
       const response: ApolloQueryResult<ProductQueryResponse> = yield call(
         apolloClient.query,
         {
