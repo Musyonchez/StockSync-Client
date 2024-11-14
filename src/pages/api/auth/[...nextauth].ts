@@ -4,11 +4,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { JWT } from "next-auth/jwt";
 
-
 // Initialize Apollo Client
 const client = new ApolloClient({
   // uri: process.env.SERVER_PUBLIC_URL || "http://localhost:5000/graphql",
-  uri: 'https://stocksync-server.onrender.com/graphql',
+  uri: "https://stocksync-server.onrender.com/graphql",
   cache: new InMemoryCache(),
 });
 
@@ -79,6 +78,11 @@ export default NextAuth({
             },
           });
 
+          if (res.errors) {
+            console.error("GraphQL Error:", res.errors);
+            return null;
+          }
+
           const user = res.data.authenticateUser;
           if (user) {
             return user;
@@ -86,6 +90,7 @@ export default NextAuth({
             return null;
           }
         } catch (error) {
+          console.error("Apollo Client Error:", error);
           return null;
         }
       },
