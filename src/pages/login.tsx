@@ -5,7 +5,6 @@ import HorizontalNavbar from "@/components/HorizontalNavbar";
 import Link from "next/link";
 import ErrorMessagePopup from "@/components/EventHandling/ErrorMessagePopup";
 
-
 const LoginPage: React.FC = () => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -14,7 +13,6 @@ const LoginPage: React.FC = () => {
   const [company, setCompany] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  
   const [showLoginError, setShowLoginError] = useState(false);
   const [loginMessage, setLoginMessage] = useState("");
 
@@ -51,7 +49,7 @@ const LoginPage: React.FC = () => {
       // })
       .catch((error) => {
         // Handle the error and stay on the login page
-        // console.log("login error", (error as Error).message)
+        console.log("login error", (error as Error).message);
         setLoginMessage("Login failed:" + (error as Error).message);
         setShowLoginError(true);
         // Optionally, display an error message to the user
