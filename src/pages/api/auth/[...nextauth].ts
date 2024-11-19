@@ -92,7 +92,7 @@ export default NextAuth({
           return user;
         } catch (error) {
           console.error("Apollo Client Error:", error);
-          throw new Error("Authentication error: " + error.message);
+          throw new Error("Authentication error: " + (error as Error).message);
         }
       },
     }),
