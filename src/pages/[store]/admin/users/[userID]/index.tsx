@@ -168,7 +168,7 @@ const UserDetail = () => {
                 : "Activating"}
             </button>
 
-            {!user?.active && (
+            {user?.active && (
               <button
                 onClick={handleDelete}
                 className={`${

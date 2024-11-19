@@ -190,10 +190,14 @@ const ProductDetail = () => {
           setShowCompanyError(true);
         }
 
-        const response = await fetch("https://stocksync-server.onrender.com/upload", {
-          method: "POST",
-          body: formData,
-        });
+        const response = await fetch(
+          // "https://stocksync-server.onrender.com/upload",
+          "http://localhost:5000/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
         if (!response.ok) {
           const errorMessage = await response.text();
           setImageMessage(errorMessage);

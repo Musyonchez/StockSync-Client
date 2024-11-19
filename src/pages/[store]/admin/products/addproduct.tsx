@@ -104,7 +104,8 @@ const AddProduct = () => {
         }
 
         const response = await fetch(
-          "https://stocksync-server.onrender.com/upload",
+          // "https://stocksync-server.onrender.com/upload",
+          "http://localhost:5000/upload",
           {
             method: "POST",
             body: formData,

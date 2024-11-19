@@ -65,10 +65,14 @@ const VerticalNavbar = () => {
             setShowLogoError(true);
           }
 
-          const response = await fetch("https://stocksync-server.onrender.com/upload", {
-            method: "POST",
-            body: formData,
-          });
+          // const response = await fetch("https://stocksync-server.onrender.com/upload", {
+          const response = await fetch(
+            "http://localhost:5000/upload",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
           if (!response.ok) {
             const errorMessage = await response.text();
             setLogoMessage(errorMessage);
@@ -106,10 +110,14 @@ const VerticalNavbar = () => {
           setShowProfileError(true);
         }
 
-        const response = await fetch("https://stocksync-server.onrender.com/upload", {
-          method: "POST",
-          body: formData,
-        });
+        const response = await fetch(
+          // "https://stocksync-server.onrender.com/upload",
+          "http://localhost:5000/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
         if (!response.ok) {
           const errorMessage = await response.text();
           setProfileMessage(errorMessage);

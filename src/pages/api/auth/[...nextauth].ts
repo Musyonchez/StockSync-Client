@@ -7,7 +7,8 @@ import { JWT } from "next-auth/jwt";
 // Initialize Apollo Client
 const client = new ApolloClient({
   // uri: process.env.SERVER_PUBLIC_URL || "http://localhost:5000/graphql",
-  uri: "https://stocksync-server.onrender.com/graphql",
+  uri: "http://localhost:5000/graphql",
+  // uri: "https://stocksync-server.onrender.com/graphql",
   cache: new InMemoryCache(),
 });
 
@@ -80,18 +81,18 @@ export default NextAuth({
 
           if (res.errors) {
             console.error("GraphQL Error:", res.errors);
-            return null;
+            throw new Error("Authentication failed due to server error");
           }
 
           const user = res.data.authenticateUser;
-          if (user) {
-            return user;
-          } else {
-            return null;
+          if (!user) {
+            throw new Error("Invalid email, password, or company");
           }
+
+          return user;
         } catch (error) {
           console.error("Apollo Client Error:", error);
-          return null;
+          throw new Error("Authentication error: " + error.message);
         }
       },
     }),
