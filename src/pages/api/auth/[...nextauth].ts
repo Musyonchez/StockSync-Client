@@ -83,6 +83,7 @@ export default NextAuth({
             console.error("GraphQL Error:", res.errors);
             throw new Error("Authentication failed due to server error");
           }
+          
 
           const user = res.data.authenticateUser;
           if (!user) {
